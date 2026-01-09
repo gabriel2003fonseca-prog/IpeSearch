@@ -5,211 +5,252 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPÊ SEARCH - Inovação e Conhecimento</title>
     <style>
-        /* --- Paleta de Cores Inovação --- */
+        /* --- Paleta Clean Tech (Clara) --- */
         :root {
-            --bg-main: #0f0c29;
-            --bg-secondary: #24243e;
-            --primary-purple: #6a0dad;
-            --accent-cyan: #00d2d3;
-            --text-light: #ffffff;
-            --text-gray: #b3b3b3;
+            --bg-body: #f4f7f6;       /* Cinza bem clarinho para o fundo */
+            --bg-card: #ffffff;       /* Branco puro para os cartões */
+            --primary-purple: #6a0dad; /* Roxo Inovação */
+            --accent-cyan: #00b5b5;    /* Ciano um pouco mais escuro para ler no branco */
+            --text-main: #333333;      /* Cinza escuro para texto (leitura fácil) */
+            --text-light: #ffffff;     /* Branco apenas para áreas escuras (botões/hero) */
         }
 
-        /* Reset e Estilos Base */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             line-height: 1.6;
-            background-color: var(--bg-main);
-            color: var(--text-light);
+            background-color: var(--bg-body);
+            color: var(--text-main);
         }
 
-        /* Header (Mantido igual) */
+        /* --- HEADER (Agora branco e limpo) --- */
         header {
-            background: linear-gradient(to right, #24243e, #0f0c29);
-            padding: 1.2rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.95); /* Branco com transparência */
+            padding: 1rem 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05); /* Sombra suave */
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-left: 5%;
             padding-right: 5%;
-            position: relative; 
-            z-index: 10; /* Garante que o menu fique sobre o vídeo */
+            position: fixed;
+            top: 0;
+            width: 90%;
+            z-index: 1000;
         }
 
         header h1 {
             margin: 0;
             font-size: 1.8rem;
-            color: var(--accent-cyan);
-            letter-spacing: 2px;
+            color: var(--primary-purple); /* Logo roxa */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 800;
         }
 
         nav ul { list-style: none; padding: 0; margin: 0; }
         nav ul li { display: inline; margin-left: 20px; }
+        
         nav a {
-            color: var(--text-light);
+            color: var(--text-main); /* Links escuros */
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             transition: color 0.3s;
             font-size: 0.9rem;
         }
-        nav a:hover { color: var(--accent-cyan); }
+        nav a:hover { color: var(--primary-purple); }
 
+        /* Botão de Busca no Menu */
         .nav-btn-busca {
             background: var(--primary-purple);
-            padding: 8px 15px;
+            color: white !important; /* Texto branco */
+            padding: 8px 20px;
             border-radius: 20px;
-            box-shadow: 0 0 10px rgba(106, 13, 173, 0.3);
+            box-shadow: 0 4px 10px rgba(106, 13, 173, 0.2);
         }
         .nav-btn-busca:hover {
             background: var(--accent-cyan);
-            color: var(--bg-main) !important;
-             box-shadow: 0 0 15px rgba(0, 210, 211, 0.5);
+            transform: translateY(-2px);
         }
         
-        /* --- NOVA HERO SECTION COM VÍDEO --- */
+        /* --- HERO SECTION (Mantida escura para o vídeo aparecer) --- */
         .hero {
-            position: relative; /* Necessário para posicionar o vídeo dentro dele */
-            /* Removemos o gradiente de fundo anterior */
-            /* background: linear-gradient(135deg, var(--primary-purple) 0%, var(--bg-main) 100%); */
-            height: 70vh; /* Altura definida para dar destaque ao vídeo */
+            position: relative;
+            height: 100vh;
             min-height: 500px;
             display: flex;
-            align-items: center; /* Centraliza verticalmente o texto */
-            justify-content: center; /* Centraliza horizontalmente o texto */
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            overflow: hidden; /* Garante que o vídeo não vase se for maior */
+            overflow: hidden;
+            padding-top: 60px;
+            background-color: #000;
         }
 
-        /* Estilo do Vídeo de Fundo */
         .video-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Faz o vídeo cobrir toda a área sem distorcer */
-            z-index: -2; /* Fica lá no fundo */
+            object-fit: cover;
+            z-index: 1;
         }
 
-        /* Filtro Escuro sobre o vídeo */
         .video-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* Um gradiente roxo/azul semitransparente para garantir leitura do texto */
-            background: linear-gradient(to bottom, rgba(15, 12, 41, 0.8), rgba(106, 13, 173, 0.6));
-            z-index: -1; /* Fica entre o vídeo e o texto */
+            /* Filtro Roxo Gradiente sobre o vídeo */
+            background: linear-gradient(to bottom, rgba(40, 20, 80, 0.7), rgba(106, 13, 173, 0.6));
+            z-index: 2;
         }
 
-        /* Container para o texto ficar sobre o vídeo */
         .hero-content {
             position: relative;
-            z-index: 1; /* Garante que o texto fique na frente de tudo */
+            z-index: 3;
             padding: 20px;
+            color: white; /* Texto do Hero continua branco */
+            animation: fadeIn 1.5s ease-in-out;
         }
         
         .hero h2 {
-            font-size: 3rem; /* Aumentei um pouco para mais impacto */
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Sombra para melhorar leitura */
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            line-height: 1.2;
+            font-weight: 800;
         }
         
         .hero p {
-            font-size: 1.3rem;
-            color: #e0e0e0; /* Um branco ligeiramente off-white */
+            font-size: 1.4rem;
             max-width: 700px;
             margin: 0 auto 40px auto;
-            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+            font-weight: 400;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* Botão CTA (Mantido igual) */
         .btn-cta {
-            background: var(--accent-cyan);
-            color: var(--bg-main);
-            padding: 15px 40px;
+            background: white;
+            color: var(--primary-purple);
+            padding: 18px 50px;
             text-decoration: none;
-            font-size: 1.1rem;
-            border-radius: 30px;
-            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 210, 211, 0.4);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             display: inline-block;
+            transition: all 0.3s;
         }
         .btn-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 210, 211, 0.6);
-            background: #fff;
+            background: var(--accent-cyan);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 181, 181, 0.4);
         }
-        
-        /* Seções de Conteúdo (Mantidas iguais) */
+
+        /* --- SEÇÕES GERAIS (Agora Claras) --- */
         section {
-            padding: 60px 20px;
-            max-width: 800px;
+            padding: 80px 20px;
+            max-width: 900px;
             margin: auto;
         }
 
+        /* Cards Brancos Estilo "Clean" */
         .content-card {
-            background: var(--bg-secondary);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 1px solid rgba(106, 13, 173, 0.2); /* Borda sutil roxa */
+            background: var(--bg-card);
+            padding: 50px;
+            border-radius: 20px;
+            /* Sombra suave e elegante */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
+            border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Detalhe colorido no topo do card */
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--accent-cyan));
         }
 
         h3 {
-            color: var(--accent-cyan);
-            border-bottom: 2px solid var(--primary-purple);
-            display: inline-block;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
+            color: var(--primary-purple);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: 700;
         }
+        
+        p { color: #555; font-size: 1.1rem; }
 
-        /* Formulário (Mantido igual) */
-        form label { display: block; margin-bottom: 8px; color: var(--accent-cyan); font-weight: 600; font-size: 0.9rem;}
+        /* FORMULÁRIO CLEAN */
+        form label { 
+            display: block; 
+            margin-bottom: 8px; 
+            color: var(--primary-purple); 
+            font-weight: 700; 
+            font-size: 0.9rem;
+        }
+        
         form input, form textarea {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            background: var(--bg-main);
-            border: 2px solid var(--primary-purple);
-            color: var(--text-light);
-            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            background: #f9f9f9; /* Fundo cinza bem claro no input */
+            border: 2px solid #e0e0e0;
+            color: var(--text-main);
+            border-radius: 10px;
             box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.3s;
         }
+        
         form input:focus, form textarea:focus {
             outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 10px rgba(0, 210, 211, 0.3);
+            border-color: var(--primary-purple);
+            background: white;
+            box-shadow: 0 0 10px rgba(106, 13, 173, 0.1);
         }
         
         form button {
             background: var(--primary-purple);
             color: white;
-            padding: 12px 30px;
+            padding: 15px 40px;
             border: none;
-            border-radius: 25px;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            width: 100%;
+            transition: background 0.3s;
+            box-shadow: 0 5px 15px rgba(106, 13, 173, 0.3);
         }
-        form button:hover { background: var(--accent-cyan); color: var(--bg-main); box-shadow: 0 0 15px rgba(0, 210, 211, 0.5); }
+        form button:hover { 
+            background: var(--accent-cyan); 
+            box-shadow: 0 5px 15px rgba(0, 181, 181, 0.4);
+        }
 
         footer {
             text-align: center;
-            padding: 30px;
-            background: #0a0a1c;
-            color: var(--text-gray);
+            padding: 40px;
+            background: #fff;
+            color: #888;
             font-size: 0.9rem;
-            margin-top: 40px;
+            margin-top: 50px;
+            border-top: 1px solid #eee;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -228,14 +269,15 @@
 
     <div class="hero">
         <video class="video-bg" autoplay muted loop playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-university-campus-drone-view-4687-large.mp4" type="video/mp4">
+            <source src="video.mp4" type="video/mp4">
+            <source src="video.mp4.mp4" type="video/mp4">
             Seu navegador não suporta vídeos em HTML5.
         </video>
 
         <div class="video-overlay"></div>
 
         <div class="hero-content">
-            <h2>Conectando Inovação e Conhecimento</h2>
+            <h2>CONECTANDO INOVAÇÃO E CONHECIMENTO</h2>
             <p>Acesse o ecossistema de pesquisa da UFLA. Encontre especialistas e explore áreas de conhecimento de forma ágil.</p>
             <a href="busca.html" class="btn-cta">INICIAR BUSCA</a>
         </div>
