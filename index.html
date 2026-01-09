@@ -3,31 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPÊ SEARCH - Inovação e Conhecimento</title>
+    <title>IPÊ SEARCH - Hub de Pesquisa</title>
     <style>
-        /* --- Paleta Clean Tech (Clara) --- */
+        /* --- Paleta Research Hub (Elegante) --- */
         :root {
-            --bg-body: #f4f7f6;       /* Cinza bem clarinho para o fundo */
-            --bg-card: #ffffff;       /* Branco puro para os cartões */
-            --primary-purple: #6a0dad; /* Roxo Inovação */
-            --accent-cyan: #00b5b5;    /* Ciano um pouco mais escuro para ler no branco */
-            --text-main: #333333;      /* Cinza escuro para texto (leitura fácil) */
-            --text-light: #ffffff;     /* Branco apenas para áreas escuras (botões/hero) */
+            --bg-body: #f8f9fa;        /* Fundo quase branco, muito limpo */
+            --bg-card: #ffffff;        /* Branco puro */
+            --primary-indigo: #283593; /* Azul Índigo (Acadêmico/Sério) */
+            --accent-teal: #00bfa5;    /* Verde-Água/Ciano (Inovação) */
+            --text-dark: #2c3e50;      /* Azul marinho escuro para textos (não preto) */
+            --text-white: #ffffff;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
             margin: 0;
             line-height: 1.6;
             background-color: var(--bg-body);
-            color: var(--text-main);
+            color: var(--text-dark);
         }
 
-        /* --- HEADER (Agora branco e limpo) --- */
+        /* --- HEADER (Efeito Vidro/Glassmorphism) --- */
         header {
-            background: rgba(255, 255, 255, 0.95); /* Branco com transparência */
+            background: rgba(255, 255, 255, 0.85); /* Transparente */
+            backdrop-filter: blur(10px); /* O desfoque mágico */
+            -webkit-backdrop-filter: blur(10px);
             padding: 1rem 0;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05); /* Sombra suave */
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -41,43 +43,56 @@
 
         header h1 {
             margin: 0;
-            font-size: 1.8rem;
-            color: var(--primary-purple); /* Logo roxa */
+            font-size: 1.6rem;
+            color: var(--primary-indigo);
             letter-spacing: 1px;
-            text-transform: uppercase;
             font-weight: 800;
+            text-transform: uppercase;
         }
 
         nav ul { list-style: none; padding: 0; margin: 0; }
         nav ul li { display: inline; margin-left: 20px; }
         
         nav a {
-            color: var(--text-main); /* Links escuros */
+            color: var(--text-dark);
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.3s;
-            font-size: 0.9rem;
-        }
-        nav a:hover { color: var(--primary-purple); }
-
-        /* Botão de Busca no Menu */
-        .nav-btn-busca {
-            background: var(--primary-purple);
-            color: white !important; /* Texto branco */
-            padding: 8px 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(106, 13, 173, 0.2);
-        }
-        .nav-btn-busca:hover {
-            background: var(--accent-cyan);
-            transform: translateY(-2px);
+            font-size: 0.95rem;
+            position: relative;
         }
         
-        /* --- HERO SECTION (Mantida escura para o vídeo aparecer) --- */
+        /* Efeito elegante ao passar o mouse no menu */
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-teal);
+            transition: width 0.3s;
+        }
+        nav a:hover::after { width: 100%; }
+
+        .nav-btn-busca {
+            background: var(--primary-indigo);
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 4px; /* Bordas mais quadradas = mais sério */
+            transition: all 0.3s;
+        }
+        .nav-btn-busca:hover {
+            background: var(--accent-teal);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 191, 165, 0.3);
+        }
+        .nav-btn-busca::after { display: none; } /* Remove o sublinhado do botão */
+        
+        /* --- HERO SECTION --- */
         .hero {
             position: relative;
             height: 100vh;
-            min-height: 500px;
+            min-height: 600px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -89,22 +104,16 @@
 
         .video-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: 1;
         }
 
         .video-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Filtro Roxo Gradiente sobre o vídeo */
-            background: linear-gradient(to bottom, rgba(40, 20, 80, 0.7), rgba(106, 13, 173, 0.6));
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Gradiente azul profundo elegante */
+            background: linear-gradient(to bottom, rgba(40, 53, 147, 0.8), rgba(26, 35, 126, 0.7));
             z-index: 2;
         }
 
@@ -112,144 +121,138 @@
             position: relative;
             z-index: 3;
             padding: 20px;
-            color: white; /* Texto do Hero continua branco */
+            color: white;
             animation: fadeIn 1.5s ease-in-out;
+            max-width: 800px;
         }
         
         .hero h2 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            line-height: 1.2;
+            font-size: 4rem; /* Maior e mais impactante */
+            margin-bottom: 20px;
+            line-height: 1.1;
             font-weight: 800;
+            letter-spacing: -1px;
         }
         
+        /* AQUI ESTÁ A MUDANÇA DA COR DO SUBTÍTULO */
         .hero p {
-            font-size: 1.4rem;
-            max-width: 700px;
+            font-size: 1.5rem;
+            color: #ffffff; /* Branco Puro */
             margin: 0 auto 40px auto;
-            font-weight: 400;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            font-weight: 500; /* Um pouco mais grosso para ler melhor */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para destacar do vídeo */
+            opacity: 0.95;
         }
 
+        /* Botão CTA Principal - Estilo "Search Bar" */
         .btn-cta {
-            background: white;
-            color: var(--primary-purple);
-            padding: 18px 50px;
+            background: var(--accent-teal);
+            color: white;
+            padding: 20px 60px;
             text-decoration: none;
             font-size: 1.2rem;
-            border-radius: 50px;
-            font-weight: 800;
+            border-radius: 5px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: inline-block;
             transition: all 0.3s;
+            border: 2px solid transparent;
         }
         .btn-cta:hover {
-            background: var(--accent-cyan);
-            color: white;
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 181, 181, 0.4);
+            background: transparent;
+            border-color: var(--accent-teal);
+            box-shadow: 0 10px 40px rgba(0, 191, 165, 0.4);
         }
 
-        /* --- SEÇÕES GERAIS (Agora Claras) --- */
+        /* --- SEÇÕES GERAIS --- */
         section {
-            padding: 80px 20px;
-            max-width: 900px;
+            padding: 100px 20px;
+            max-width: 1000px;
             margin: auto;
         }
 
-        /* Cards Brancos Estilo "Clean" */
+        /* Cards Estilo "Artigo Científico" */
         .content-card {
             background: var(--bg-card);
-            padding: 50px;
-            border-radius: 20px;
-            /* Sombra suave e elegante */
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
-            border: 1px solid #eee;
+            padding: 60px;
+            border-radius: 8px; /* Bordas suaves */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); /* Sombra muito leve */
+            border-left: 5px solid var(--primary-indigo); /* Detalhe lateral elegante */
             position: relative;
-            overflow: hidden;
         }
         
-        /* Detalhe colorido no topo do card */
-        .content-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 6px;
-            background: linear-gradient(90deg, var(--primary-purple), var(--accent-cyan));
-        }
-
         h3 {
-            color: var(--primary-purple);
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
+            color: var(--primary-indigo);
+            font-size: 2.2rem;
+            margin-bottom: 25px;
             font-weight: 700;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
         }
         
-        p { color: #555; font-size: 1.1rem; }
+        p { color: var(--text-dark); font-size: 1.15rem; line-height: 1.8; }
 
-        /* FORMULÁRIO CLEAN */
+        /* FORMULÁRIO CLEAN & PRO */
         form label { 
             display: block; 
             margin-bottom: 8px; 
-            color: var(--primary-purple); 
+            color: var(--primary-indigo); 
             font-weight: 700; 
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         form input, form textarea {
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             margin-bottom: 25px;
-            background: #f9f9f9; /* Fundo cinza bem claro no input */
-            border: 2px solid #e0e0e0;
-            color: var(--text-main);
-            border-radius: 10px;
-            box-sizing: border-box;
+            background: #f4f6f8;
+            border: 1px solid #dde1e6;
+            color: var(--text-dark);
+            border-radius: 4px;
             font-size: 1rem;
             transition: all 0.3s;
         }
         
         form input:focus, form textarea:focus {
             outline: none;
-            border-color: var(--primary-purple);
+            border-color: var(--accent-teal);
             background: white;
-            box-shadow: 0 0 10px rgba(106, 13, 173, 0.1);
+            box-shadow: 0 0 0 4px rgba(0, 191, 165, 0.1);
         }
         
         form button {
-            background: var(--primary-purple);
+            background: var(--primary-indigo);
             color: white;
-            padding: 15px 40px;
+            padding: 18px 40px;
             border: none;
-            border-radius: 30px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 1.1rem;
             font-weight: bold;
             text-transform: uppercase;
             width: 100%;
             transition: background 0.3s;
-            box-shadow: 0 5px 15px rgba(106, 13, 173, 0.3);
+            letter-spacing: 1px;
         }
         form button:hover { 
-            background: var(--accent-cyan); 
-            box-shadow: 0 5px 15px rgba(0, 181, 181, 0.4);
+            background: var(--accent-teal); 
         }
 
         footer {
             text-align: center;
-            padding: 40px;
+            padding: 60px;
             background: #fff;
-            color: #888;
+            color: #7f8c8d;
             font-size: 0.9rem;
-            margin-top: 50px;
             border-top: 1px solid #eee;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -262,7 +265,7 @@
             <ul>
                 <li><a href="#sobre">Objetivo</a></li>
                 <li><a href="#contato">Contato</a></li>
-                <li><a href="busca.html" class="nav-btn-busca">🔍 Buscar</a></li>
+                <li><a href="busca.html" class="nav-btn-busca">🔍 Pesquisar</a></li>
             </ul>
         </nav>
     </header>
@@ -277,16 +280,16 @@
         <div class="video-overlay"></div>
 
         <div class="hero-content">
-            <h2>CONECTANDO INOVAÇÃO E CONHECIMENTO</h2>
-            <p>Acesse o ecossistema de pesquisa da UFLA. Encontre especialistas e explore áreas de conhecimento de forma ágil.</p>
-            <a href="busca.html" class="btn-cta">INICIAR BUSCA</a>
+            <h2>CONHECIMENTO QUE TRANSFORMA</h2>
+            <p>Conecte-se aos departamentos e pesquisadores da UFLA. A inovação começa com a busca certa.</p>
+            <a href="busca.html" class="btn-cta">INICIAR PESQUISA</a>
         </div>
     </div>
 
     <section id="sobre">
         <div class="content-card">
-            <h3>Sobre a Plataforma</h3>
-            <p>O IPÊ SEARCH é o hub digital que conecta a comunidade externa e interna ao corpo docente da UFLA. Nossa missão é derrubar barreiras e facilitar o acesso direto à ciência, tecnologia e inovação desenvolvidas na universidade.</p>
+            <h3>Nossa Missão</h3>
+            <p>O IPÊ SEARCH atua como um hub estratégico de conexão entre a sociedade e o ecossistema acadêmico da UFLA. Nossa plataforma remove barreiras, permitindo que empresas, estudantes e comunidade externa acessem rapidamente o capital intelectual e os projetos de pesquisa desenvolvidos na universidade.</p>
         </div>
     </section>
 
@@ -294,14 +297,14 @@
         <div class="content-card">
             <h3>Fale Conosco</h3>
             <form>
-                <label>Nome:</label>
-                <input type="text" placeholder="Seu nome completo" required>
+                <label>Nome Completo</label>
+                <input type="text" placeholder="Digite seu nome" required>
                 
-                <label>Email:</label>
-                <input type="email" placeholder="seuemail@exemplo.com" required>
+                <label>E-mail Institucional ou Pessoal</label>
+                <input type="email" placeholder="exemplo@email.com" required>
                 
-                <label>Mensagem:</label>
-                <textarea rows="5" placeholder="Digite sua mensagem aqui..." required></textarea>
+                <label>Como podemos ajudar?</label>
+                <textarea rows="5" placeholder="Descreva sua solicitação..." required></textarea>
                 
                 <button type="submit">Enviar Mensagem</button>
             </form>
@@ -309,7 +312,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 IPÊ SEARCH - UFLA. Todos os direitos reservados.</p>
+        <p>&copy; 2026 IPÊ SEARCH - Universidade Federal de Lavras.</p>
     </footer>
 
 </body>
