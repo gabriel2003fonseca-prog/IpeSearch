@@ -7,11 +7,11 @@
     <style>
         /* --- Paleta Research Hub (Elegante) --- */
         :root {
-            --bg-body: #f8f9fa;        /* Fundo quase branco, muito limpo */
-            --bg-card: #ffffff;        /* Branco puro */
-            --primary-indigo: #283593; /* Azul Índigo (Acadêmico/Sério) */
-            --accent-teal: #00bfa5;    /* Verde-Água/Ciano (Inovação) */
-            --text-dark: #2c3e50;      /* Azul marinho escuro para textos (não preto) */
+            --bg-body: #f8f9fa;
+            --bg-card: #ffffff;
+            --primary-indigo: #283593;
+            --accent-teal: #00bfa5;
+            --text-dark: #2c3e50;
             --text-white: #ffffff;
         }
 
@@ -23,12 +23,12 @@
             color: var(--text-dark);
         }
 
-        /* --- HEADER (Efeito Vidro/Glassmorphism) --- */
+        /* --- HEADER (Efeito Vidro) --- */
         header {
-            background: rgba(255, 255, 255, 0.85); /* Transparente */
-            backdrop-filter: blur(10px); /* O desfoque mágico */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 1rem 0;
+            padding: 0.8rem 0; /* Reduzi levemente o padding para a logo encaixar bem */
             border-bottom: 1px solid rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
@@ -41,15 +41,21 @@
             z-index: 1000;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 1.6rem;
-            color: var(--primary-indigo);
-            letter-spacing: 1px;
-            font-weight: 800;
-            text-transform: uppercase;
+        /* --- ESTILO DA LOGO (NOVO) --- */
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
         }
 
+        .logo-img {
+            /* Define a altura da logo no menu. Ajuste se achar pequeno/grande */
+            height: 50px; 
+            width: auto; /* Mantém a proporção correta */
+            display: block;
+        }
+
+        /* Menu de Navegação */
         nav ul { list-style: none; padding: 0; margin: 0; }
         nav ul li { display: inline; margin-left: 20px; }
         
@@ -61,7 +67,6 @@
             position: relative;
         }
         
-        /* Efeito elegante ao passar o mouse no menu */
         nav a::after {
             content: '';
             position: absolute;
@@ -78,7 +83,7 @@
             background: var(--primary-indigo);
             color: white !important;
             padding: 10px 25px;
-            border-radius: 4px; /* Bordas mais quadradas = mais sério */
+            border-radius: 4px;
             transition: all 0.3s;
         }
         .nav-btn-busca:hover {
@@ -86,7 +91,7 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 191, 165, 0.3);
         }
-        .nav-btn-busca::after { display: none; } /* Remove o sublinhado do botão */
+        .nav-btn-busca::after { display: none; }
         
         /* --- HERO SECTION --- */
         .hero {
@@ -112,7 +117,6 @@
         .video-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* Gradiente azul profundo elegante */
             background: linear-gradient(to bottom, rgba(40, 53, 147, 0.8), rgba(26, 35, 126, 0.7));
             z-index: 2;
         }
@@ -127,24 +131,22 @@
         }
         
         .hero h2 {
-            font-size: 4rem; /* Maior e mais impactante */
+            font-size: 4rem;
             margin-bottom: 20px;
             line-height: 1.1;
             font-weight: 800;
             letter-spacing: -1px;
         }
         
-        /* AQUI ESTÁ A MUDANÇA DA COR DO SUBTÍTULO */
         .hero p {
             font-size: 1.5rem;
-            color: #ffffff; /* Branco Puro */
+            color: #ffffff;
             margin: 0 auto 40px auto;
-            font-weight: 500; /* Um pouco mais grosso para ler melhor */
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para destacar do vídeo */
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
             opacity: 0.95;
         }
 
-        /* Botão CTA Principal - Estilo "Search Bar" */
         .btn-cta {
             background: var(--accent-teal);
             color: white;
@@ -173,13 +175,12 @@
             margin: auto;
         }
 
-        /* Cards Estilo "Artigo Científico" */
         .content-card {
             background: var(--bg-card);
             padding: 60px;
-            border-radius: 8px; /* Bordas suaves */
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05); /* Sombra muito leve */
-            border-left: 5px solid var(--primary-indigo); /* Detalhe lateral elegante */
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary-indigo);
             position: relative;
         }
         
@@ -194,7 +195,7 @@
         
         p { color: var(--text-dark); font-size: 1.15rem; line-height: 1.8; }
 
-        /* FORMULÁRIO CLEAN & PRO */
+        /* FORMULÁRIO */
         form label { 
             display: block; 
             margin-bottom: 8px; 
@@ -260,7 +261,10 @@
 <body>
 
     <header>
-        <h1>IPÊ SEARCH</h1>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
+        </a>
+
         <nav>
             <ul>
                 <li><a href="#sobre">Objetivo</a></li>
