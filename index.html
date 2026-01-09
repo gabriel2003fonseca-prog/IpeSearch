@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPÊ SEARCH - Hub de Pesquisa</title>
     <style>
-        /* --- Paleta de Cores Baseada na Referência --- */
+        /* --- Paleta de Cores --- */
         :root {
-            --bg-body: #ffffff;        /* Fundo geral branco */
-            --bg-card: #f8faff;        /* Cards com um tom de azul muito claro */
-            --primary-blue: #003366;   /* Azul marinho profundo para textos fortes */
-            --bright-cyan: #00c2cb;    /* Ciano vibrante da referência */
-            --gradient-tech: linear-gradient(135deg, #003366, #00c2cb); /* Gradiente principal */
+            --bg-body: #ffffff;
+            --bg-card: #f8faff;
+            --primary-blue: #003366;
+            --bright-cyan: #00c2cb;
+            --gradient-tech: linear-gradient(135deg, #003366, #00c2cb);
             --text-dark: #003366;
             --text-light: #ffffff;
         }
@@ -22,16 +22,14 @@
             line-height: 1.6;
             background-color: var(--bg-body);
             color: var(--text-dark);
-            /* padding-top removido pois o header agora é transparente e sobreposto */
         }
 
-        /* --- HEADER TRANSPARENTE --- */
+        /* --- HEADER (Com transição suave) --- */
         header {
-            background-color: transparent; /* Transparente para fundir com o banner */
+            background-color: transparent; /* Começa transparente */
             height: 90px;
-            /* box-shadow removida para um visual mais plano e limpo */
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Logo na esquerda, Menu na direita */
             align-items: center;
             padding-left: 5%;
             padding-right: 5%;
@@ -41,7 +39,15 @@
             width: 100%;
             box-sizing: border-box;
             z-index: 1000;
-            transition: background-color 0.3s; /* Para um efeito suave se quiser adicionar cor ao rolar depois */
+            transition: all 0.4s ease; /* Animação suave para a cor e tamanho */
+        }
+
+        /* --- CLASSE MÁGICA (Ativada pelo JavaScript ao rolar) --- */
+        header.scrolled {
+            background-color: #ffffff; /* Fica branco */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra suave */
+            height: 70px; /* Fica um pouco mais compacto */
+            justify-content: center; /* Centraliza o menu já que a logo sumiu */
         }
 
         /* --- LOGO --- */
@@ -50,6 +56,20 @@
             align-items: center;
             text-decoration: none;
             height: 100%;
+            /* Transição para sumir suavemente */
+            opacity: 1;
+            visibility: visible;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+
+        /* Quando rolar, a logo some */
+        header.scrolled .logo-link {
+            opacity: 0;
+            visibility: hidden;
+            width: 0; /* Remove o espaço que ela ocupava */
+            margin: 0;
+            overflow: hidden;
         }
 
         .logo-img {
@@ -63,7 +83,7 @@
         nav ul li { display: inline; margin-left: 30px; }
         
         nav a {
-            color: var(--text-dark); /* Links escuros para ler no fundo claro */
+            color: var(--text-dark);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.95rem;
@@ -91,41 +111,36 @@
             border-radius: 30px;
             transition: all 0.3s;
             border: none;
-            box-shadow: 0 5px 15px rgba(0, 194, 203, 0.3); /* Sombra ciano */
+            box-shadow: 0 5px 15px rgba(0, 194, 203, 0.3);
         }
         .nav-btn-busca:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 194, 203, 0.5);
-            background: #00a9b0; /* Um pouco mais escuro no hover */
+            background: #00a9b0;
         }
         .nav-btn-busca::after { display: none; }
         
-        /* --- HERO SECTION (ESTILO BANNER TECNOLÓGICO) --- */
+        /* --- HERO SECTION --- */
         .hero {
             position: relative;
-            height: 100vh; /* Tela cheia para impacto */
+            height: 100vh;
             min-height: 600px;
             display: flex;
             align-items: center;
-            /* Alinhamento à esquerda para combinar mais com a referência, mas centralizado fica melhor para o texto */
-            justify-content: center; 
+            justify-content: center;
             text-align: center;
             overflow: hidden;
-            /* Fundo gradiente claro que simula a luminosidade da imagem */
             background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 35%, #d0f0f8 70%, #00c2cb 100%);
         }
 
-        /* O vídeo agora é uma textura sutil ao fundo */
         .video-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: 1;
-            opacity: 0.40; /* BEM transparente, só para dar movimento */
-            mix-blend-mode: multiply; /* Mescla com o fundo claro */
+            opacity: 0.15; /* Opacidade sutil */
+            mix-blend-mode: multiply;
         }
 
-        /* Overlay para clarear ainda mais o topo e garantir leitura */
         .video-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -137,11 +152,10 @@
             position: relative;
             z-index: 3;
             padding: 20px;
-            /* Texto agora é escuro */
             color: var(--text-dark); 
             animation: fadeIn 1.5s ease-in-out;
             max-width: 800px;
-            margin-top: 60px; /* Compensar o header fixo */
+            margin-top: 60px;
         }
         
         .hero h2 {
@@ -150,7 +164,6 @@
             line-height: 1.1;
             font-weight: 800;
             letter-spacing: -1px;
-            /* Gradiente no texto para efeito "tech" */
             background: var(--gradient-tech);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -158,7 +171,7 @@
         
         .hero p {
             font-size: 1.6rem;
-            color: var(--primary-blue); /* Azul escuro sólido */
+            color: var(--primary-blue);
             margin: 0 auto 40px auto;
             font-weight: 500;
             opacity: 0.9;
@@ -181,11 +194,10 @@
         }
         .btn-cta:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 194, 203, 0.6);
             background: linear-gradient(135deg, #00c2cb, #003366);
         }
 
-        /* --- SEÇÕES GERAIS (Clean) --- */
+        /* --- SEÇÕES GERAIS --- */
         section {
             padding: 100px 20px;
             max-width: 1000px;
@@ -196,12 +208,10 @@
             background: var(--bg-card);
             padding: 60px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Sombra mais suave */
-            border: none; /* Sem borda para um visual mais limpo */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             position: relative;
             overflow: hidden;
         }
-        /* Detalhe de borda superior com gradiente */
         .content-card::before {
             content: '';
             position: absolute;
@@ -221,58 +231,32 @@
 
         /* FORMULÁRIO */
         form label { 
-            display: block; 
-            margin-bottom: 8px; 
-            color: var(--primary-blue); 
-            font-weight: 700; 
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display: block; margin-bottom: 8px; color: var(--primary-blue); font-weight: 700; 
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
         }
         
         form input, form textarea {
-            width: 100%;
-            padding: 18px;
-            margin-bottom: 25px;
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            color: var(--text-dark);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s;
+            width: 100%; padding: 18px; margin-bottom: 25px; background: #ffffff;
+            border: 2px solid #e2e8f0; color: var(--text-dark); border-radius: 10px;
+            font-size: 1rem; transition: all 0.3s;
         }
         
         form input:focus, form textarea:focus {
-            outline: none;
-            border-color: var(--bright-cyan);
-            box-shadow: 0 0 0 4px rgba(0, 194, 203, 0.1);
+            outline: none; border-color: var(--bright-cyan); box-shadow: 0 0 0 4px rgba(0, 194, 203, 0.1);
         }
         
         form button {
-            background: var(--gradient-tech);
-            color: white;
-            padding: 18px 40px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            width: 100%;
-            transition: all 0.3s;
-            letter-spacing: 1px;
+            background: var(--gradient-tech); color: white; padding: 18px 40px; border: none;
+            border-radius: 10px; cursor: pointer; font-size: 1.1rem; font-weight: bold;
+            text-transform: uppercase; width: 100%; transition: all 0.3s; letter-spacing: 1px;
         }
         form button:hover { 
             background: linear-gradient(135deg, #00c2cb, #003366);
-            box-shadow: 0 5px 20px rgba(0, 194, 203, 0.4);
         }
 
         footer {
-            text-align: center;
-            padding: 60px;
-            background: var(--primary-blue);
-            color: rgba(255,255,255,0.8);
-            font-size: 0.9rem;
+            text-align: center; padding: 60px; background: var(--primary-blue);
+            color: rgba(255,255,255,0.8); font-size: 0.9rem;
         }
 
         @keyframes fadeIn {
@@ -292,7 +276,7 @@
             <ul>
                 <li><a href="#sobre">Objetivo</a></li>
                 <li><a href="#contato">Contato</a></li>
-                <li><a href="busca.html" class="nav-btn-busca">Pesquisar</a></li>
+                <li><a href="busca.html" class="nav-btn-busca">Let's Get Started</a></li>
             </ul>
         </nav>
     </header>
@@ -341,7 +325,23 @@
         <p>&copy; 2026 IPÊ SEARCH - Universidade Federal de Lavras.</p>
     </footer>
 
+    <script>
+        // Escuta o movimento de rolar a página
+        window.addEventListener('scroll', function() {
+            var header = document.querySelector('header');
+            var heroSection = document.querySelector('.hero');
+            
+            // Pega a altura exata do vídeo/hero
+            var heroHeight = heroSection.offsetHeight;
+
+            // Se rolou mais do que a altura do vídeo (menos 50px pra ser suave)
+            if (window.scrollY > (heroHeight - 50)) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
 </body>
 </html>
-
-
