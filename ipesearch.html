@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPÊ SEARCH - Inovação e Conhecimento</title>
+    <style>
+        /* --- Paleta de Cores Inovação --- */
+        :root {
+            --bg-main: #0f0c29;
+            --bg-secondary: #24243e;
+            --primary-purple: #6a0dad;
+            --accent-cyan: #00d2d3;
+            --text-light: #ffffff;
+            --text-gray: #b3b3b3;
+        }
+
+        /* Reset e Estilos Base */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            background-color: var(--bg-main);
+            color: var(--text-light);
+        }
+
+        /* Header (Mantido igual) */
+        header {
+            background: linear-gradient(to right, #24243e, #0f0c29);
+            padding: 1.2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 5%;
+            padding-right: 5%;
+            position: relative; 
+            z-index: 10; /* Garante que o menu fique sobre o vídeo */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            letter-spacing: 2px;
+        }
+
+        nav ul { list-style: none; padding: 0; margin: 0; }
+        nav ul li { display: inline; margin-left: 20px; }
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+        nav a:hover { color: var(--accent-cyan); }
+
+        .nav-btn-busca {
+            background: var(--primary-purple);
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(106, 13, 173, 0.3);
+        }
+        .nav-btn-busca:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-main) !important;
+             box-shadow: 0 0 15px rgba(0, 210, 211, 0.5);
+        }
+        
+        /* --- NOVA HERO SECTION COM VÍDEO --- */
+        .hero {
+            position: relative; /* Necessário para posicionar o vídeo dentro dele */
+            /* Removemos o gradiente de fundo anterior */
+            /* background: linear-gradient(135deg, var(--primary-purple) 0%, var(--bg-main) 100%); */
+            height: 70vh; /* Altura definida para dar destaque ao vídeo */
+            min-height: 500px;
+            display: flex;
+            align-items: center; /* Centraliza verticalmente o texto */
+            justify-content: center; /* Centraliza horizontalmente o texto */
+            text-align: center;
+            overflow: hidden; /* Garante que o vídeo não vase se for maior */
+        }
+
+        /* Estilo do Vídeo de Fundo */
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Faz o vídeo cobrir toda a área sem distorcer */
+            z-index: -2; /* Fica lá no fundo */
+        }
+
+        /* Filtro Escuro sobre o vídeo */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Um gradiente roxo/azul semitransparente para garantir leitura do texto */
+            background: linear-gradient(to bottom, rgba(15, 12, 41, 0.8), rgba(106, 13, 173, 0.6));
+            z-index: -1; /* Fica entre o vídeo e o texto */
+        }
+
+        /* Container para o texto ficar sobre o vídeo */
+        .hero-content {
+            position: relative;
+            z-index: 1; /* Garante que o texto fique na frente de tudo */
+            padding: 20px;
+        }
+        
+        .hero h2 {
+            font-size: 3rem; /* Aumentei um pouco para mais impacto */
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Sombra para melhorar leitura */
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: #e0e0e0; /* Um branco ligeiramente off-white */
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Botão CTA (Mantido igual) */
+        .btn-cta {
+            background: var(--accent-cyan);
+            color: var(--bg-main);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 210, 211, 0.4);
+            display: inline-block;
+        }
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 210, 211, 0.6);
+            background: #fff;
+        }
+        
+        /* Seções de Conteúdo (Mantidas iguais) */
+        section {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .content-card {
+            background: var(--bg-secondary);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(106, 13, 173, 0.2); /* Borda sutil roxa */
+        }
+
+        h3 {
+            color: var(--accent-cyan);
+            border-bottom: 2px solid var(--primary-purple);
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Formulário (Mantido igual) */
+        form label { display: block; margin-bottom: 8px; color: var(--accent-cyan); font-weight: 600; font-size: 0.9rem;}
+        form input, form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background: var(--bg-main);
+            border: 2px solid var(--primary-purple);
+            color: var(--text-light);
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        form input:focus, form textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 210, 211, 0.3);
+        }
+        
+        form button {
+            background: var(--primary-purple);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        form button:hover { background: var(--accent-cyan); color: var(--bg-main); box-shadow: 0 0 15px rgba(0, 210, 211, 0.5); }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #0a0a1c;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IPÊ SEARCH</h1>
+        <nav>
+            <ul>
+                <li><a href="#sobre">Objetivo</a></li>
+                <li><a href="#contato">Contato</a></li>
+                <li><a href="busca.html" class="nav-btn-busca">🔍 Buscar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-university-campus-drone-view-4687-large.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos em HTML5.
+        </video>
+
+        <div class="video-overlay"></div>
+
+        <div class="hero-content">
+            <h2>Conectando Inovação e Conhecimento</h2>
+            <p>Acesse o ecossistema de pesquisa da UFLA. Encontre especialistas e explore áreas de conhecimento de forma ágil.</p>
+            <a href="busca.html" class="btn-cta">INICIAR BUSCA</a>
+        </div>
+    </div>
+
+    <section id="sobre">
+        <div class="content-card">
+            <h3>Sobre a Plataforma</h3>
+            <p>O IPÊ SEARCH é o hub digital que conecta a comunidade externa e interna ao corpo docente da UFLA. Nossa missão é derrubar barreiras e facilitar o acesso direto à ciência, tecnologia e inovação desenvolvidas na universidade.</p>
+        </div>
+    </section>
+
+    <section id="contato">
+        <div class="content-card">
+            <h3>Fale Conosco</h3>
+            <form>
+                <label>Nome:</label>
+                <input type="text" placeholder="Seu nome completo" required>
+                
+                <label>Email:</label>
+                <input type="email" placeholder="seuemail@exemplo.com" required>
+                
+                <label>Mensagem:</label>
+                <textarea rows="5" placeholder="Digite sua mensagem aqui..." required></textarea>
+                
+                <button type="submit">Enviar Mensagem</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 IPÊ SEARCH - UFLA. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
