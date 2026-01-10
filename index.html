@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPÊ SEARCH - Hub de Pesquisa</title>
     <style>
-        /* --- Paleta de Cores --- */
+        /* --- Paleta de Cores (Contraste Melhorado) --- */
         :root {
-            --bg-body: #ffffff;
-            --bg-card: #f8faff;
+            --bg-body: #eef2f6;        /* Fundo cinza-azulado para dar destaque */
+            --bg-card: #ffffff;        /* Branco puro para os cartões brilharem */
             --primary-blue: #003366;
             --bright-cyan: #00c2cb;
             --gradient-tech: linear-gradient(135deg, #003366, #00c2cb);
             --text-dark: #003366;
             --text-light: #ffffff;
-            --success-green: #28a745; /* Cor de sucesso */
+            --success-green: #28a745;
         }
 
         /* --- REGRA GLOBAL (CORREÇÃO DE BORDAS) --- */
-        /* Isso evita que o formulário corte nas laterais no celular */
+        /* Essencial para o celular: evita que bordas e padding estourem a largura */
         * {
             box-sizing: border-box;
         }
@@ -140,7 +140,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: 1;
-            opacity: 0.45;
+            opacity: 0.45; /* Opacidade definida em 45% */
             mix-blend-mode: multiply;
         }
 
@@ -211,7 +211,11 @@
             background: var(--bg-card);
             padding: 60px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            
+            /* Sombra reforçada para efeito "Pop-up" */
+            box-shadow: 0 15px 35px rgba(0, 51, 102, 0.1);
+            border: 1px solid rgba(255,255,255,0.5);
+            
             position: relative;
             overflow: hidden;
         }
@@ -232,7 +236,7 @@
         
         p { color: #4a5568; font-size: 1.15rem; line-height: 1.8; }
 
-        /* --- FORMULÁRIO (Com Correção de Borda) --- */
+        /* --- FORMULÁRIO --- */
         form label { 
             display: block; margin-bottom: 8px; color: var(--primary-blue); font-weight: 700; 
             font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
@@ -248,7 +252,7 @@
             border-radius: 10px;
             font-size: 1rem; 
             transition: all 0.3s;
-            /* CORREÇÃO DO RECORTE LATERAL */
+            /* Garante que o padding fique DENTRO da largura */
             box-sizing: border-box; 
         }
         
@@ -388,6 +392,7 @@
                 
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_subject" value="Novo contato via IPÊ SEARCH!">
+
                 <label>Nome Completo</label>
                 <input type="text" name="nome" placeholder="Digite seu nome" required>
                 
@@ -424,49 +429,42 @@
             }
         });
 
-        // 2. Controle do Formulário (Enviar sem sair da página + Limpar campos)
+        // 2. Controle do Formulário (AJAX)
         const form = document.getElementById('contactForm');
         const statusMsg = document.getElementById('status-message');
         const btnSubmit = document.getElementById('btnSubmit');
 
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Impede a página de recarregar/sair
+            e.preventDefault(); // Impede recarregamento
 
-            // Muda o texto do botão para dar feedback
             const originalBtnText = btnSubmit.innerText;
             btnSubmit.innerText = "Enviando...";
             btnSubmit.disabled = true;
 
-            // Pega os dados do formulário
             const formData = new FormData(form);
 
-            // Envia para o FormSubmit via AJAX
             fetch("https://formsubmit.co/ajax/gabriel2003fonseca@gmail.com", {
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                // SUCESSO!
+                // Sucesso
                 statusMsg.innerText = "Mensagem enviada com sucesso! Entraremos em contato em breve.";
-                statusMsg.className = "success"; // Aplica cor verde
-                statusMsg.style.display = "block"; // Mostra a mensagem
+                statusMsg.className = "success";
+                statusMsg.style.display = "block";
                 
-                form.reset(); // LIMPA OS CAMPOS ESCRITOS
+                form.reset(); // Limpa os campos
                 
-                // Volta o botão ao normal
                 btnSubmit.innerText = originalBtnText;
                 btnSubmit.disabled = false;
 
-                // Esconde a mensagem depois de 5 segundos
-                setTimeout(() => {
-                    statusMsg.style.display = "none";
-                }, 5000);
+                setTimeout(() => { statusMsg.style.display = "none"; }, 5000);
             })
             .catch(error => {
-                // ERRO
+                // Erro
                 statusMsg.innerText = "Houve um erro ao enviar. Tente novamente.";
-                statusMsg.className = "error"; // Aplica cor vermelha
+                statusMsg.className = "error";
                 statusMsg.style.display = "block";
                 
                 btnSubmit.innerText = originalBtnText;
