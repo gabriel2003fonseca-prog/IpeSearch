@@ -24,12 +24,12 @@
             color: var(--text-dark);
         }
 
-        /* --- HEADER (Com transição suave) --- */
+        /* --- HEADER (Desktop) --- */
         header {
             background-color: transparent; /* Começa transparente */
             height: 90px;
             display: flex;
-            justify-content: space-between; /* Logo na esquerda, Menu na direita */
+            justify-content: space-between;
             align-items: center;
             padding-left: 5%;
             padding-right: 5%;
@@ -39,15 +39,15 @@
             width: 100%;
             box-sizing: border-box;
             z-index: 1000;
-            transition: all 0.4s ease; /* Animação suave para a cor e tamanho */
+            transition: all 0.4s ease;
         }
 
-        /* --- CLASSE MÁGICA (Ativada pelo JavaScript ao rolar) --- */
+        /* Classe ativada ao rolar (Desktop) */
         header.scrolled {
-            background-color: #ffffff; /* Fica branco */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra suave */
-            height: 70px; /* Fica um pouco mais compacto */
-            justify-content: center; /* Centraliza o menu já que a logo sumiu */
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            height: 70px;
+            justify-content: center;
         }
 
         /* --- LOGO --- */
@@ -56,18 +56,17 @@
             align-items: center;
             text-decoration: none;
             height: 100%;
-            /* Transição para sumir suavemente */
             opacity: 1;
             visibility: visible;
             width: auto;
             transition: all 0.3s ease;
         }
 
-        /* Quando rolar, a logo some */
+        /* Quando rolar no Desktop, a logo some */
         header.scrolled .logo-link {
             opacity: 0;
             visibility: hidden;
-            width: 0; /* Remove o espaço que ela ocupava */
+            width: 0;
             margin: 0;
             overflow: hidden;
         }
@@ -137,7 +136,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: 1;
-            opacity: 0.40; /* Opacidade sutil */
+            opacity: 0.45; /* <--- AQUI: Opacidade aumentada para 45% */
             mix-blend-mode: multiply;
         }
 
@@ -264,62 +263,51 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- RESPONSIVIDADE (MOBILE) --- */
+        /* --- RESPONSIVIDADE (MOBILE CORRIGIDO) --- */
         @media (max-width: 768px) {
             
-            /* Ajusta o Cabeçalho */
-            header {
-                height: auto;
-                padding: 15px 5%;
-                flex-direction: column; /* Empilha Logo e Menu */
-                background-color: #ffffff; /* Garante fundo branco no mobile */
+            /* 1. Header Fixo Branco e Ajustado */
+            header, header.scrolled {
+                position: relative !important;
+                height: auto !important;
+                padding: 20px 5% !important;
+                flex-direction: column; 
+                background-color: #ffffff !important; 
+                box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             }
 
-            .logo-img { max-height: 50px; margin-bottom: 15px; }
+            .logo-link, header.scrolled .logo-link {
+                opacity: 1 !important;
+                visibility: visible !important;
+                width: auto !important;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+            
+            .logo-img { max-height: 60px; }
 
+            nav { width: 100%; }
+            nav ul { 
+                display: flex; flex-direction: column; align-items: center; width: 100%;
+            }
             nav ul li { 
-                display: block; /* Itens um embaixo do outro ou bloco */
-                margin: 10px 0;
-                text-align: center;
-            }
-            
-            nav a { font-size: 0.9rem; }
-            .nav-btn-busca { padding: 8px 20px; }
-
-            /* Ajusta o Hero (Banner Principal) */
-            .hero-content {
-                margin-top: 100px; /* Mais espaço por causa do menu empilhado */
-                padding: 0 15px;
+                margin: 10px 0; display: block; width: 100%; text-align: center;
             }
 
-            .hero h2 {
-                font-size: 2.5rem; /* Diminui drasticamente o título */
-            }
+            .nav-btn-busca { display: block; width: 100%; box-sizing: border-box; text-align: center; }
 
-            .hero p {
-                font-size: 1.1rem;
-            }
+            /* 2. Hero e Textos Menores */
+            .hero { min-height: auto; padding-bottom: 50px; } 
+            .hero-content { margin-top: 30px; padding: 0 20px; }
+            .hero h2 { font-size: 2.2rem; }
+            .hero p { font-size: 1.1rem; }
+            .btn-cta { width: 100%; box-sizing: border-box; padding: 15px; font-size: 1rem; }
 
-            .btn-cta {
-                padding: 15px 40px;
-                font-size: 1rem;
-                width: 100%; /* Botão ocupa largura total */
-                box-sizing: border-box;
-            }
-
-            /* Ajusta os Cards e Seções */
-            section {
-                padding: 50px 20px; /* Menos espaçamento vertical */
-            }
-
-            .content-card {
-                padding: 30px 20px; /* Card mais compacto */
-            }
-
-            h3 { font-size: 1.8rem; }
-            
-            /* Ajuste para não cortar o vídeo em telas muito estreitas */
-            .hero { min-height: 100vh; }
+            /* 3. Espaçamento e Formulário */
+            section { padding: 40px 15px; }
+            .content-card { padding: 25px 20px; } 
+            form input, form textarea { padding: 15px; font-size: 16px; }
+            footer { padding: 40px 20px; }
         }
     </style>
 </head>
@@ -364,15 +352,21 @@
     <section id="contato">
         <div class="content-card">
             <h3>Fale Conosco</h3>
-            <form>
+            
+            <form action="https://formsubmit.co/gabriel2003fonseca@gmail.com" method="POST">
+                
+                <input type="hidden" name="_next" value="https://SEU_USUARIO.github.io/ipesearch/">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="Novo contato via IPÊ SEARCH!">
+
                 <label>Nome Completo</label>
-                <input type="text" placeholder="Digite seu nome" required>
+                <input type="text" name="nome" placeholder="Digite seu nome" required>
                 
                 <label>E-mail Institucional ou Pessoal</label>
-                <input type="email" placeholder="exemplo@email.com" required>
+                <input type="email" name="email" placeholder="exemplo@email.com" required>
                 
                 <label>Como podemos ajudar?</label>
-                <textarea rows="5" placeholder="Descreva sua solicitação..." required></textarea>
+                <textarea name="mensagem" rows="5" placeholder="Descreva sua solicitação..." required></textarea>
                 
                 <button type="submit">Enviar Mensagem</button>
             </form>
@@ -386,24 +380,20 @@
     <script>
         // Escuta o movimento de rolar a página
         window.addEventListener('scroll', function() {
-            var header = document.querySelector('header');
-            var heroSection = document.querySelector('.hero');
-            
-            // Pega a altura exata do vídeo/hero
-            var heroHeight = heroSection.offsetHeight;
+            // Só aplica a transparência/animação se for no Computador (>768px)
+            if (window.innerWidth > 768) {
+                var header = document.querySelector('header');
+                var heroSection = document.querySelector('.hero');
+                var heroHeight = heroSection.offsetHeight;
 
-            // Se rolou mais do que a altura do vídeo (menos 50px pra ser suave)
-            if (window.scrollY > (heroHeight - 50)) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+                if (window.scrollY > (heroHeight - 50)) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
             }
         });
     </script>
 
 </body>
 </html>
-
-
-
-
