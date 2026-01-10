@@ -263,6 +263,64 @@
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* --- RESPONSIVIDADE (MOBILE) --- */
+        @media (max-width: 768px) {
+            
+            /* Ajusta o Cabeçalho */
+            header {
+                height: auto;
+                padding: 15px 5%;
+                flex-direction: column; /* Empilha Logo e Menu */
+                background-color: #ffffff; /* Garante fundo branco no mobile */
+            }
+
+            .logo-img { max-height: 50px; margin-bottom: 15px; }
+
+            nav ul li { 
+                display: block; /* Itens um embaixo do outro ou bloco */
+                margin: 10px 0;
+                text-align: center;
+            }
+            
+            nav a { font-size: 0.9rem; }
+            .nav-btn-busca { padding: 8px 20px; }
+
+            /* Ajusta o Hero (Banner Principal) */
+            .hero-content {
+                margin-top: 100px; /* Mais espaço por causa do menu empilhado */
+                padding: 0 15px;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem; /* Diminui drasticamente o título */
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .btn-cta {
+                padding: 15px 40px;
+                font-size: 1rem;
+                width: 100%; /* Botão ocupa largura total */
+                box-sizing: border-box;
+            }
+
+            /* Ajusta os Cards e Seções */
+            section {
+                padding: 50px 20px; /* Menos espaçamento vertical */
+            }
+
+            .content-card {
+                padding: 30px 20px; /* Card mais compacto */
+            }
+
+            h3 { font-size: 1.8rem; }
+            
+            /* Ajuste para não cortar o vídeo em telas muito estreitas */
+            .hero { min-height: 100vh; }
+        }
     </style>
 </head>
 <body>
@@ -345,6 +403,7 @@
 
 </body>
 </html>
+
 
 
 
