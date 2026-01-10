@@ -139,7 +139,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
             z-index: 1;
-            opacity: 0.45; /* Opacidade definida em 45% */
+            opacity: 0.45;
             mix-blend-mode: multiply;
         }
 
@@ -156,7 +156,7 @@
             padding: 20px;
             color: var(--text-dark); 
             animation: fadeIn 1.5s ease-in-out;
-            max-width: 800px;
+            max-width: 900px; /* Aumentei um pouco para caber o subtítulo */
             margin-top: 60px;
         }
         
@@ -169,6 +169,17 @@
             background: var(--gradient-tech);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        /* --- NOVO ESTILO: Subtítulo do IpêTech --- */
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: #4a5568;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
         }
         
         .hero p {
@@ -210,11 +221,8 @@
             background: var(--bg-card);
             padding: 60px;
             border-radius: 15px;
-            
-            /* Sombra reforçada para efeito "Pop-up" */
             box-shadow: 0 15px 35px rgba(0, 51, 102, 0.1);
             border: 1px solid rgba(255,255,255,0.5);
-            
             position: relative;
             overflow: hidden;
         }
@@ -242,16 +250,9 @@
         }
         
         form input, form textarea {
-            width: 100%; 
-            padding: 18px; 
-            margin-bottom: 25px; 
-            background: #ffffff;
-            border: 2px solid #e2e8f0; 
-            color: var(--text-dark); 
-            border-radius: 10px;
-            font-size: 1rem; 
-            transition: all 0.3s;
-            /* Garante que o padding fique DENTRO da largura */
+            width: 100%; padding: 18px; margin-bottom: 25px; background: #ffffff;
+            border: 2px solid #e2e8f0; color: var(--text-dark); border-radius: 10px;
+            font-size: 1rem; transition: all 0.3s;
             box-sizing: border-box; 
         }
         
@@ -268,7 +269,7 @@
             background: linear-gradient(135deg, #00c2cb, #003366);
         }
 
-        /* Mensagem de Sucesso (Oculta por padrão) */
+        /* Mensagem de Sucesso */
         #status-message {
             display: none;
             margin-top: 20px;
@@ -278,20 +279,18 @@
             font-weight: bold;
             font-size: 1.1rem;
         }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
         footer {
             text-align: center; padding: 60px; background: var(--primary-blue);
             color: rgba(255,255,255,0.8); font-size: 0.9rem;
+        }
+
+        /* --- NOVO ESTILO: Destaque no Rodapé --- */
+        .footer-highlight {
+            color: var(--bright-cyan);
+            font-weight: 700;
         }
 
         @keyframes fadeIn {
@@ -335,6 +334,7 @@
             .hero-content { margin-top: 30px; padding: 0 20px; }
             .hero h2 { font-size: 2.2rem; }
             .hero p { font-size: 1.1rem; }
+            .hero-subtitle { font-size: 0.9rem; } /* Ajuste do subtítulo no mobile */
             .btn-cta { width: 100%; box-sizing: border-box; padding: 15px; font-size: 1rem; }
 
             section { padding: 40px 15px; }
@@ -370,6 +370,8 @@
         <div class="video-overlay"></div>
 
         <div class="hero-content">
+            <span class="hero-subtitle">UMA INICIATIVA IPÊTECH UFLA</span>
+            
             <h2>CONHECIMENTO QUE TRANSFORMA</h2>
             <p>Conecte-se aos departamentos e pesquisadores da UFLA. A inovação começa com a busca certa.</p>
             <a href="busca.html" class="btn-cta">INICIAR PESQUISA</a>
@@ -379,7 +381,7 @@
     <section id="sobre">
         <div class="content-card">
             <h3>Nossa Missão</h3>
-            <p>O IPÊ SEARCH atua como um hub estratégico de conexão entre a sociedade e o ecossistema acadêmico da UFLA. Nossa plataforma remove barreiras, permitindo que empresas, estudantes e comunidade externa acessem rapidamente o capital intelectual e os projetos de pesquisa desenvolvidos na universidade.</p>
+            <p>O <strong>IPÊ SEARCH</strong> é uma plataforma desenvolvida dentro do ecossistema do <strong>IpêTech - Parque Científico e Tecnológico da UFLA</strong>. Atuamos como um hub estratégico para remover barreiras, permitindo que empresas, estudantes e a comunidade acessem rapidamente o capital intelectual e os projetos de inovação da universidade.</p>
         </div>
     </section>
 
@@ -410,7 +412,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 IPÊ SEARCH - Universidade Federal de Lavras.</p>
+        <p>&copy; 2026 IPÊ SEARCH - <span class="footer-highlight">IpêTech</span> / Universidade Federal de Lavras.</p>
     </footer>
 
     <script>
@@ -437,11 +439,11 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault(); // Impede recarregamento
 
-            // --- CORREÇÃO: MUDAR O ASSUNTO DINAMICAMENTE ---
+            // --- MUDAR O ASSUNTO DINAMICAMENTE ---
             const nomeDigitado = document.getElementById('inputNome').value;
             const campoAssunto = document.getElementById('hiddenSubject');
             campoAssunto.value = "Novo contato de: " + nomeDigitado;
-            // ------------------------------------------------
+            // -------------------------------------
 
             const originalBtnText = btnSubmit.innerText;
             btnSubmit.innerText = "Enviando...";
