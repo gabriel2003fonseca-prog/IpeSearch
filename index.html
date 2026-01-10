@@ -156,7 +156,7 @@
             padding: 20px;
             color: var(--text-dark); 
             animation: fadeIn 1.5s ease-in-out;
-            max-width: 900px; /* Aumentei um pouco para caber o subtítulo */
+            max-width: 900px;
             margin-top: 60px;
         }
         
@@ -171,7 +171,9 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- NOVO ESTILO: Subtítulo do IpêTech --- */
+        /* --- ESTILO DOS LINKS DO IPÊTECH --- */
+        
+        /* 1. Subtítulo do Hero (Agora é Link) */
         .hero-subtitle {
             font-size: 1.1rem;
             color: #4a5568;
@@ -179,7 +181,36 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 10px;
-            display: block;
+            display: inline-block;
+            text-decoration: none; /* Remove sublinhado */
+            transition: color 0.3s ease;
+        }
+        .hero-subtitle:hover {
+            color: var(--bright-cyan); /* Fica Ciano ao passar o mouse */
+            cursor: pointer;
+        }
+
+        /* 2. Link no meio do texto (Missão) */
+        .text-link {
+            color: var(--primary-blue);
+            text-decoration: underline;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .text-link:hover {
+            color: var(--bright-cyan);
+        }
+
+        /* 3. Link do Rodapé */
+        .footer-highlight {
+            color: var(--bright-cyan);
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .footer-highlight:hover {
+            color: #ffffff;
+            text-decoration: underline;
         }
         
         .hero p {
@@ -287,12 +318,6 @@
             color: rgba(255,255,255,0.8); font-size: 0.9rem;
         }
 
-        /* --- NOVO ESTILO: Destaque no Rodapé --- */
-        .footer-highlight {
-            color: var(--bright-cyan);
-            font-weight: 700;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -370,7 +395,7 @@
         <div class="video-overlay"></div>
 
         <div class="hero-content">
-            <span class="hero-subtitle">UMA INICIATIVA IPÊTECH UFLA</span>
+            <a href="https://ipetech.ufla.br/" target="_blank" class="hero-subtitle">UMA INICIATIVA IPÊTECH UFLA</a>
             
             <h2>CONHECIMENTO QUE TRANSFORMA</h2>
             <p>Conecte-se aos departamentos e pesquisadores da UFLA. A inovação começa com a busca certa.</p>
@@ -381,7 +406,7 @@
     <section id="sobre">
         <div class="content-card">
             <h3>Nossa Missão</h3>
-            <p>O <strong>IPÊ SEARCH</strong> é uma plataforma desenvolvida dentro do ecossistema do <strong>IpêTech - Parque Científico e Tecnológico da UFLA</strong>. Atuamos como um hub estratégico para remover barreiras, permitindo que empresas, estudantes e a comunidade acessem rapidamente o capital intelectual e os projetos de inovação da universidade.</p>
+            <p>O <strong>IPÊ SEARCH</strong> é uma plataforma desenvolvida dentro do ecossistema do <a href="https://ipetech.ufla.br/" target="_blank" class="text-link">IpêTech - Parque Científico e Tecnológico da UFLA</a>. Atuamos como um hub estratégico para remover barreiras, permitindo que empresas, estudantes e a comunidade acessem rapidamente o capital intelectual e os projetos de inovação da universidade.</p>
         </div>
     </section>
 
@@ -392,7 +417,6 @@
             <form id="contactForm" action="https://formsubmit.co/gabriel2003fonseca@gmail.com" method="POST">
                 
                 <input type="hidden" name="_captcha" value="false">
-                
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Novo contato via IPÊ SEARCH!">
 
                 <label>Nome Completo</label>
@@ -412,7 +436,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 IPÊ SEARCH - <span class="footer-highlight">IpêTech</span> / Universidade Federal de Lavras.</p>
+        <p>&copy; 2026 IPÊ SEARCH - <a href="https://ipetech.ufla.br/" target="_blank" class="footer-highlight">IpêTech</a> / Universidade Federal de Lavras.</p>
     </footer>
 
     <script>
