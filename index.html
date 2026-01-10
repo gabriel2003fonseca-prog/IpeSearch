@@ -234,10 +234,20 @@
             font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;
         }
         
+        /* CORREÇÃO DO FORMULÁRIO (Evita estourar a tela) */
         form input, form textarea {
-            width: 100%; padding: 18px; margin-bottom: 25px; background: #ffffff;
-            border: 2px solid #e2e8f0; color: var(--text-dark); border-radius: 10px;
-            font-size: 1rem; transition: all 0.3s;
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 25px;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            color: var(--text-dark);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            
+            /* A MÁGICA ESTÁ AQUI: */
+            box-sizing: border-box; /* Garante que padding e borda fiquem DENTRO dos 100% */
         }
         
         form input:focus, form textarea:focus {
@@ -397,3 +407,4 @@
 
 </body>
 </html>
+
