@@ -18,7 +18,6 @@
         }
 
         /* --- REGRA GLOBAL (CORREÇÃO DE BORDAS) --- */
-        /* Essencial para o celular: evita que bordas e padding estourem a largura */
         * {
             box-sizing: border-box;
         }
@@ -391,10 +390,11 @@
             <form id="contactForm" action="https://formsubmit.co/gabriel2003fonseca@gmail.com" method="POST">
                 
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_subject" value="Novo contato via IPÊ SEARCH!">
+                
+                <input type="hidden" name="_subject" id="hiddenSubject" value="Novo contato via IPÊ SEARCH!">
 
                 <label>Nome Completo</label>
-                <input type="text" name="nome" placeholder="Digite seu nome" required>
+                <input type="text" name="nome" id="inputNome" placeholder="Digite seu nome" required>
                 
                 <label>E-mail Institucional ou Pessoal</label>
                 <input type="email" name="email" placeholder="exemplo@email.com" required>
@@ -436,6 +436,12 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault(); // Impede recarregamento
+
+            // --- CORREÇÃO: MUDAR O ASSUNTO DINAMICAMENTE ---
+            const nomeDigitado = document.getElementById('inputNome').value;
+            const campoAssunto = document.getElementById('hiddenSubject');
+            campoAssunto.value = "Novo contato de: " + nomeDigitado;
+            // ------------------------------------------------
 
             const originalBtnText = btnSubmit.innerText;
             btnSubmit.innerText = "Enviando...";
