@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisar - IPÊ SEARCH</title>
+    <style>
+        /* --- Paleta de Cores (Igual à Home) --- */
+        :root {
+            --bg-body: #eef2f6;
+            --bg-card: #ffffff;
+            --primary-blue: #003366;
+            --bright-cyan: #00c2cb;
+            --gradient-tech: linear-gradient(135deg, #003366, #00c2cb);
+            --text-dark: #003366;
+            --text-gray: #4a5568;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            padding-top: 110px; /* Espaço para o header fixo */
+        }
+
+        /* --- HEADER (Sempre Branco nesta página) --- */
+        header {
+            background-color: #ffffff;
+            height: 90px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 5%;
+            padding-right: 5%;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1000;
+        }
+
+        .logo-link { height: 100%; display: flex; align-items: center; }
+        .logo-img { max-height: 70px; width: auto; }
+
+        /* Botão Voltar */
+        .btn-voltar {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-weight: 700;
+            border: 2px solid var(--primary-blue);
+            padding: 10px 25px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        .btn-voltar:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* --- ÁREA DE PESQUISA --- */
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .search-title {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--primary-blue);
+            font-weight: 800;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 20px 25px;
+            padding-right: 60px;
+            font-size: 1.1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        #searchInput:focus {
+            border-color: var(--bright-cyan);
+            box-shadow: 0 5px 25px rgba(0, 194, 203, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--bright-cyan);
+        }
+
+        #counter {
+            margin-top: 15px;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* --- GRID DE RESULTADOS --- */
+        .results-grid {
+            display: grid;
+            /* Responsividade automática: cria colunas conforme cabe na tela */
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+        }
+
+        /* CARD DO PESQUISADOR */
+        .card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 51, 102, 0.08); /* Sombra estilo Home */
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--bright-cyan);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 51, 102, 0.15);
+        }
+
+        .card-dept {
+            font-size: 0.85rem;
+            color: var(--bright-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .card h3 {
+            margin: 0 0 15px 0;
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .card-desc {
+            color: var(--text-gray);
+            font-size: 1rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .card-btn {
+            text-align: center;
+            background: #f0f4f8;
+            color: var(--primary-blue);
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: background 0.3s, color 0.3s;
+            margin-top: auto;
+            display: block;
+        }
+        .card-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* Loading Spinner */
+        #loading {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            display: none;
+        }
+
+        /* Footer igual Home */
+        footer {
+            text-align: center; padding: 40px; background: var(--primary-blue);
+            color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: auto;
+        }
+        .footer-highlight {
+            color: var(--bright-cyan);
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .footer-highlight:hover { text-decoration: underline; color: white; }
+
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            body { padding-top: 100px; }
+            
+            header { padding: 15px 5%; height: 80px; }
+            .logo-img { max-height: 50px; }
+            .btn-voltar { padding: 8px 15px; font-size: 0.8rem; }
+            
+            .search-title { font-size: 1.8rem; }
+            .results-grid { grid-template-columns: 1fr; } /* 1 Coluna no celular */
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
+        </a>
+
+        <a href="index.html" class="btn-voltar">← Voltar</a>
+    </header>
+
+    <div class="search-container">
+        <h1 class="search-title">Encontre Especialistas</h1>
+        <div class="input-wrapper">
+            <input type="text" id="searchInput" placeholder="Busque por nome, departamento ou área...">
+            <span class="search-icon">🔍</span>
+        </div>
+        <p id="counter"></p>
+    </div>
+
+    <div id="loading">Carregando base de dados...</div>
+
+    <div class="results-grid" id="resultsContainer">
+        </div>
+
+    <footer>
+        <p>&copy; 2026 IPÊ SEARCH - <a href="https://ipetech.ufla.br/" target="_blank" class="footer-highlight">IpêTech</a> / UFLA.</p>
+    </footer>
+
+    <script>
+        // --- CONFIGURAÇÃO DA PLANILHA ---
+        // 1. Crie uma planilha no Google Sheets com as colunas: Nome, Departamento, Area, Email
+        // 2. Vá em Arquivo > Compartilhar > Publicar na Web > CSV
+        // 3. Cole o link abaixo dentro das aspas:
+        const GOOGLE_SHEET_CSV_URL = ""; 
+
+        // DADOS DE EXEMPLO (Usados se não tiver planilha conectada)
+        const dadosExemplo = [
+            { Nome: "Dr. Carlos Mendes", Departamento: "Engenharia", Area: "Inteligência Artificial e Robótica", Email: "carlos@ufla.br" },
+            { Nome: "Dra. Ana Paula Souza", Departamento: "Biologia", Area: "Genética de Plantas e Melhoramento", Email: "ana.paula@ufla.br" },
+            { Nome: "Prof. Roberto Lima", Departamento: "Física", Area: "Termodinâmica e Energia Renovável", Email: "roberto@ufla.br" },
+            { Nome: "Dra. Juliana Ferreira", Departamento: "Química", Area: "Análise de Solos e Fertilizantes", Email: "juliana@ufla.br" },
+            { Nome: "Dr. Marcos Vinícius", Departamento: "Computação", Area: "Segurança de Dados e Blockchain", Email: "marcos@ufla.br" },
+            { Nome: "Eng. Lucas Silva", Departamento: "Engenharia", Area: "Automação Industrial e Controle", Email: "lucas@ufla.br" },
+        ];
+
+        let todosPesquisadores = [];
+
+        window.onload = async function() {
+            const loading = document.getElementById('loading');
+            
+            // Tenta carregar da planilha
+            if (GOOGLE_SHEET_CSV_URL) {
+                loading.style.display = 'block';
+                try {
+                    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                    const texto = await response.text();
+                    todosPesquisadores = csvParaJson(texto);
+                } catch (erro) {
+                    console.error("Erro ou planilha não configurada. Usando dados de exemplo.");
+                    todosPesquisadores = dadosExemplo;
+                }
+                loading.style.display = 'none';
+            } else {
+                todosPesquisadores = dadosExemplo;
+            }
+
+            renderizarCards(todosPesquisadores);
+        };
+
+        // Função de Busca (Filtro Instantâneo)
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+            const termo
