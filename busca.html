@@ -120,7 +120,7 @@
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
             })
-            .catch(error => console.log('Aviso: Rode este projeto em um servidor local para ver o rodapé.'));
+            .catch(error => console.log('Aviso: Rode este projeto em um servidor local para ver o rodapé.', error));
 
         // 2. Lógica de Scroll do Header
         window.addEventListener('scroll', function() {
