@@ -39,21 +39,21 @@
         </div>
     </div>
 
-   <section id="sobre">
-    <div class="content-card">
-        <h3>Nossa Missão</h3>
-        <p>
-            O <strong>IPÊ SEARCH</strong> é uma plataforma desenvolvida no ecossistema do
-            <a href="https://ipetech.ufla.br/" target="_blank" class="text-link">
-                IpêTech – Parque Científico e Tecnológico da UFLA
-            </a>,
-            criada para conectar conhecimento, inovação e oportunidades.
-            Atuamos como um hub estratégico que elimina barreiras e facilita o acesso
-            de empresas, estudantes e da comunidade ao capital intelectual,
-            aos projetos de pesquisa e às iniciativas de inovação desenvolvidas na universidade.
-        </p>
-    </div>
-</section>
+    <section id="sobre">
+        <div class="content-card">
+            <h3>Nossa Missão</h3>
+            <p>
+                O <strong>IPÊ SEARCH</strong> é uma plataforma desenvolvida no ecossistema do
+                <a href="https://ipetech.ufla.br/" target="_blank" class="text-link">
+                    IpêTech – Parque Científico e Tecnológico da UFLA
+                </a>,
+                criada para conectar conhecimento, inovação e oportunidades.
+                Atuamos como um hub estratégico que elimina barreiras e facilita o acesso
+                de empresas, estudantes e da comunidade ao capital intelectual,
+                aos projetos de pesquisa e às iniciativas de inovação desenvolvidas na universidade.
+            </p>
+        </div>
+    </section>
 
     <section id="contato">
         <div class="content-card">
@@ -94,14 +94,13 @@
             })
             .catch(error => console.log('Aviso: Rode este projeto em um servidor local para ver o rodapé.', error));
 
-        // 2. Controle do Menu ao Rolar (Apenas Desktop)
+        // 2. Controle do Menu ao Rolar (Ajustado para 50px)
         window.addEventListener('scroll', function() {
             if (window.innerWidth > 768) {
                 var header = document.querySelector('header');
-                var heroSection = document.querySelector('.hero');
-                var heroHeight = heroSection.offsetHeight;
-
-                if (window.scrollY > (heroHeight - 50)) {
+                
+                // MUDANÇA AQUI: Agora muda assim que rolar 50px
+                if (window.scrollY > 50) {
                     header.classList.add('scrolled');
                 } else {
                     header.classList.remove('scrolled');
@@ -155,4 +154,3 @@
 
 </body>
 </html>
-
