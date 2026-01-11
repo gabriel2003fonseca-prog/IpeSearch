@@ -433,3 +433,60 @@ footer {
     .step-card { padding: 30px 20px; }
     #como-funciona { padding: 60px 20px; }
 }
+/* --- ESTILO DA BARRA DE PESQUISA COM ÍCONES --- */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+/* Ajuste do Input para dar espaço aos ícones */
+#searchInput {
+    width: 100%;
+    /* Padding maior na esquerda (lupa) e direita (botão X) */
+    padding: 22px 50px 22px 60px !important; 
+}
+
+/* Ícone da Lupa (Esquerda) */
+.search-icon-left {
+    position: absolute;
+    left: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-blue);
+    pointer-events: none; /* O clique passa através dele */
+    display: flex;
+    align-items: center;
+    opacity: 0.6;
+    z-index: 5;
+}
+
+/* Botão de Limpar 'X' (Direita) */
+.btn-clear {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none !important;
+    cursor: pointer;
+    color: #999;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    z-index: 5;
+}
+
+.btn-clear:hover {
+    color: #dc3545; /* Vermelho ao passar o mouse */
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* Classe para esconder elementos */
+.hidden { display: none !important; }
