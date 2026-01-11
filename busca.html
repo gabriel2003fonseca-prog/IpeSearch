@@ -4,392 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesquisar - IPÊ SEARCH</title>
-    <style>
-        /* --- Paleta de Cores (PADRONIZADA) --- */
-        :root {
-            --bg-body: #f8fafc;
-            --bg-card: #ffffff;
-            --primary-blue: #003366; /* Azul UFLA */
-            --bright-cyan: #00c2cb;
-            --text-dark: #003366;    /* Texto principal agora é Azul */
-            --text-gray: #5A6A85;    /* Cinza azulado profissional */
-            --border-light: #dae3f0;
-            --gradient-tech: linear-gradient(135deg, #003366, #00c2cb);
-        }
-
-        * { box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
-            margin: 0;
-            background-color: var(--bg-body);
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* --- Utilitários --- */
-        .hidden { display: none !important; }
-
-        /* --- HEADER --- */
-        header {
-            background-color: #ffffff;
-            height: 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5%;
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            z-index: 1000;
-            transition: all 0.4s ease;
-            border-bottom: 1px solid rgba(0, 51, 102, 0.05);
-        }
-
-        header.scrolled {
-            height: 60px;
-            box-shadow: 0 4px 20px rgba(0, 51, 102, 0.1);
-            justify-content: center;
-        }
-
-        .logo-link { 
-            height: 100%; display: flex; align-items: center; 
-            text-decoration: none;
-            opacity: 1; visibility: visible; width: auto; transition: all 0.3s ease;
-        }
-
-        .logo-img {
-            max-height: 55px;
-            width: auto;
-            display: block;
-        }
-
-        header.scrolled .logo-link {
-            opacity: 0; visibility: hidden; width: 0; margin: 0; overflow: hidden;
-        }
-        
-        .btn-voltar-home {
-            color: var(--primary-blue);
-            font-weight: 700;
-            border: 2px solid var(--primary-blue);
-            padding: 8px 24px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .btn-voltar-home:hover { background: var(--primary-blue); color: white; }
-
-        .header-spacer { height: 80px; }
-
-        /* --- HERO DE PESQUISA (CONFIGURAÇÃO IDÊNTICA À HOME) --- */
-        .search-section {
-            position: relative;
-            padding: 80px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-light);
-            overflow: hidden;
-            min-height: 500px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            /* Fundo colorido igual da Home */
-            background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 35%, #d0f0f8 70%, #00c2cb 100%);
-        }
-
-        .video-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: 0;
-            /* OPACIDADE IGUAL DA HOME */
-            opacity: 0.45;
-            mix-blend-mode: multiply;
-        }
-
-        .video-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            /* OVERLAY IGUAL DA HOME (0.8 -> 0.2) */
-            background: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
-            z-index: 1;
-        }
-
-        .search-content-wrapper {
-            position: relative; z-index: 2; width: 100%; max-width: 1000px;
-        }
-
-        .search-title {
-            font-size: 3rem;
-            margin-bottom: 30px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            /* Gradiente no Texto */
-            background: var(--gradient-tech);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .input-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 22px 30px;
-            padding-right: 60px;
-            font-size: 1.1rem;
-            color: var(--primary-blue);
-            font-weight: 600;
-            border: 2px solid rgba(255,255,255,0.8);
-            border-radius: 50px;
-            outline: none;
-            transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 25px rgba(0, 51, 102, 0.1);
-            -webkit-appearance: none;
-        }
-
-        #searchInput:focus {
-            border-color: var(--bright-cyan);
-            box-shadow: 0 15px 30px rgba(0, 194, 203, 0.2);
-            transform: scale(1.01);
-        }
-
-        /* --- SUGESTÕES DE PESQUISA (TAGS) --- */
-        .quick-tags-container {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .tag-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 51, 102, 0.2);
-            color: var(--primary-blue);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-            backdrop-filter: blur(5px);
-        }
-
-        .tag-btn:hover {
-            background: var(--primary-blue);
-            color: white;
-            border-color: var(--primary-blue);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 51, 102, 0.2);
-        }
-
-        /* --- RESULTADOS --- */
-        .results-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
-        }
-
-        /* --- CARD --- */
-        .card {
-            background: white;
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            padding: 30px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 51, 102, 0.1);
-            border-color: var(--bright-cyan);
-        }
-
-        /* Detalhe visual de hover */
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-            background: var(--gradient-tech); opacity: 0; transition: 0.3s;
-        }
-        .card:hover::before { opacity: 1; }
-        
-        .card-initials {
-            width: 60px; height: 60px;
-            background: var(--gradient-tech);
-            color: white;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-size: 1.4rem;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 194, 203, 0.2);
-        }
-
-        .card h3 { 
-            margin: 0 0 8px 0; 
-            color: var(--primary-blue); 
-            font-size: 1.4rem; 
-            font-weight: 800;
-        }
-        
-        .card-dept { 
-            font-size: 0.75rem; 
-            color: var(--bright-cyan);
-            font-weight: 800; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            margin-bottom: 12px; 
-            line-height: 1.4;
-        }
-        
-        .card-area { 
-            font-size: 1rem; 
-            color: var(--text-gray); 
-            margin-bottom: 20px; 
-            flex-grow: 1; 
-            line-height: 1.6;
-        }
-        
-        .card-hint { 
-            font-size: 0.85rem; 
-            color: var(--primary-blue); 
-            text-align: right; 
-            margin-top: auto; 
-            font-weight: 600;
-        }
-
-        /* --- PERFIL DETALHADO --- */
-        #profile-view {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .back-btn-container { margin-bottom: 20px; }
-        .btn-text-back {
-            background: none; border: none; 
-            color: var(--text-gray); font-size: 1rem; font-weight: 600;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 0;
-            transition: 0.2s;
-        }
-        .btn-text-back:hover { color: var(--primary-blue); transform: translateX(-5px); }
-
-        .profile-card {
-            background: white; border-radius: 20px; 
-            box-shadow: 0 10px 40px rgba(0, 51, 102, 0.08);
-            overflow: hidden; border: 1px solid var(--border-light);
-        }
-
-        .profile-header { 
-            padding: 50px; 
-            background: linear-gradient(135deg, #003366 0%, #004080 100%);
-            color: white;
-        }
-        
-        .profile-header h1 { margin: 0; font-size: 2.5rem; word-wrap: break-word; font-weight: 800; }
-        
-        .profile-header .dept-badge {
-            display: inline-block; 
-            background: rgba(255,255,255,0.15); 
-            padding: 6px 15px;
-            border-radius: 30px; 
-            font-size: 0.9rem; margin-top: 15px;
-            border: 1px solid rgba(255,255,255,0.2);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .profile-body { padding: 50px; }
-
-        .info-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-            margin-bottom: 50px; padding-bottom: 40px; border-bottom: 1px solid var(--border-light);
-        }
-        .info-item label {
-            display: block; font-size: 0.8rem; text-transform: uppercase;
-            letter-spacing: 1.5px; color: var(--bright-cyan); /* Destaque */
-            font-weight: 800; margin-bottom: 8px;
-        }
-        .info-item p { margin: 0; font-size: 1.15rem; color: var(--text-dark); font-weight: 500; }
-        .info-item a { color: var(--primary-blue); text-decoration: none; font-weight: 700; border-bottom: 2px solid rgba(0,51,102,0.1); transition: 0.2s;}
-        .info-item a:hover { border-color: var(--bright-cyan); color: var(--bright-cyan); }
-
-        .section-title {
-            font-size: 1.5rem; color: var(--primary-blue);
-            border-left: 5px solid var(--bright-cyan); padding-left: 20px; 
-            margin: 40px 0 20px 0; font-weight: 800;
-        }
-        .text-content { 
-            line-height: 1.8; color: var(--text-gray); white-space: pre-wrap; font-size: 1.05rem; 
-        }
-        .last-update { margin-top: 50px; text-align: center; font-size: 0.85rem; color: #99aab5; font-style: italic; }
-
-        /* --- FOOTER PADRONIZADO (CSS Externo) --- */
-        footer {
-            text-align: center;
-            padding: 50px 20px;
-            background: var(--primary-blue);
-            color: rgba(255,255,255,0.8);
-            font-size: 0.95rem;
-            margin-top: auto;
-            width: 100%;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .footer-highlight {
-            color: var(--bright-cyan);
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .footer-highlight:hover {
-            color: #ffffff;
-            text-decoration: underline;
-            text-shadow: 0 0 10px rgba(0, 194, 203, 0.5);
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- MOBILE --- */
-        @media (max-width: 768px) {
-            header { padding: 0 20px; height: 70px; }
-            .header-spacer { height: 70px; }
-            
-            .logo-img { max-height: 45px; } 
-            .btn-voltar-home { padding: 6px 16px; font-size: 0.8rem; }
-            
-            .search-section { padding: 60px 20px; min-height: auto; }
-            .search-title { font-size: 2rem; }
-            
-            .results-container { grid-template-columns: 1fr; }
-            .info-grid { grid-template-columns: 1fr; gap: 25px; }
-            .profile-header { padding: 30px 20px; }
-            .profile-header h1 { font-size: 1.8rem; }
-            .profile-body { padding: 30px 20px; }
-            
-            .quick-tags-container { gap: 8px; }
-            .tag-btn { padding: 8px 14px; font-size: 0.75rem; }
-            
-            footer { padding: 30px 20px; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -436,7 +51,7 @@
                     <button class="tag-btn" onclick="filtrarTag('Ed. Física')">Ed. Física</button>
                 </div>
                 
-                <p style="margin-top: 25px; color: #003366; font-size: 0.95rem; font-weight: 600; opacity: 0.8;">
+                <p style="margin-top: 25px; color: #003366; font-size: 0.95rem; font-weight: 600; opacity: 0.8; position: relative; z-index: 2;">
                     Toque em uma área acima ou digite para pesquisar.
                 </p>
             </div>
@@ -496,7 +111,7 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // --- SCRIPT DO RODAPÉ (COMPONENTIZADO) ---
+        // 1. Carregar o Rodapé Padronizado
         fetch('footer.html')
             .then(response => {
                 if (!response.ok) throw new Error("Erro ao carregar footer");
@@ -505,12 +120,22 @@
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
             })
-            .catch(error => console.log('Footer não carregado (precisa de servidor local):', error));
+            .catch(error => console.log('Aviso: Rode este projeto em um servidor local para ver o rodapé.'));
 
-        // --- CONFIGURAÇÃO ---
+        // 2. Lógica de Scroll do Header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) { 
+                header.classList.add('scrolled'); 
+            } else { 
+                header.classList.remove('scrolled'); 
+            }
+        });
+
+        // 3. Configuração e Dados
         const GOOGLE_SHEET_CSV_URL = ""; 
 
-        // Dados de Exemplo
+        // Dados de Exemplo (NOMES DE DEPARTAMENTO COMPLETOS)
         const dadosExemplo = [
             { 
                 Nome: "Dr. Gabriel Fonseca", 
@@ -550,15 +175,6 @@
         let todosPesquisadores = [];
 
         window.onload = async function() {
-            window.addEventListener('scroll', function() {
-                const header = document.querySelector('header');
-                if (window.scrollY > 50) { 
-                    header.classList.add('scrolled'); 
-                } else { 
-                    header.classList.remove('scrolled'); 
-                }
-            });
-
             const loading = document.getElementById('loading');
             
             if (GOOGLE_SHEET_CSV_URL) {
