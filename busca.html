@@ -216,14 +216,13 @@
 
         .card h3 { margin: 0 0 5px 0; color: var(--primary-blue); font-size: 1.2rem; }
         
-        /* Ajuste para nomes longos de departamento */
         .card-dept { 
             font-size: 0.8rem; 
             color: var(--text-gray); 
             font-weight: 700; 
             text-transform: uppercase; 
             margin-bottom: 10px; 
-            line-height: 1.4; /* Melhora leitura se quebrar linha */
+            line-height: 1.4;
         }
         
         .card-area { font-size: 0.95rem; color: #555; margin-bottom: 15px; flex-grow: 1; }
@@ -276,11 +275,13 @@
         .text-content { line-height: 1.7; color: #444; white-space: pre-wrap; font-size: 1rem; }
         .last-update { margin-top: 40px; text-align: center; font-size: 0.8rem; color: #aaa; font-style: italic; }
 
+        /* --- FOOTER (Estilo para o componente carregado) --- */
         footer {
             text-align: center; padding: 40px 20px; background: var(--primary-blue); 
-            color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: auto;
+            color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: auto; width: 100%;
         }
         .footer-highlight { color: var(--bright-cyan); font-weight: 700; text-decoration: none; }
+        .footer-highlight:hover { color: white; text-decoration: underline; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -312,7 +313,6 @@
         <a href="index.html" class="logo-link">
             <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
         </a>
-        
         <a href="index.html" class="btn-voltar-home">Home</a>
     </header>
     <div class="header-spacer"></div>
@@ -409,11 +409,20 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 IPÊ SEARCH - <a href="https://ipetech.ufla.br/" target="_blank" class="footer-highlight">IpêTech</a> / Universidade Federal de Lavras.</p>
-    </footer>
+    <div id="footer-placeholder"></div>
 
     <script>
+        // --- SCRIPT DO RODAPÉ (COMPONENTIZADO) ---
+        fetch('footer.html')
+            .then(response => {
+                if (!response.ok) throw new Error("Erro ao carregar footer");
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            })
+            .catch(error => console.log('Footer não carregado (precisa de servidor local):', error));
+
         // --- CONFIGURAÇÃO ---
         const GOOGLE_SHEET_CSV_URL = ""; 
 
