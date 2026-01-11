@@ -176,6 +176,7 @@
 
         /* --- ESTILO DOS LINKS DO IPÊTECH --- */
         
+        /* 1. Subtítulo do Hero (Agora é Link) */
         .hero-subtitle {
             font-size: 1.1rem;
             color: #4a5568;
@@ -184,14 +185,15 @@
             letter-spacing: 2px;
             margin-bottom: 10px;
             display: inline-block;
-            text-decoration: none; 
+            text-decoration: none; /* Remove sublinhado */
             transition: color 0.3s ease;
         }
         .hero-subtitle:hover {
-            color: var(--bright-cyan); 
+            color: var(--bright-cyan); /* Fica Ciano ao passar o mouse */
             cursor: pointer;
         }
 
+        /* 2. Link no meio do texto (Missão) */
         .text-link {
             color: var(--primary-blue);
             text-decoration: underline;
@@ -202,20 +204,29 @@
             color: var(--bright-cyan);
         }
 
-        /* Estilo do Footer Carregado */
+        /* --- FOOTER PADRONIZADO (CSS ATUALIZADO) --- */
         footer {
-            text-align: center; padding: 60px; background: var(--primary-blue);
-            color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: auto; width: 100%;
+            text-align: center;
+            padding: 50px 20px; /* Padronizado com a busca */
+            background: var(--primary-blue);
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+            margin-top: auto;
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
+
         .footer-highlight {
             color: var(--bright-cyan);
             font-weight: 700;
             text-decoration: none;
             transition: all 0.3s;
         }
+
         .footer-highlight:hover {
             color: #ffffff;
             text-decoration: underline;
+            text-shadow: 0 0 10px rgba(0, 194, 203, 0.5);
         }
         
         .hero p {
@@ -366,7 +377,7 @@
             .content-card { padding: 25px 20px; } 
             
             form input, form textarea { padding: 15px; font-size: 16px; }
-            footer { padding: 40px 20px; }
+            footer { padding: 30px 20px; } /* Ajuste footer mobile */
         }
     </style>
 </head>
