@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL CORRIGIDA */
+/* ARQUIVO: style.css - VERSÃO FINAL (BOTÕES PADRONIZADOS E CARDS CORRIGIDOS) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -66,7 +66,7 @@ nav a::after {
 }
 nav a:hover::after { width: 100%; }
 
-/* --- BOTÕES DO MENU (PADRONIZADOS SEM BORDA) --- */
+/* --- BOTÕES DO MENU (SEM BORDA E IDÊNTICOS) --- */
 .nav-btn-busca, .btn-voltar-home {
     padding: 12px 35px;
     border-radius: 50px; /* Pílula */
@@ -78,18 +78,18 @@ nav a:hover::after { width: 100%; }
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* Botão Busca (Ciano) */
+/* Cor Padrão (Ciano) */
 .nav-btn-busca {
     background: var(--bright-cyan); color: white !important; 
 }
 
-/* Botão Voltar (Azul Escuro) */
+/* Cor Botão Voltar (Azul Escuro Sólido) */
 .btn-voltar-home { 
     background: var(--primary-blue); 
     color: white !important; 
 }
 
-/* Hover Unificado */
+/* Hover */
 .nav-btn-busca:hover, .btn-voltar-home:hover { 
     transform: translateY(-2px); 
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -110,7 +110,7 @@ nav a:hover::after { width: 100%; }
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 35%, #d0f0f8 70%, #00c2cb 100%);
     
-    /* Configuração para o vídeo ocupar tudo na busca */
+    /* Garante que o vídeo ocupe a tela toda na busca */
     width: 100%; max-width: none; margin: 0;
 }
 .hero { height: 100vh; min-height: 600px; }
@@ -128,7 +128,7 @@ nav a:hover::after { width: 100%; }
 
 .hero-content, .search-content-wrapper { position: relative; z-index: 2; width: 100%; max-width: 1000px; animation: fadeIn 1.5s ease-in-out; }
 
-/* Tipografia */
+/* Tipografia Hero */
 .hero h2, .search-title {
     font-size: 3rem; margin-bottom: 30px; font-weight: 800; text-transform: uppercase; letter-spacing: -1px;
     background: var(--gradient-tech); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -149,7 +149,7 @@ nav a:hover::after { width: 100%; }
     font-size: 1.3rem; border-radius: 50px; 
     font-weight: 700; text-transform: uppercase; letter-spacing: 1px; 
     box-shadow: 0 10px 30px rgba(0, 194, 203, 0.4); display: inline-block; transition: 0.3s; 
-    border: none !important; /* GARANTE SEM BORDA */
+    border: none !important; 
 }
 .btn-cta:hover { transform: translateY(-3px); background: linear-gradient(135deg, #00c2cb, #003366); }
 
@@ -169,7 +169,7 @@ nav a:hover::after { width: 100%; }
 .tag-btn {
     background: rgba(0, 51, 102, 0.08); 
     color: var(--primary-blue);
-    border: none !important; /* GARANTE SEM BORDA */
+    border: none !important; 
     padding: 10px 20px; border-radius: 50px; 
     font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
     cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px);
@@ -179,7 +179,7 @@ nav a:hover::after { width: 100%; }
     transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 51, 102, 0.2);
 }
 
-/* --- 6. SEÇÕES GERAIS E CARDS (CORRIGIDO) --- */
+/* --- 6. SEÇÕES GERAIS E CARDS (CONFIGURAÇÃO CORRIGIDA) --- */
 section {
     padding: 100px 20px;
     max-width: 1000px;
@@ -191,7 +191,7 @@ section {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;
 }
 
-/* Card Genérico (Base) */
+/* Estilo Base para TODOS os Cards */
 .card, .content-card {
     background: var(--bg-card);
     border: 1px solid var(--border-light);
@@ -201,7 +201,7 @@ section {
     transition: 0.3s;
 }
 
-/* Card de Resultado (Busca) */
+/* === CARD DE RESULTADO (PESQUISA) === */
 .card {
     padding: 30px;
     cursor: pointer;
@@ -212,38 +212,36 @@ section {
     box-shadow: 0 20px 40px rgba(0, 51, 102, 0.1);
     border-color: var(--bright-cyan);
 }
+/* Barra colorida aparece apenas no hover no card de pesquisa */
+.card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+    background: var(--gradient-tech); transition: 0.3s; opacity: 0;
+}
+.card:hover::before { opacity: 1; }
 
-/* Card de Conteúdo (Missão e Contato - RESTAURADO) */
+.card h3 { margin: 0 0 15px 0; color: var(--primary-blue); font-size: 1.4rem; font-weight: 700; }
+
+/* === CONTENT CARD (MISSÃO E CONTATO) === */
 .content-card {
-    padding: 60px; /* Padding maior para texto */
+    padding: 60px; /* Espaçamento interno grande */
     box-shadow: 0 15px 35px rgba(0, 51, 102, 0.1);
     border: 1px solid rgba(255,255,255,0.5);
     margin-bottom: 40px;
 }
-
-/* Borda Colorida no Topo (Para ambos) */
-.card::before, .content-card::before {
+/* Barra colorida sempre visível nos blocos de conteúdo */
+.content-card::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
-    background: var(--gradient-tech);
-    transition: 0.3s;
+    background: var(--gradient-tech); opacity: 1;
 }
 
-/* Efeito Hover Apenas na Borda do Card de Busca */
-.card::before { opacity: 0; }
-.card:hover::before { opacity: 1; }
-
-/* A Borda do Content Card deve ser sempre visível */
-.content-card::before { opacity: 1; }
+/* Títulos Grandes (usados na Home) */
+h3 { font-size: 2.2rem; margin-bottom: 25px; display: inline-block; font-weight: 800; color: var(--primary-blue); }
 
 .card-initials {
     width: 60px; height: 60px; background: var(--gradient-tech); color: white; border-radius: 50%;
     display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4rem;
     margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0, 194, 203, 0.2);
 }
-.card h3, h3 { margin: 0 0 15px 0; color: var(--primary-blue); font-size: 1.4rem; font-weight: 700; }
-
-/* Título Grande das Seções */
-h3 { font-size: 2.2rem; margin-bottom: 25px; display: inline-block; font-weight: 800; }
 
 .card-dept { font-size: 0.75rem; color: var(--bright-cyan); font-weight: 800; text-transform: uppercase; margin-bottom: 12px; }
 .card-area { font-size: 1rem; color: var(--text-gray); margin-bottom: 20px; flex-grow: 1; }
@@ -286,7 +284,7 @@ form input:focus, form textarea:focus { outline: none; border-color: var(--brigh
 
 form button {
     background: var(--gradient-tech); color: white; padding: 18px 40px; 
-    border: none !important; /* GARANTE SEM BORDA */
+    border: none !important; 
     border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: bold; 
     text-transform: uppercase; width: 100%; transition: 0.3s;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
