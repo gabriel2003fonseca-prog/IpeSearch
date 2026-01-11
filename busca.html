@@ -55,8 +55,14 @@
 
         .logo-link { 
             height: 100%; display: flex; align-items: center; 
-            text-decoration: none; font-weight: 800; color: var(--primary-blue); font-size: 1.5rem;
+            text-decoration: none;
             opacity: 1; visibility: visible; width: auto; transition: all 0.3s ease;
+        }
+
+        .logo-img {
+            max-height: 55px;
+            width: auto;
+            display: block;
         }
 
         header.scrolled .logo-link {
@@ -78,14 +84,14 @@
 
         .header-spacer { height: 80px; }
 
-        /* --- HERO DE PESQUISA (COM VÍDEO) --- */
+        /* --- HERO DE PESQUISA --- */
         .search-section {
             position: relative;
             padding: 80px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border-light);
             overflow: hidden;
-            min-height: 500px; /* Altura boa para mostrar o vídeo e as tags */
+            min-height: 500px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -143,7 +149,7 @@
             transform: scale(1.01);
         }
 
-        /* --- SUGESTÕES DE PESQUISA (QUICK TAGS) --- */
+        /* --- SUGESTÕES DE PESQUISA (TAGS) --- */
         .quick-tags-container {
             margin-top: 30px;
             display: flex;
@@ -209,7 +215,17 @@
         }
 
         .card h3 { margin: 0 0 5px 0; color: var(--primary-blue); font-size: 1.2rem; }
-        .card-dept { font-size: 0.85rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+        
+        /* Ajuste para nomes longos de departamento */
+        .card-dept { 
+            font-size: 0.8rem; 
+            color: var(--text-gray); 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            margin-bottom: 10px; 
+            line-height: 1.4; /* Melhora leitura se quebrar linha */
+        }
+        
         .card-area { font-size: 0.95rem; color: #555; margin-bottom: 15px; flex-grow: 1; }
         .card-hint { font-size: 0.8rem; color: var(--bright-cyan); text-align: right; margin-top: auto; }
 
@@ -272,7 +288,8 @@
         @media (max-width: 768px) {
             header { padding: 0 20px; height: 70px; }
             .header-spacer { height: 70px; }
-            .logo-link { font-size: 1.2rem; }
+            
+            .logo-img { max-height: 45px; } 
             .btn-voltar-home { padding: 6px 16px; font-size: 0.8rem; }
             
             .search-section { padding: 60px 20px; min-height: auto; }
@@ -284,7 +301,6 @@
             .profile-header h1 { font-size: 1.6rem; }
             .profile-body { padding: 30px 20px; }
             
-            /* Ajuste das tags no mobile */
             .quick-tags-container { gap: 8px; }
             .tag-btn { padding: 6px 12px; font-size: 0.8rem; }
         }
@@ -293,7 +309,10 @@
 <body>
 
     <header>
-        <a href="index.html" class="logo-link">IPÊ SEARCH</a>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
+        </a>
+        
         <a href="index.html" class="btn-voltar-home">Home</a>
     </header>
     <div class="header-spacer"></div>
@@ -318,7 +337,7 @@
                     <button class="tag-btn" onclick="filtrarTag('Eng. Florestal')">Eng. Florestal</button>
                     <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharias</button>
                     <button class="tag-btn" onclick="filtrarTag('Computação')">Computação</button>
-                    <button class="tag-btn" onclick="filtrarTag('Sistemas de Informação')">Sistemas</button>
+                    <button class="tag-btn" onclick="filtrarTag('Sistemas')">Sistemas</button>
                     <button class="tag-btn" onclick="filtrarTag('Direito')">Direito</button>
                     <button class="tag-btn" onclick="filtrarTag('Administração')">Administração</button>
                     <button class="tag-btn" onclick="filtrarTag('Medicina')">Medicina</button>
@@ -330,7 +349,7 @@
                     <button class="tag-btn" onclick="filtrarTag('Pedagogia')">Pedagogia</button>
                     <button class="tag-btn" onclick="filtrarTag('Filosofia')">Filosofia</button>
                     <button class="tag-btn" onclick="filtrarTag('Letras')">Letras</button>
-                    <button class="tag-btn" onclick="filtrarTag('Educação Física')">Ed. Física</button>
+                    <button class="tag-btn" onclick="filtrarTag('Ed. Física')">Ed. Física</button>
                 </div>
                 
                 <p style="margin-top: 20px; color: #333; font-size: 0.9rem; font-weight: 500;">
@@ -398,11 +417,11 @@
         // --- CONFIGURAÇÃO ---
         const GOOGLE_SHEET_CSV_URL = ""; 
 
-        // Dados de Exemplo
+        // Dados de Exemplo (NOMES DE DEPARTAMENTO COMPLETOS)
         const dadosExemplo = [
             { 
                 Nome: "Dr. Gabriel Fonseca", 
-                Departamento: "Engenharia (ABI)", 
+                Departamento: "Escola de Engenharia", 
                 Area: "Controle e Automação", 
                 Subarea: "Sistemas Embarcados e Robótica",
                 Email: "gabriel.fonseca@ufla.br",
@@ -413,7 +432,7 @@
             },
             { 
                 Nome: "Dra. Ana Silva", 
-                Departamento: "Biologia (DBI)", 
+                Departamento: "Instituto de Ciências Naturais", 
                 Area: "Genética", 
                 Subarea: "Melhoramento Genético de Plantas",
                 Email: "ana.silva@ufla.br",
@@ -424,7 +443,7 @@
             },
             { 
                 Nome: "Prof. Roberto Lima", 
-                Departamento: "Física (DFI)", 
+                Departamento: "Departamento de Física", 
                 Area: "Física Teórica", 
                 Subarea: "Termodinâmica",
                 Email: "roberto@ufla.br",
