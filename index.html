@@ -15,6 +15,7 @@
 
         <nav>
             <ul>
+                <li><a href="#como-funciona">Como Funciona</a></li>
                 <li><a href="#sobre">Objetivo</a></li>
                 <li><a href="#contato">Contato</a></li>
                 <li><a href="busca.html" class="nav-btn-busca">Pesquisar</a></li>
@@ -39,6 +40,48 @@
         </div>
     </div>
 
+    <div class="stats-bar">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h2>+1.000</h2>
+                <p>Pesquisadores</p>
+            </div>
+            <div class="stat-item">
+                <h2>+50</h2>
+                <p>Áreas de Atuação</p>
+            </div>
+            <div class="stat-item">
+                <h2>1º</h2>
+                <p>Hub de Inovação</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="como-funciona">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <h3 style="margin-bottom: 10px;">Como Funciona?</h3>
+            <p>Conectar sua empresa ou projeto à universidade nunca foi tão simples.</p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <span class="step-number">01</span>
+                <div class="step-title">Pesquise</div>
+                <div class="step-text">Utilize nossa busca inteligente para encontrar professores por nome, departamento ou área de especialização.</div>
+            </div>
+            <div class="step-card">
+                <span class="step-number">02</span>
+                <div class="step-title">Analise</div>
+                <div class="step-text">Acesse o perfil detalhado, veja projetos recentes, linhas de pesquisa e contatos institucionais.</div>
+            </div>
+            <div class="step-card">
+                <span class="step-number">03</span>
+                <div class="step-title">Conecte-se</div>
+                <div class="step-text">Entre em contato direto para parcerias, consultorias ou projetos de P&D inovadores.</div>
+            </div>
+        </div>
+    </section>
+
     <section id="sobre">
         <div class="content-card">
             <h3>Nossa Missão</h3>
@@ -58,6 +101,7 @@
     <section id="contato">
         <div class="content-card">
             <h3>Fale Conosco</h3>
+            <p style="margin-bottom: 30px;">Dúvidas, sugestões ou interesse em parcerias institucionais? Envie sua mensagem.</p>
             
             <form id="contactForm" action="https://formsubmit.co/gabriel2003fonseca@gmail.com" method="POST">
                 
@@ -94,12 +138,12 @@
             })
             .catch(error => console.log('Aviso: Rode este projeto em um servidor local para ver o rodapé.', error));
 
-        // 2. Controle do Menu ao Rolar (Ajustado para 50px)
+        // 2. Controle do Menu ao Rolar
         window.addEventListener('scroll', function() {
             if (window.innerWidth > 768) {
                 var header = document.querySelector('header');
                 
-                // MUDANÇA AQUI: Agora muda assim que rolar 50px
+                // Header muda de cor ao rolar 50px
                 if (window.scrollY > 50) {
                     header.classList.add('scrolled');
                 } else {
