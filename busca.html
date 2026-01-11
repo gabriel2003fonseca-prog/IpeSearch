@@ -35,7 +35,7 @@
         /* --- HEADER --- */
         header {
             background-color: #ffffff;
-            height: 80px; /* Altura padrão */
+            height: 80px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -47,36 +47,20 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* Estado "Rolado" (Scrolled) */
         header.scrolled {
-            height: 60px; /* Fica mais compacto */
+            height: 60px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            justify-content: center; /* Centraliza o botão Home */
+            justify-content: center;
         }
 
         .logo-link { 
-            height: 100%; 
-            display: flex; 
-            align-items: center; 
-            text-decoration: none; 
-            font-weight: 800; 
-            color: var(--primary-blue); 
-            font-size: 1.5rem;
-            
-            /* Animação para desaparecer */
-            opacity: 1;
-            visibility: visible;
-            width: auto;
-            transition: all 0.3s ease;
+            height: 100%; display: flex; align-items: center; 
+            text-decoration: none; font-weight: 800; color: var(--primary-blue); font-size: 1.5rem;
+            opacity: 1; visibility: visible; width: auto; transition: all 0.3s ease;
         }
 
-        /* Esconde o logo ao rolar */
         header.scrolled .logo-link {
-            opacity: 0;
-            visibility: hidden;
-            width: 0;
-            margin: 0;
-            overflow: hidden;
+            opacity: 0; visibility: hidden; width: 0; margin: 0; overflow: hidden;
         }
         
         .btn-voltar-home {
@@ -92,22 +76,44 @@
         }
         .btn-voltar-home:hover { background: var(--primary-blue); color: white; }
 
-        /* --- ESPAÇADOR DO HEADER FIXO --- */
         .header-spacer { height: 80px; }
 
-        /* --- HERO DE PESQUISA --- */
+        /* --- HERO DE PESQUISA (COM VÍDEO) --- */
         .search-section {
-            padding: 60px 20px;
+            position: relative;
+            padding: 80px 20px;
             text-align: center;
-            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
             border-bottom: 1px solid var(--border-light);
+            overflow: hidden;
+            min-height: 500px; /* Altura boa para mostrar o vídeo e as tags */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 0; opacity: 0.5;
+        }
+
+        .video-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 100%);
+            z-index: 1;
+        }
+
+        .search-content-wrapper {
+            position: relative; z-index: 2; width: 100%; max-width: 1000px;
         }
 
         .search-title {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: var(--primary-blue);
             margin-bottom: 30px;
-            font-weight: 700;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
         }
 
         .input-wrapper {
@@ -119,20 +125,51 @@
 
         #searchInput {
             width: 100%;
-            padding: 18px 25px;
-            padding-right: 50px;
+            padding: 22px 30px;
+            padding-right: 60px;
             font-size: 1.1rem;
-            border: 2px solid var(--border-light);
+            border: 2px solid rgba(255,255,255,0.8);
             border-radius: 50px;
             outline: none;
             transition: all 0.3s;
-            background: white;
-            -webkit-appearance: none; /* Remove estilo padrão iOS */
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            -webkit-appearance: none;
         }
 
         #searchInput:focus {
             border-color: var(--bright-cyan);
-            box-shadow: 0 0 0 4px rgba(0, 194, 203, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 194, 203, 0.2);
+            transform: scale(1.01);
+        }
+
+        /* --- SUGESTÕES DE PESQUISA (QUICK TAGS) --- */
+        .quick-tags-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tag-btn {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(5px);
+        }
+
+        .tag-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 51, 102, 0.2);
         }
 
         /* --- RESULTADOS --- */
@@ -141,12 +178,11 @@
             margin: 30px auto;
             padding: 0 20px;
             display: grid;
-            /* Responsividade automática do Grid */
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
         }
 
-        /* --- CARD SIMPLES (Lista) --- */
+        /* --- CARD --- */
         .card {
             background: white;
             border: 1px solid var(--border-light);
@@ -154,8 +190,7 @@
             padding: 25px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
         .card:hover {
             transform: translateY(-5px);
@@ -178,7 +213,7 @@
         .card-area { font-size: 0.95rem; color: #555; margin-bottom: 15px; flex-grow: 1; }
         .card-hint { font-size: 0.8rem; color: var(--bright-cyan); text-align: right; margin-top: auto; }
 
-        /* --- PERFIL DETALHADO (SPA) --- */
+        /* --- PERFIL DETALHADO --- */
         #profile-view {
             max-width: 900px;
             margin: 30px auto;
@@ -189,46 +224,28 @@
         .back-btn-container { margin-bottom: 20px; }
         .btn-text-back {
             background: none; border: none; color: var(--text-gray); 
-            font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 5px;
-            padding: 0;
+            font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 0;
         }
         .btn-text-back:hover { color: var(--primary-blue); text-decoration: underline; }
 
         .profile-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            overflow: hidden;
-            border: 1px solid var(--border-light);
+            background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: hidden; border: 1px solid var(--border-light);
         }
 
-        .profile-header {
-            background: var(--primary-blue);
-            color: white;
-            padding: 40px;
-        }
-
+        .profile-header { background: var(--primary-blue); color: white; padding: 40px; }
         .profile-header h1 { margin: 0; font-size: 2rem; word-wrap: break-word; }
         .profile-header .dept-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-top: 10px;
+            display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px;
+            border-radius: 20px; font-size: 0.85rem; margin-top: 10px;
         }
 
         .profile-body { padding: 40px; }
 
         .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid var(--border-light);
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+            margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid var(--border-light);
         }
-
         .info-item label {
             display: block; font-size: 0.75rem; text-transform: uppercase;
             letter-spacing: 1px; color: var(--text-gray); font-weight: 700; margin-bottom: 5px;
@@ -240,48 +257,36 @@
             font-size: 1.3rem; color: var(--primary-blue);
             border-left: 4px solid var(--bright-cyan); padding-left: 15px; margin: 30px 0 15px 0;
         }
-
-        .text-content {
-            line-height: 1.7; color: #444; white-space: pre-wrap; font-size: 1rem;
-        }
-
-        .last-update {
-            margin-top: 40px; text-align: center; font-size: 0.8rem; color: #aaa; font-style: italic;
-        }
+        .text-content { line-height: 1.7; color: #444; white-space: pre-wrap; font-size: 1rem; }
+        .last-update { margin-top: 40px; text-align: center; font-size: 0.8rem; color: #aaa; font-style: italic; }
 
         footer {
-            text-align: center; padding: 40px 20px; 
-            background: var(--primary-blue); color: rgba(255,255,255,0.8); 
-            font-size: 0.9rem; margin-top: auto;
+            text-align: center; padding: 40px 20px; background: var(--primary-blue); 
+            color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: auto;
         }
-
-        .footer-highlight {
-            color: var(--bright-cyan); font-weight: 700; text-decoration: none;
-        }
+        .footer-highlight { color: var(--bright-cyan); font-weight: 700; text-decoration: none; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- MOBILE (AJUSTES FINOS) --- */
+        /* --- MOBILE --- */
         @media (max-width: 768px) {
-            /* Header menor no mobile */
             header { padding: 0 20px; height: 70px; }
             .header-spacer { height: 70px; }
-            
             .logo-link { font-size: 1.2rem; }
             .btn-voltar-home { padding: 6px 16px; font-size: 0.8rem; }
-
-            /* Título menor */
+            
+            .search-section { padding: 60px 20px; min-height: auto; }
             .search-title { font-size: 1.8rem; }
-            .search-section { padding: 40px 20px; }
-
-            /* Grid vira coluna única */
+            
             .results-container { grid-template-columns: 1fr; }
             .info-grid { grid-template-columns: 1fr; gap: 20px; }
-
-            /* Menos espaçamento no perfil */
             .profile-header { padding: 30px 20px; }
             .profile-header h1 { font-size: 1.6rem; }
             .profile-body { padding: 30px 20px; }
+            
+            /* Ajuste das tags no mobile */
+            .quick-tags-container { gap: 8px; }
+            .tag-btn { padding: 6px 12px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -295,13 +300,43 @@
 
     <div id="search-view">
         <section class="search-section">
-            <h1 class="search-title">Encontre Professores da UFLA</h1>
-            <div class="input-wrapper">
-                <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
+            <video class="video-bg" autoplay muted loop playsinline>
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+
+            <div class="search-content-wrapper">
+                <h1 class="search-title">Encontre Professores da UFLA</h1>
+                <div class="input-wrapper">
+                    <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
+                </div>
+
+                <div class="quick-tags-container">
+                    <button class="tag-btn" onclick="filtrarTag('Agronomia')">Agronomia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Zootecnia')">Zootecnia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Veterinária')">Veterinária</button>
+                    <button class="tag-btn" onclick="filtrarTag('Eng. Florestal')">Eng. Florestal</button>
+                    <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharias</button>
+                    <button class="tag-btn" onclick="filtrarTag('Computação')">Computação</button>
+                    <button class="tag-btn" onclick="filtrarTag('Sistemas de Informação')">Sistemas</button>
+                    <button class="tag-btn" onclick="filtrarTag('Direito')">Direito</button>
+                    <button class="tag-btn" onclick="filtrarTag('Administração')">Administração</button>
+                    <button class="tag-btn" onclick="filtrarTag('Medicina')">Medicina</button>
+                    <button class="tag-btn" onclick="filtrarTag('Nutrição')">Nutrição</button>
+                    <button class="tag-btn" onclick="filtrarTag('Biologia')">Biologia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Química')">Química</button>
+                    <button class="tag-btn" onclick="filtrarTag('Física')">Física</button>
+                    <button class="tag-btn" onclick="filtrarTag('Matemática')">Matemática</button>
+                    <button class="tag-btn" onclick="filtrarTag('Pedagogia')">Pedagogia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Filosofia')">Filosofia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Letras')">Letras</button>
+                    <button class="tag-btn" onclick="filtrarTag('Educação Física')">Ed. Física</button>
+                </div>
+                
+                <p style="margin-top: 20px; color: #333; font-size: 0.9rem; font-weight: 500;">
+                    Toque em uma área acima ou digite para pesquisar.
+                </p>
             </div>
-            <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">
-                Ex: "Inteligência Artificial", "Fitopatologia", "Direito Civil"
-            </p>
         </section>
 
         <div id="counter" style="text-align: center; margin-top: 20px; color: #888;"></div>
@@ -363,7 +398,7 @@
         // --- CONFIGURAÇÃO ---
         const GOOGLE_SHEET_CSV_URL = ""; 
 
-        // Dados de Exemplo Atualizados
+        // Dados de Exemplo
         const dadosExemplo = [
             { 
                 Nome: "Dr. Gabriel Fonseca", 
@@ -403,10 +438,8 @@
         let todosPesquisadores = [];
 
         window.onload = async function() {
-            // Lógica de Scroll do Header
             window.addEventListener('scroll', function() {
                 const header = document.querySelector('header');
-                // Se rolar mais de 50px, ativa o modo compacto
                 if (window.scrollY > 50) { 
                     header.classList.add('scrolled'); 
                 } else { 
@@ -433,8 +466,15 @@
             renderizarCards(todosPesquisadores);
         };
 
-        // Evento de Busca
+        // Evento de Digitação
         document.getElementById('searchInput').addEventListener('keyup', (e) => filtrarResultados(e.target.value));
+
+        // Função para os botões de Tags
+        function filtrarTag(tag) {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = tag;
+            filtrarResultados(tag);
+        }
 
         function filtrarResultados(termo) {
             termo = termo.toLowerCase();
@@ -494,7 +534,6 @@
 
             document.getElementById('search-view').classList.add('hidden');
             document.getElementById('profile-view').classList.remove('hidden');
-            
             window.scrollTo(0, 0);
         }
 
@@ -512,7 +551,6 @@
                 if (!linhas[i].trim()) continue;
                 const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g; 
                 const linhaAtual = linhas[i].match(regex);
-                
                 if (linhaAtual) {
                     const obj = {};
                     cabecalho.forEach((coluna, index) => {
