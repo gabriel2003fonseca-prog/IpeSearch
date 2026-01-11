@@ -9,7 +9,7 @@
         :root {
             --bg-body: #eef2f6;
             --bg-card: #ffffff;
-            --primary-blue: #003366;
+            --primary-blue: #003366; /* Azul UFLA */
             --bright-cyan: #00c2cb;
             --gradient-tech: linear-gradient(135deg, #003366, #00c2cb);
             --text-dark: #003366;
@@ -23,6 +23,9 @@
             margin: 0;
             background-color: var(--bg-body);
             color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Garante que o rodapé vá para o fundo */
         }
 
         /* --- Utilitários --- */
@@ -277,9 +280,38 @@
 
         #loading { text-align: center; padding: 50px; font-size: 1.2rem; color: var(--text-gray); display: none; }
 
-        footer { text-align: center; padding: 40px; background: var(--primary-blue); color: rgba(255,255,255,0.8); margin-top: auto; }
-        .footer-highlight { color: var(--bright-cyan); font-weight: 700; text-decoration: none; }
-        .footer-highlight:hover { color: white; text-decoration: underline; }
+        /* --- FOOTER PADRONIZADO --- */
+        footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: auto; /* Garante que fique no final */
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .footer-logo-text {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            color: var(--bright-cyan);
+            text-decoration: none;
+        }
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: white; }
+        .copyright { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-top: 20px; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -355,7 +387,16 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 IPÊ SEARCH - <a href="https://ipetech.ufla.br/" target="_blank" class="footer-highlight">IpêTech</a> / UFLA.</p>
+        <div class="footer-content">
+            <a href="index.html" class="footer-logo-text">IPÊ SEARCH</a>
+            <div class="footer-links">
+                <a href="index.html">Início</a>
+                <a href="#">Sobre a UFLA</a>
+                <a href="https://ipetech.ufla.br/" target="_blank">IpêTech</a>
+                <a href="#">Contato</a>
+            </div>
+            <p class="copyright">&copy; 2026 IPÊ SEARCH - Desenvolvido para a Universidade Federal de Lavras</p>
+        </div>
     </footer>
 
     <script>
