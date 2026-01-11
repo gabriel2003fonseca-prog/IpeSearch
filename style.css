@@ -1,11 +1,11 @@
-/* ARQUIVO: style.css - VERSÃO FINAL (BOTÕES PADRONIZADOS E CARDS CORRIGIDOS) */
+/* ARQUIVO: style.css - VERSÃO FINAL (SEM LINHA EMBAIXO DO BOTÃO) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
     --bg-body: #eef2f6;        
     --bg-card: #ffffff;        
     --primary-blue: #003366; 
-    --bright-cyan: #00c2cb;
+    --bright-cyan: #00c2cb; /* COR PADRÃO DOS BOTÕES */
     --gradient-tech: linear-gradient(135deg, #003366, #00c2cb);
     --text-dark: #003366;
     --text-light: #ffffff;
@@ -52,7 +52,7 @@ header.scrolled {
 .logo-img { max-height: 75px; width: auto; display: block; }
 header.scrolled .logo-link { opacity: 0; visibility: hidden; width: 0; margin: 0; overflow: hidden; }
 
-/* Navegação */
+/* Navegação (Links de Texto) */
 nav ul { list-style: none; padding: 0; margin: 0; }
 nav ul li { display: inline; margin-left: 30px; }
 
@@ -60,13 +60,15 @@ nav a {
     color: var(--text-dark); text-decoration: none; font-weight: 600;
     font-size: 0.95rem; position: relative; text-transform: uppercase; letter-spacing: 0.5px;
 }
+
+/* Efeito de linha embaixo (APENAS PARA TEXTO) */
 nav a::after {
     content: ''; position: absolute; width: 0; height: 3px; bottom: -5px; left: 0;
     background: var(--bright-cyan); transition: width 0.3s;
 }
 nav a:hover::after { width: 100%; }
 
-/* --- BOTÕES DO MENU (SEM BORDA E IDÊNTICOS) --- */
+/* --- BOTÕES DO MENU (SEM LINHA, SEM BORDA, COR CIANO) --- */
 .nav-btn-busca, .btn-voltar-home {
     padding: 12px 35px;
     border-radius: 50px; /* Pílula */
@@ -75,27 +77,25 @@ nav a:hover::after { width: 100%; }
     transition: all 0.3s; 
     border: none !important; /* GARANTE SEM BORDA */
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-/* Cor Padrão (Ciano) */
-.nav-btn-busca {
-    background: var(--bright-cyan); color: white !important; 
-}
-
-/* Cor Botão Voltar (Azul Escuro Sólido) */
-.btn-voltar-home { 
-    background: var(--primary-blue); 
+    box-shadow: 0 5px 15px rgba(0, 194, 203, 0.3);
+    
+    /* COR UNIFICADA: CIANO */
+    background: var(--bright-cyan) !important; 
     color: white !important; 
 }
 
-/* Hover */
+/* CORREÇÃO: Remove a linha de baixo nos botões */
+.nav-btn-busca::after, .btn-voltar-home::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Hover Unificado */
 .nav-btn-busca:hover, .btn-voltar-home:hover { 
     transform: translateY(-2px); 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    background: #00a9b0 !important; /* Ciano mais escuro */
+    box-shadow: 0 8px 20px rgba(0, 194, 203, 0.4);
 }
-.nav-btn-busca:hover { background: #00a9b0; }
-.btn-voltar-home:hover { background: #002244; }
 
 .header-spacer { height: 90px; }
 
@@ -109,8 +109,6 @@ nav a:hover::after { width: 100%; }
     min-height: 500px; 
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 35%, #d0f0f8 70%, #00c2cb 100%);
-    
-    /* Garante que o vídeo ocupe a tela toda na busca */
     width: 100%; max-width: none; margin: 0;
 }
 .hero { height: 100vh; min-height: 600px; }
@@ -128,7 +126,6 @@ nav a:hover::after { width: 100%; }
 
 .hero-content, .search-content-wrapper { position: relative; z-index: 2; width: 100%; max-width: 1000px; animation: fadeIn 1.5s ease-in-out; }
 
-/* Tipografia Hero */
 .hero h2, .search-title {
     font-size: 3rem; margin-bottom: 30px; font-weight: 800; text-transform: uppercase; letter-spacing: -1px;
     background: var(--gradient-tech); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -164,77 +161,48 @@ nav a:hover::after { width: 100%; }
 }
 #searchInput:focus { border-color: var(--bright-cyan); box-shadow: 0 15px 30px rgba(0, 194, 203, 0.2); transform: scale(1.01); }
 
-/* Tags (SEM BORDA) */
+/* --- TAGS (CURSOS) - CIANO PADRONIZADO --- */
 .quick-tags-container { margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
 .tag-btn {
-    background: rgba(0, 51, 102, 0.08); 
-    color: var(--primary-blue);
+    background: var(--bright-cyan); 
+    color: white;
     border: none !important; 
     padding: 10px 20px; border-radius: 50px; 
     font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
     cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px);
+    box-shadow: 0 4px 10px rgba(0, 194, 203, 0.2);
 }
 .tag-btn:hover {
-    background: var(--primary-blue); color: white;
-    transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 51, 102, 0.2);
+    background: #00a9b0; 
+    transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 194, 203, 0.3);
 }
 
-/* --- 6. SEÇÕES GERAIS E CARDS (CONFIGURAÇÃO CORRIGIDA) --- */
+/* --- 6. SEÇÕES E CARDS --- */
 section {
-    padding: 100px 20px;
-    max-width: 1000px;
-    margin: auto;
+    padding: 100px 20px; max-width: 1000px; margin: auto;
 }
-
 .results-container {
     max-width: 1200px; margin: 40px auto; padding: 0 20px;
     display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;
 }
 
-/* Estilo Base para TODOS os Cards */
+/* Card Base */
 .card, .content-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: 16px;
-    position: relative;
-    overflow: hidden;
-    transition: 0.3s;
+    background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 16px;
+    position: relative; overflow: hidden; transition: 0.3s;
 }
 
-/* === CARD DE RESULTADO (PESQUISA) === */
-.card {
-    padding: 30px;
-    cursor: pointer;
-    display: flex; flex-direction: column;
-}
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 51, 102, 0.1);
-    border-color: var(--bright-cyan);
-}
-/* Barra colorida aparece apenas no hover no card de pesquisa */
-.card::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
-    background: var(--gradient-tech); transition: 0.3s; opacity: 0;
-}
+/* Card Pesquisa */
+.card { padding: 30px; cursor: pointer; display: flex; flex-direction: column; }
+.card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0, 51, 102, 0.1); border-color: var(--bright-cyan); }
+.card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradient-tech); transition: 0.3s; opacity: 0; }
 .card:hover::before { opacity: 1; }
-
 .card h3 { margin: 0 0 15px 0; color: var(--primary-blue); font-size: 1.4rem; font-weight: 700; }
 
-/* === CONTENT CARD (MISSÃO E CONTATO) === */
-.content-card {
-    padding: 60px; /* Espaçamento interno grande */
-    box-shadow: 0 15px 35px rgba(0, 51, 102, 0.1);
-    border: 1px solid rgba(255,255,255,0.5);
-    margin-bottom: 40px;
-}
-/* Barra colorida sempre visível nos blocos de conteúdo */
-.content-card::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
-    background: var(--gradient-tech); opacity: 1;
-}
+/* Card Conteúdo */
+.content-card { padding: 60px; box-shadow: 0 15px 35px rgba(0, 51, 102, 0.1); border: 1px solid rgba(255,255,255,0.5); margin-bottom: 40px; }
+.content-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradient-tech); opacity: 1; }
 
-/* Títulos Grandes (usados na Home) */
 h3 { font-size: 2.2rem; margin-bottom: 25px; display: inline-block; font-weight: 800; color: var(--primary-blue); }
 
 .card-initials {
@@ -242,7 +210,6 @@ h3 { font-size: 2.2rem; margin-bottom: 25px; display: inline-block; font-weight:
     display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.4rem;
     margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0, 194, 203, 0.2);
 }
-
 .card-dept { font-size: 0.75rem; color: var(--bright-cyan); font-weight: 800; text-transform: uppercase; margin-bottom: 12px; }
 .card-area { font-size: 1rem; color: var(--text-gray); margin-bottom: 20px; flex-grow: 1; }
 .card-hint { font-size: 0.85rem; color: var(--primary-blue); text-align: right; margin-top: auto; font-weight: 600; }
@@ -259,10 +226,7 @@ h3 { font-size: 2.2rem; margin-bottom: 25px; display: inline-block; font-weight:
 .profile-card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid var(--border-light); }
 .profile-header { padding: 40px; background: var(--primary-blue); color: white; }
 .profile-header h1 { margin: 0; font-size: 2rem; word-wrap: break-word; }
-.profile-header .dept-badge {
-    display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px;
-    border-radius: 20px; font-size: 0.85rem; margin-top: 10px;
-}
+.profile-header .dept-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; margin-top: 10px; }
 .profile-body { padding: 40px; }
 
 .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid var(--border-light); }
@@ -284,10 +248,8 @@ form input:focus, form textarea:focus { outline: none; border-color: var(--brigh
 
 form button {
     background: var(--gradient-tech); color: white; padding: 18px 40px; 
-    border: none !important; 
-    border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: bold; 
-    text-transform: uppercase; width: 100%; transition: 0.3s;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border: none !important; border-radius: 50px; cursor: pointer; font-size: 1.1rem; font-weight: bold; 
+    text-transform: uppercase; width: 100%; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 form button:hover { background: linear-gradient(135deg, #00c2cb, #003366); transform: translateY(-3px); }
 
