@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesquisar - IPÊ SEARCH</title>
     <style>
-        /* --- Paleta de Cores (Igual à Home) --- */
+        /* --- Paleta de Cores --- */
         :root {
             --bg-body: #eef2f6;
             --bg-card: #ffffff;
@@ -23,14 +23,12 @@
             margin: 0;
             background-color: var(--bg-body);
             color: var(--text-dark);
-            padding-top: 110px; /* Espaço para o header fixo */
         }
 
-        /* --- HEADER (Sempre Branco nesta página) --- */
+        /* --- HEADER (Transparente e Fixo igual Home) --- */
         header {
-            background-color: #ffffff;
+            background-color: transparent;
             height: 90px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -39,183 +37,216 @@
             position: fixed;
             top: 0; left: 0; width: 100%;
             z-index: 1000;
+            transition: all 0.4s ease;
+        }
+        
+        header.scrolled {
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            height: 70px;
         }
 
-        .logo-link { height: 100%; display: flex; align-items: center; }
-        .logo-img { max-height: 70px; width: auto; }
+        .logo-link { height: 100%; display: flex; align-items: center; text-decoration: none; }
+        .logo-img { max-height: 60px; width: auto; }
 
-        /* Botão Voltar */
         .btn-voltar {
-            text-decoration: none;
-            color: var(--primary-blue);
+            color: white; /* Texto branco no topo */
             font-weight: 700;
-            border: 2px solid var(--primary-blue);
+            border: 2px solid rgba(255,255,255,0.3);
             padding: 10px 25px;
             border-radius: 30px;
-            transition: all 0.3s;
+            text-decoration: none;
             text-transform: uppercase;
             font-size: 0.9rem;
+            transition: all 0.3s;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
         }
-        .btn-voltar:hover {
+        .btn-voltar:hover { background: white; color: var(--primary-blue); border-color: white; }
+
+        /* Ajuste do botão quando o menu fica branco */
+        header.scrolled .btn-voltar {
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+            background: transparent;
+        }
+        header.scrolled .btn-voltar:hover {
             background: var(--primary-blue);
             color: white;
         }
 
-        /* --- ÁREA DE PESQUISA --- */
-        .search-container {
-            max-width: 800px;
-            margin: 0 auto 40px auto;
-            padding: 0 20px;
+        /* --- HERO DE PESQUISA (Visual Rico) --- */
+        .search-hero {
+            position: relative;
+            height: 500px; /* Altura do banner */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffffff 0%, #00c2cb 100%);
+            margin-bottom: 60px;
+        }
+
+        .video-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 1; opacity: 0.45; mix-blend-mode: multiply;
+        }
+
+        .video-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 100%);
+            z-index: 2;
+        }
+
+        .search-content {
+            position: relative; z-index: 3; width: 100%; max-width: 900px; padding: 0 20px;
+            animation: fadeIn 1s ease-out;
         }
 
         .search-title {
-            font-size: 2.2rem;
-            margin-bottom: 25px;
-            color: var(--primary-blue);
+            font-size: 3.5rem;
+            margin-bottom: 30px;
             font-weight: 800;
+            letter-spacing: -1px;
+            background: var(--gradient-tech);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
+        /* Input Estilizado "Premium" */
         .input-wrapper {
             position: relative;
             width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         #searchInput {
             width: 100%;
-            padding: 20px 25px;
+            padding: 22px 30px;
             padding-right: 60px;
-            font-size: 1.1rem;
-            border: 2px solid #e2e8f0;
+            font-size: 1.2rem;
+            border: none;
             border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 15px 40px rgba(0, 51, 102, 0.2); /* Sombra forte */
             outline: none;
             transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.95);
         }
 
         #searchInput:focus {
-            border-color: var(--bright-cyan);
-            box-shadow: 0 5px 25px rgba(0, 194, 203, 0.15);
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 194, 203, 0.3);
         }
 
         .search-icon {
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
-            color: var(--bright-cyan);
+            position: absolute; right: 25px; top: 50%; transform: translateY(-50%);
+            font-size: 1.5rem; color: var(--bright-cyan); cursor: pointer;
         }
 
-        #counter {
-            margin-top: 15px;
-            color: var(--text-gray);
-            font-size: 0.95rem;
+        /* --- TAGS RÁPIDAS (Elementos Visuais) --- */
+        .quick-tags {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tag-btn {
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(0, 51, 102, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+        .tag-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
         }
 
-        /* --- GRID DE RESULTADOS --- */
+        /* --- RESULTADOS --- */
+        .results-header {
+            max-width: 1200px; margin: 0 auto 20px auto; padding: 0 20px;
+            display: flex; justify-content: space-between; align-items: flex-end;
+            border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;
+        }
+        .results-header h2 { margin: 0; font-size: 1.5rem; color: var(--primary-blue); }
+        #counter { color: var(--text-gray); font-weight: 500; }
+
         .results-grid {
             display: grid;
-            /* Responsividade automática: cria colunas conforme cabe na tela */
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Cards mais largos */
             gap: 30px;
             max-width: 1200px;
-            margin: 0 auto 60px auto;
+            margin: 0 auto 80px auto;
             padding: 0 20px;
         }
 
-        /* CARD DO PESQUISADOR */
+        /* CARD PREMIUM */
         .card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0, 51, 102, 0.08); /* Sombra estilo Home */
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-top: 4px solid var(--bright-cyan);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.5);
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.02);
+            display: flex; flex-direction: column;
         }
-
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 51, 102, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 51, 102, 0.12);
+        }
+        .card::before {
+            content: ''; position: absolute; top: 20px; left: 0; width: 4px; height: 40px;
+            background: var(--gradient-tech); border-radius: 0 5px 5px 0;
         }
 
         .card-dept {
-            font-size: 0.85rem;
-            color: var(--bright-cyan);
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
+            font-size: 0.8rem; font-weight: 800; color: var(--bright-cyan);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;
         }
-
         .card h3 {
-            margin: 0 0 15px 0;
-            color: var(--primary-blue);
-            font-size: 1.5rem;
-            line-height: 1.3;
+            font-size: 1.6rem; color: var(--primary-blue); margin: 5px 0 15px 0;
         }
-
-        .card-desc {
-            color: var(--text-gray);
-            font-size: 1rem;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
+        .card-desc { font-size: 1rem; color: #555; line-height: 1.6; margin-bottom: 25px; flex-grow: 1; }
 
         .card-btn {
-            text-align: center;
-            background: #f0f4f8;
-            color: var(--primary-blue);
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: 700;
-            transition: background 0.3s, color 0.3s;
-            margin-top: auto;
-            display: block;
+            background: linear-gradient(135deg, #f0f4f8 0%, #eef2f6 100%);
+            color: var(--primary-blue); text-decoration: none; padding: 15px;
+            border-radius: 12px; font-weight: 700; text-align: center;
+            transition: all 0.3s; display: block; border: 1px solid transparent;
         }
         .card-btn:hover {
-            background: var(--primary-blue);
-            color: white;
+            background: var(--gradient-tech); color: white; box-shadow: 0 5px 15px rgba(0, 194, 203, 0.3);
         }
 
-        /* Loading Spinner */
-        #loading {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 1.2rem;
-            color: var(--text-gray);
-            display: none;
-        }
+        #loading { text-align: center; padding: 50px; font-size: 1.2rem; color: var(--text-gray); display: none; }
 
-        /* Footer igual Home */
-        footer {
-            text-align: center; padding: 40px; background: var(--primary-blue);
-            color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-top: auto;
-        }
-        .footer-highlight {
-            color: var(--bright-cyan);
-            font-weight: 700;
-            text-decoration: none;
-        }
-        .footer-highlight:hover { text-decoration: underline; color: white; }
+        footer { text-align: center; padding: 40px; background: var(--primary-blue); color: rgba(255,255,255,0.8); margin-top: auto; }
+        .footer-highlight { color: var(--bright-cyan); font-weight: 700; text-decoration: none; }
+        .footer-highlight:hover { color: white; text-decoration: underline; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- MOBILE --- */
         @media (max-width: 768px) {
-            body { padding-top: 100px; }
-            
-            header { padding: 15px 5%; height: 80px; }
-            .logo-img { max-height: 50px; }
+            .search-hero { height: 400px; padding-top: 60px; }
+            .search-title { font-size: 2rem; }
+            #searchInput { padding: 15px 20px; font-size: 1rem; }
+            .results-grid { grid-template-columns: 1fr; gap: 20px; }
+            .logo-img { max-height: 40px; } /* Logo menor no mobile */
             .btn-voltar { padding: 8px 15px; font-size: 0.8rem; }
-            
-            .search-title { font-size: 1.8rem; }
-            .results-grid { grid-template-columns: 1fr; } /* 1 Coluna no celular */
         }
-
     </style>
 </head>
 <body>
@@ -224,20 +255,40 @@
         <a href="index.html" class="logo-link">
             <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
         </a>
-
         <a href="index.html" class="btn-voltar">← Voltar</a>
     </header>
 
-    <div class="search-container">
-        <h1 class="search-title">Encontre Especialistas</h1>
-        <div class="input-wrapper">
-            <input type="text" id="searchInput" placeholder="Busque por nome, departamento ou área...">
-            <span class="search-icon">🔍</span>
+    <div class="search-hero">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="video.mp4" type="video/mp4">
+            <source src="video.mp4.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+
+        <div class="search-content">
+            <h1 class="search-title">Encontre Especialistas</h1>
+            
+            <div class="input-wrapper">
+                <input type="text" id="searchInput" placeholder="Digite um nome, departamento ou área...">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <div class="quick-tags">
+                <span class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharia</span>
+                <span class="tag-btn" onclick="filtrarTag('Biologia')">Biologia</span>
+                <span class="tag-btn" onclick="filtrarTag('Computação')">Computação</span>
+                <span class="tag-btn" onclick="filtrarTag('Direito')">Direito</span>
+                <span class="tag-btn" onclick="filtrarTag('Agronomia')">Agronomia</span>
+            </div>
         </div>
-        <p id="counter"></p>
     </div>
 
-    <div id="loading">Carregando base de dados...</div>
+    <div class="results-header">
+        <h2>Resultados da Pesquisa</h2>
+        <span id="counter">Carregando...</span>
+    </div>
+
+    <div id="loading">Sincronizando com a base de dados...</div>
 
     <div class="results-grid" id="resultsContainer">
         </div>
@@ -248,27 +299,31 @@
 
     <script>
         // --- CONFIGURAÇÃO DA PLANILHA ---
-        // 1. Crie uma planilha no Google Sheets com as colunas: Nome, Departamento, Area, Email
-        // 2. Vá em Arquivo > Compartilhar > Publicar na Web > CSV
-        // 3. Cole o link abaixo dentro das aspas:
+        // COLE SEU LINK CSV AQUI:
         const GOOGLE_SHEET_CSV_URL = ""; 
 
-        // DADOS DE EXEMPLO (Usados se não tiver planilha conectada)
+        // Dados Fictícios de Exemplo
         const dadosExemplo = [
             { Nome: "Dr. Carlos Mendes", Departamento: "Engenharia", Area: "Inteligência Artificial e Robótica", Email: "carlos@ufla.br" },
             { Nome: "Dra. Ana Paula Souza", Departamento: "Biologia", Area: "Genética de Plantas e Melhoramento", Email: "ana.paula@ufla.br" },
             { Nome: "Prof. Roberto Lima", Departamento: "Física", Area: "Termodinâmica e Energia Renovável", Email: "roberto@ufla.br" },
             { Nome: "Dra. Juliana Ferreira", Departamento: "Química", Area: "Análise de Solos e Fertilizantes", Email: "juliana@ufla.br" },
-            { Nome: "Dr. Marcos Vinícius", Departamento: "Computação", Area: "Segurança de Dados e Blockchain", Email: "marcos@ufla.br" },
-            { Nome: "Eng. Lucas Silva", Departamento: "Engenharia", Area: "Automação Industrial e Controle", Email: "lucas@ufla.br" },
+            { Nome: "Eng. Lucas Silva", Departamento: "Computação", Area: "Segurança de Dados e Blockchain", Email: "lucas@ufla.br" },
+            { Nome: "Dra. Mariana Costa", Departamento: "Direito", Area: "Direito Digital e Propriedade Intelectual", Email: "mariana@ufla.br" },
         ];
 
         let todosPesquisadores = [];
 
         window.onload = async function() {
+            // Efeito Scroll do Header
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) { header.classList.add('scrolled'); }
+                else { header.classList.remove('scrolled'); }
+            });
+
             const loading = document.getElementById('loading');
             
-            // Tenta carregar da planilha
             if (GOOGLE_SHEET_CSV_URL) {
                 loading.style.display = 'block';
                 try {
@@ -276,7 +331,7 @@
                     const texto = await response.text();
                     todosPesquisadores = csvParaJson(texto);
                 } catch (erro) {
-                    console.error("Erro ou planilha não configurada. Usando dados de exemplo.");
+                    console.error("Erro ao carregar planilha. Usando exemplo.");
                     todosPesquisadores = dadosExemplo;
                 }
                 loading.style.display = 'none';
@@ -287,6 +342,74 @@
             renderizarCards(todosPesquisadores);
         };
 
-        // Função de Busca (Filtro Instantâneo)
+        // Função de busca ao digitar
         document.getElementById('searchInput').addEventListener('keyup', function(e) {
-            const termo
+            filtrarResultados(e.target.value);
+        });
+
+        // Função para os botões de Tags
+        function filtrarTag(tag) {
+            document.getElementById('searchInput').value = tag;
+            filtrarResultados(tag);
+        }
+
+        function filtrarResultados(termo) {
+            termo = termo.toLowerCase();
+            const filtrados = todosPesquisadores.filter(item => {
+                return (item.Nome && item.Nome.toLowerCase().includes(termo)) ||
+                       (item.Departamento && item.Departamento.toLowerCase().includes(termo)) ||
+                       (item.Area && item.Area.toLowerCase().includes(termo));
+            });
+            renderizarCards(filtrados);
+        }
+
+        function renderizarCards(lista) {
+            const container = document.getElementById('resultsContainer');
+            const contador = document.getElementById('counter');
+            
+            container.innerHTML = '';
+            contador.innerText = `${lista.length} especialistas encontrados`;
+
+            if (lista.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; font-size: 1.2rem; color: #666; margin-top: 30px;">Nenhum resultado encontrado para sua busca.</p>';
+                return;
+            }
+
+            lista.forEach(p => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="card-dept">${p.Departamento || 'UFLA'}</div>
+                        <h3>${p.Nome}</h3>
+                        <p class="card-desc">${p.Area || 'Área de atuação não especificada.'}</p>
+                    </div>
+                    <a href="mailto:${p.Email}" class="card-btn">📧 Entrar em Contato</a>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function csvParaJson(csv) {
+            const linhas = csv.split('\n');
+            const cabecalho = linhas[0].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+            const resultado = [];
+            for (let i = 1; i < linhas.length; i++) {
+                if (!linhas[i].trim()) continue;
+                const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g;
+                const linhaAtual = linhas[i].match(regex) || linhas[i].split(',');
+                const obj = {};
+                cabecalho.forEach((coluna, index) => {
+                    let valor = linhaAtual[index] || '';
+                    valor = valor.replace(/^"|"$/g, '');
+                    obj[coluna] = valor;
+                });
+                resultado.push(obj);
+            }
+            return resultado;
+        }
+    </script>
+
+</body>
+</html>
