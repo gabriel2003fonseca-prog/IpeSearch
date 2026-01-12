@@ -13,20 +13,36 @@
             <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
         </a>
 
-        <nav>
+        <nav class="desktop-nav">
             <ul>
                 <li><a href="#como-funciona">Como Funciona</a></li>
                 <li><a href="#sobre">Objetivo</a></li>
                 <li><a href="#contato">Contato</a></li>
-                <li><a href="busca.html" class="nav-btn-busca">Pesquisar</a></li>
             </ul>
         </nav>
+
+        <a href="busca.html" class="nav-btn-busca desktop-only">PESQUISAR</a>
+
+        <button class="hamburger-btn" onclick="toggleMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
     </header>
+
+    <div id="side-menu" class="side-menu">
+        <button class="close-btn" onclick="toggleMenu()">×</button>
+        
+        <div class="side-menu-content">
+            <a href="#como-funciona" onclick="toggleMenu()">Como Funciona</a>
+            <a href="#sobre" onclick="toggleMenu()">Objetivo</a>
+            <a href="#contato" onclick="toggleMenu()">Contato</a>
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
+            <a href="busca.html" class="btn-side-cta">PESQUISAR AGORA</a>
+        </div>
+    </div>
 
     <div class="hero">
         <video class="video-bg" autoplay muted loop playsinline>
             <source src="video.mp4" type="video/mp4">
-            <source src="video.mp4.mp4" type="video/mp4">
         </video>
 
         <div class="video-overlay"></div>
@@ -43,22 +59,31 @@
     <div class="stats-bar">
         <div class="stats-grid">
             <div class="stat-item">
-                <h2>+800</h2>
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+                <h2>800</h2>
                 <p>Pesquisadores</p>
             </div>
             <div class="stat-item">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                </div>
                 <h2>21</h2>
                 <p>Departamentos</p>
             </div>
             <div class="stat-item">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-target"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                </div>
                 <h2>1º</h2>
-                <p>Search Hub da Região</p>
+                <p>Hub Digital da UFLA</p>
             </div>
         </div>
     </div>
 
     <section id="como-funciona">
-        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 60px auto;">
             <h3 style="margin-bottom: 10px;">Como Funciona?</h3>
             <p>Conectar sua empresa ou projeto à universidade nunca foi tão simples.</p>
         </div>
@@ -127,6 +152,12 @@
     <div id="footer-placeholder"></div>
 
     <script>
+        // FUNÇÃO TOGGLE MENU (ABRIR/FECHAR MOBILE)
+        function toggleMenu() {
+            const menu = document.getElementById('side-menu');
+            menu.classList.toggle('active');
+        }
+
         // 1. Carregar o Rodapé Padronizado
         fetch('footer.html')
             .then(response => {
@@ -140,15 +171,12 @@
 
         // 2. Controle do Menu ao Rolar
         window.addEventListener('scroll', function() {
-            if (window.innerWidth > 768) {
-                var header = document.querySelector('header');
-                
-                // Header muda de cor ao rolar 50px
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
+            const header = document.querySelector('header');
+            // Header muda de cor ao rolar 50px
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
         });
 
@@ -198,5 +226,3 @@
 
 </body>
 </html>
-
-
