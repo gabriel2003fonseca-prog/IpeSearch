@@ -25,10 +25,6 @@
             <div class="search-content-wrapper">
                 <h1 class="search-title">Encontre Professores da UFLA</h1>
                 
-                <p style="margin-top: -20px; margin-bottom: 30px; font-size: 0.9rem; color: #003366; background: rgba(255,255,255,0.8); display: inline-block; padding: 5px 15px; border-radius: 20px; backdrop-filter: blur(5px);">
-                    Dados integrados à <strong>Plataforma Lattes (CNPq)</strong>
-                </p>
-
                 <div class="input-wrapper">
                     <div class="search-icon-left">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -109,10 +105,6 @@
                         <label>Subárea</label>
                         <p id="prof-subarea">Especialidade</p>
                     </div>
-                </div>
-
-                <div style="margin: 20px 0; padding: 10px; background: #eef2f6; border-left: 4px solid #003366; font-size: 0.9rem; color: #444;">
-                    <strong>Fonte de Dados:</strong> As informações abaixo foram extraídas do Currículo Lattes.
                 </div>
 
                 <h2 class="section-title">Apresentação / Biografia</h2>
@@ -251,7 +243,7 @@
             renderizarCards(filtrados);
         }
 
-        // --- RENDERIZAÇÃO DOS CARDS (SEM FOTO / COM LATTES) ---
+        // --- RENDERIZAÇÃO DOS CARDS ---
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
             const counter = document.getElementById('counter');
@@ -265,14 +257,13 @@
             }
 
             lista.forEach(p => {
-                // Removemos o cálculo de iniciais
                 const dataStr = p.UltimaAtualizacao ? p.UltimaAtualizacao.split('/').pop() : '2025';
 
                 const card = document.createElement('div');
                 card.classList.add('card');
                 card.onclick = () => abrirPerfil(p);
                 
-                // Novo Layout do Card
+                // MANTIDO SOMENTE ESTE AVISO (DENTRO DO CARD)
                 card.innerHTML = `
                     <div class="lattes-badge">Fonte: Lattes</div>
                     <h3>${p.Nome}</h3>
