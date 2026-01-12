@@ -142,42 +142,24 @@
             }
         });
 
-        // 3. Configuração e Dados
-        const GOOGLE_SHEET_CSV_URL = ""; 
+        // ---------------------------------------------------------
+        // 3. CONFIGURAÇÃO DA PLANILHA (LINK CSV CORRETO)
+        // ---------------------------------------------------------
+        // Nota: O link deve terminar com 'output=csv' para funcionar no código.
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
 
+        // Dados de Exemplo (Só aparecem se a planilha falhar)
         const dadosExemplo = [
             { 
-                Nome: "Dr. Gabriel Fonseca", 
-                Departamento: "Escola de Engenharia", 
-                Area: "Controle e Automação", 
-                Subarea: "Sistemas Embarcados e Robótica",
-                Email: "gabriel.fonseca@ufla.br",
-                Telefone: "(35) 3829-1000",
-                Apresentacao: "Docente com foco em desenvolvimento de sistemas de controle aplicados à agricultura de precisão. Coordena o laboratório de robótica móvel.",
-                Projetos: "- Veículo Autônomo para Monitoramento de Cafezais (2025)\n- Sistema de Telemetria via LoRaWAN\n- Braço Robótico para Colheita Seletiva",
-                UltimaAtualizacao: "10/01/2026"
-            },
-            { 
-                Nome: "Dra. Ana Silva", 
-                Departamento: "Instituto de Ciências Naturais", 
-                Area: "Genética", 
-                Subarea: "Melhoramento Genético de Plantas",
-                Email: "ana.silva@ufla.br",
-                Telefone: "(35) 3829-1111",
-                Apresentacao: "Especialista em biotecnologia vegetal, atuando principalmente no melhoramento genético de soja para resistência à seca.",
-                Projetos: "- Edição Gênica CRISPR em Leguminosas\n- Banco de Germoplasma de Espécies Nativas",
-                UltimaAtualizacao: "15/12/2025"
-            },
-            { 
-                Nome: "Prof. Roberto Lima", 
-                Departamento: "Departamento de Física", 
-                Area: "Física Teórica", 
-                Subarea: "Termodinâmica",
-                Email: "roberto@ufla.br",
-                Telefone: "(35) 3829-2222",
-                Apresentacao: "Pesquisador na área de sistemas complexos e termodinâmica fora do equilíbrio.",
-                Projetos: "- Modelagem de Eficiência Energética\n- Novos Materiais para Painéis Solares",
-                UltimaAtualizacao: "05/01/2026"
+                Nome: "Dr. Exemplo", 
+                Departamento: "Departamento de Teste", 
+                Area: "Área Exemplo", 
+                Subarea: "Subárea Exemplo",
+                Email: "exemplo@ufla.br",
+                Telefone: "(35) 0000-0000",
+                Apresentacao: "Este é um dado de exemplo pois a planilha ainda não carregou.",
+                Projetos: "- Projeto Exemplo 1",
+                UltimaAtualizacao: "2026"
             }
         ];
 
@@ -186,13 +168,14 @@
         window.onload = async function() {
             const loading = document.getElementById('loading');
             
-            if (GOOGLE_SHEET_CSV_URL) {
+            if (GOOGLE_SHEET_CSV_URL && GOOGLE_SHEET_CSV_URL.startsWith("http")) {
                 loading.style.display = 'block';
                 try {
                     const response = await fetch(GOOGLE_SHEET_CSV_URL);
                     const texto = await response.text();
-                    todosPesquisadores = csvParaJson(texto);
+                    todosPesquisadores = csvParaJson(texto); 
                 } catch (erro) {
+                    console.error("Erro ao carregar planilha:", erro);
                     todosPesquisadores = dadosExemplo;
                 }
                 loading.style.display = 'none';
@@ -243,7 +226,6 @@
             renderizarCards(filtrados);
         }
 
-        // --- RENDERIZAÇÃO DOS CARDS ---
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
             const counter = document.getElementById('counter');
@@ -257,13 +239,12 @@
             }
 
             lista.forEach(p => {
-                const dataStr = p.UltimaAtualizacao ? p.UltimaAtualizacao.split('/').pop() : '2025';
+                const dataStr = '2026'; 
 
                 const card = document.createElement('div');
                 card.classList.add('card');
                 card.onclick = () => abrirPerfil(p);
                 
-                // MANTIDO APENAS O SELO DENTRO DO CARD (SEMPRE DISCRETO)
                 card.innerHTML = `
                     <div class="lattes-badge">Fonte: Lattes</div>
                     <h3>${p.Nome}</h3>
@@ -297,7 +278,7 @@
             document.getElementById('prof-apresentacao').innerText = dados.Apresentacao || 'Nenhuma informação disponível.';
             document.getElementById('prof-projetos').innerText = dados.Projetos || 'Nenhum projeto cadastrado.';
             
-            document.getElementById('prof-update').innerText = `Dados atualizados em: ${dados.UltimaAtualizacao || 'Data desconhecida'}`;
+            document.getElementById('prof-update').innerText = `Dados atualizados em: 2026`;
 
             document.getElementById('search-view').classList.add('hidden');
             document.getElementById('profile-view').classList.remove('hidden');
@@ -310,25 +291,50 @@
             window.scrollTo(0, 0);
         }
 
+        // --- FUNÇÃO PARA LER O CSV DA PLANILHA ---
         function csvParaJson(csv) {
             const linhas = csv.split('\n');
-            const cabecalho = linhas[0].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
             const resultado = [];
+            
+            // Começamos do i=1 para pular o cabeçalho
             for (let i = 1; i < linhas.length; i++) {
                 if (!linhas[i].trim()) continue;
-                const regex = /(".*?"|[^",\s]+)(?=\s*,|\s*$)/g; 
-                const linhaAtual = linhas[i].match(regex);
-                if (linhaAtual) {
-                    const obj = {};
-                    cabecalho.forEach((coluna, index) => {
-                        let valor = linhaAtual[index] || '';
-                        valor = valor.replace(/^"|"$/g, '');
-                        obj[coluna] = valor;
-                    });
+                
+                // Função simples para tratar CSV com aspas
+                const linhaAtual = parseCSVLine(linhas[i]);
+                
+                if (linhaAtual && linhaAtual.length > 1) {
+                    // Mapeamento das colunas (Baseado na sua planilha):
+                    // 0: NOME | 1: DEPTO | 2: EMAIL | 3: TEL | 4: ÁREA | 5: SUBÁREA | 7: PROJETOS | 8: APRESENTAÇÃO
+                    
+                    const obj = {
+                        Nome: linhaAtual[0] || 'Nome não informado',
+                        Departamento: linhaAtual[1] || 'Departamento não informado',
+                        Email: linhaAtual[2] || '',
+                        Telefone: linhaAtual[3] || '',
+                        Area: linhaAtual[4] || '',
+                        Subarea: linhaAtual[5] || '',
+                        Projetos: linhaAtual[7] || '',  // Coluna H
+                        Apresentacao: linhaAtual[8] || '' // Coluna I
+                    };
                     resultado.push(obj);
                 }
             }
             return resultado;
+        }
+
+        // Função auxiliar para quebrar a linha do CSV respeitando aspas
+        function parseCSVLine(text) {
+            let p = '', row = [''], i = 0, r = 0, s = !0, l;
+            for (l of text) {
+                if ('"' === l) {
+                    if (s && l === p) row[r] += l;
+                    s = !s;
+                } else if (',' === l && s) l = row[++r] = '';
+                else row[r] += l;
+                p = l;
+            }
+            return row.map(c => c.replace(/^"|"$/g, '').trim()); 
         }
     </script>
 
