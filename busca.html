@@ -10,6 +10,10 @@
 
     <title>Pesquisar - IPÊ SEARCH</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Fallback background if video fails */
+        .search-section { background-color: #003366; }
+    </style>
 </head>
 <body>
 
@@ -165,10 +169,17 @@
             if (GOOGLE_SHEET_CSV_URL) {
                 loading.style.display = 'block';
                 try {
-                    // TIMESTAMP NO FINAL DO LINK (Isso força o navegador a ignorar o cache de 30min atrás)
+                    // TIMESTAMP + CABEÇALHOS NO CACHE (Super Força Bruta)
                     const urlNoCache = `${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`;
                     
-                    const response = await fetch(urlNoCache);
+                    const response = await fetch(urlNoCache, {
+                        method: 'GET',
+                        headers: {
+                            'Cache-Control': 'no-cache',
+                            'Pragma': 'no-cache'
+                        }
+                    });
+
                     if (!response.ok) throw new Error("Erro na conexão");
                     
                     const texto = await response.text();
