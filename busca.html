@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>Pesquisar - IPÊ SEARCH</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -143,22 +148,13 @@
         });
 
         // ---------------------------------------------------------
-        // 3. CONFIGURAÇÃO DA PLANILHA (Link CSV)
+        // 3. CONFIGURAÇÃO (Link CSV Direto)
         // ---------------------------------------------------------
-        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
+        const SHEET_ID = "1z5mSdyLnJG7zZc6y4E6aarPQtN2k2rDKLQDS38wd_sA"; 
+        const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
 
         const dadosExemplo = [
-            { 
-                Nome: "Dr. Exemplo", 
-                Departamento: "DEX", 
-                Area: "Teste", 
-                Subarea: "Exemplo",
-                Email: "exemplo@ufla.br",
-                Telefone: "(35) 0000-0000",
-                Apresentacao: "Este é um dado de exemplo.",
-                Projetos: "- Projeto Exemplo",
-                UltimaAtualizacao: "2026"
-            }
+            { Nome: "Carregando...", Departamento: "...", Area: "...", Subarea: "...", Email: "...", Telefone: "...", Apresentacao: "...", Projetos: "...", UltimaAtualizacao: "..." }
         ];
 
         let todosPesquisadores = [];
@@ -169,7 +165,12 @@
             if (GOOGLE_SHEET_CSV_URL) {
                 loading.style.display = 'block';
                 try {
-                    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                    // TIMESTAMP NO FINAL DO LINK (Isso força o navegador a ignorar o cache de 30min atrás)
+                    const urlNoCache = `${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`;
+                    
+                    const response = await fetch(urlNoCache);
+                    if (!response.ok) throw new Error("Erro na conexão");
+                    
                     const texto = await response.text();
                     todosPesquisadores = processarCSVRobusto(texto); 
                 } catch (erro) {
@@ -238,7 +239,7 @@
 
             lista.forEach(p => {
                 // DATA DA PLANILHA (COLUNA 0)
-                const dataStr = p.UltimaAtualizacao || 'Recente'; 
+                const dataStr = p.UltimaAtualizacao || 'Data não informada'; 
 
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -327,17 +328,17 @@
                 const cols = linhas[i];
                 if (cols.length < 2) continue;
 
-                // MAPEAMENTO NOVO (DATA NA COLUNA 0)
+                // MAPEAMENTO: 0:DATA, 1:NOME, 2:DEPTO, 3:EMAIL, 4:TEL, 5:AREA, 6:SUB, 8:PROJ, 9:APRES
                 const obj = {
-                    UltimaAtualizacao: cols[0]?.trim() || '', // Coluna A (Data)
-                    Nome: cols[1]?.trim() || 'Nome não informado', // Coluna B (Nome)
+                    UltimaAtualizacao: cols[0]?.trim() || '',
+                    Nome: cols[1]?.trim() || 'Nome não informado',
                     Departamento: cols[2]?.trim() || 'Departamento não informado',
                     Email: cols[3]?.trim() || '',
                     Telefone: cols[4]?.trim() || '',
                     Area: cols[5]?.trim() || '',
                     Subarea: cols[6]?.trim() || '',
-                    Projetos: cols[8]?.trim() || '',  // Coluna I (Projetos - pulou H)
-                    Apresentacao: cols[9]?.trim() || '' // Coluna J (Apresentação)
+                    Projetos: cols[8]?.trim() || '', 
+                    Apresentacao: cols[9]?.trim() || ''
                 };
                 resultado.push(obj);
             }
