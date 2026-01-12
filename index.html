@@ -1,9 +1,15 @@
-<link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo.png" type="image/png">
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo.png" type="image/png">
+
     <title>IPÊ SEARCH - Hub de Pesquisa</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -25,13 +31,16 @@
         <a href="busca.html" class="nav-btn-busca desktop-only">PESQUISAR</a>
 
         <button class="hamburger-btn" onclick="toggleMenu()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#003366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
         </button>
     </header>
 
     <div id="side-menu" class="side-menu">
         <button class="close-btn" onclick="toggleMenu()">×</button>
-        
         <div class="side-menu-content">
             <a href="#como-funciona" onclick="toggleMenu()">Como Funciona</a>
             <a href="#sobre" onclick="toggleMenu()">Objetivo</a>
@@ -45,12 +54,9 @@
         <video class="video-bg" autoplay muted loop playsinline>
             <source src="video.mp4" type="video/mp4">
         </video>
-
         <div class="video-overlay"></div>
-
         <div class="hero-content">
             <a href="https://ipetech.ufla.br/" target="_blank" class="hero-subtitle">UMA INICIATIVA IPÊTECH UFLA</a>
-            
             <h2>CONHECIMENTO QUE TRANSFORMA</h2>
             <p>Conecte-se aos departamentos e pesquisadores da UFLA. A inovação começa com a busca certa.</p>
             <a href="busca.html" class="btn-cta">INICIAR PESQUISA</a>
@@ -88,7 +94,6 @@
             <h3 style="margin-bottom: 10px;">Como Funciona?</h3>
             <p>Conectar sua empresa ou projeto à universidade nunca foi tão simples.</p>
         </div>
-
         <div class="steps-grid">
             <div class="step-card">
                 <span class="step-number">01</span>
@@ -117,9 +122,6 @@
                     IpêTech – Parque Científico e Tecnológico da UFLA
                 </a>,
                 criada para conectar conhecimento, inovação e oportunidades.
-                Atuamos como um hub estratégico que elimina barreiras e facilita o acesso
-                de empresas, estudantes e da comunidade ao capital intelectual,
-                aos projetos de pesquisa e às iniciativas de inovação desenvolvidas na universidade.
             </p>
         </div>
     </section>
@@ -128,24 +130,17 @@
         <div class="content-card">
             <h3>Fale Conosco</h3>
             <p style="margin-bottom: 30px;">Dúvidas, sugestões ou interesse em parcerias institucionais? Envie sua mensagem.</p>
-            
             <form id="contactForm" action="https://formsubmit.co/gabriel2003fonseca@gmail.com" method="POST">
-                
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Novo contato via IPÊ SEARCH!">
-
                 <label>Nome Completo</label>
                 <input type="text" name="nome" id="inputNome" placeholder="Digite seu nome" required>
-                
                 <label>E-mail Institucional ou Pessoal</label>
                 <input type="email" name="email" placeholder="exemplo@email.com" required>
-                
                 <label>Como podemos ajudar?</label>
                 <textarea name="mensagem" rows="5" placeholder="Descreva sua solicitação..." required></textarea>
-                
                 <button type="submit" id="btnSubmit">Enviar Mensagem</button>
             </form>
-
             <div id="status-message"></div>
         </div>
     </section>
@@ -153,91 +148,68 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // FUNÇÃO TOGGLE MENU (ABRIR/FECHAR MOBILE)
         function toggleMenu() {
             const menu = document.getElementById('side-menu');
             menu.classList.toggle('active');
         }
 
-        // 1. Carregar o Rodapé Padronizado
         fetch('footer.html')
-            .then(response => {
-                if (!response.ok) throw new Error("Erro ao carregar footer");
-                return response.text();
-            })
+            .then(response => response.text())
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
             })
-            .catch(error => console.log('Aviso: Rode este projeto em um servidor local para ver o rodapé.', error));
+            .catch(error => console.log('Erro ao carregar rodapé.'));
 
-        // 2. Controle do Menu ao Rolar
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
-            // Header muda de cor ao rolar 50px
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         });
 
-        // 3. Controle do Formulário (AJAX)
+        // Formulário AJAX
         const form = document.getElementById('contactForm');
         const statusMsg = document.getElementById('status-message');
         const btnSubmit = document.getElementById('btnSubmit');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault(); 
-
-            const nomeDigitado = document.getElementById('inputNome').value;
-            document.getElementById('hiddenSubject').value = "Novo contato de: " + nomeDigitado;
-
             const originalBtnText = btnSubmit.innerText;
             btnSubmit.innerText = "Enviando...";
             btnSubmit.disabled = true;
 
-            const formData = new FormData(form);
-
             fetch("https://formsubmit.co/ajax/gabriel2003fonseca@gmail.com", {
                 method: "POST",
-                body: formData
+                body: new FormData(form)
             })
             .then(response => response.json())
             .then(data => {
-                statusMsg.innerText = "Mensagem enviada com sucesso! Entraremos em contato em breve.";
+                statusMsg.innerText = "Enviado com sucesso!";
                 statusMsg.className = "success";
                 statusMsg.style.display = "block";
-                
                 form.reset(); 
                 btnSubmit.innerText = originalBtnText;
                 btnSubmit.disabled = false;
-
                 setTimeout(() => { statusMsg.style.display = "none"; }, 5000);
             })
-            .catch(error => {
-                statusMsg.innerText = "Houve um erro ao enviar. Tente novamente.";
+            .catch(() => {
+                statusMsg.innerText = "Erro ao enviar.";
                 statusMsg.className = "error";
                 statusMsg.style.display = "block";
-                
                 btnSubmit.innerText = originalBtnText;
                 btnSubmit.disabled = false;
             });
         });
 
-        // 4. ANIMAÇÃO DOS NÚMEROS (COUNTER UP)
-        // Isso garante que a animação só rode quando a pessoa rolar até a seção
+        // Animação de Números
         const counters = document.querySelectorAll('.counter');
-        const speed = 100; // Quanto menor, mais rápido
+        const speed = 100;
 
         const animateCounters = () => {
             counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
                 const updateCount = () => {
-                    const target = +counter.getAttribute('data-target'); // Pega o valor final
-                    const count = +counter.innerText; // Pega o valor atual
-                    
-                    // Incremento suave
+                    const count = +counter.innerText;
                     const inc = target / speed;
-
                     if (count < target) {
                         counter.innerText = Math.ceil(count + inc);
                         setTimeout(updateCount, 20);
@@ -249,27 +221,15 @@
             });
         };
 
-        // Observador: Dispara quando a seção aparece na tela
-        const observerOptions = {
-            root: null,
-            threshold: 0.5 // 50% do elemento visível
-        };
-
-        const statsObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    observer.unobserve(entry.target); // Para de observar após animar
-                }
-            });
-        }, observerOptions);
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateCounters();
+                observer.disconnect();
+            }
+        }, { threshold: 0.5 });
 
         const statsSection = document.querySelector('.stats-bar');
-        if (statsSection) {
-            statsObserver.observe(statsSection);
-        }
+        if (statsSection) observer.observe(statsSection);
     </script>
-
 </body>
 </html>
-
