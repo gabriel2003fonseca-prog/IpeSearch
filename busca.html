@@ -25,6 +25,10 @@
             <div class="search-content-wrapper">
                 <h1 class="search-title">Encontre Professores da UFLA</h1>
                 
+                <p style="margin-top: -20px; margin-bottom: 30px; font-size: 0.9rem; color: #003366; background: rgba(255,255,255,0.8); display: inline-block; padding: 5px 15px; border-radius: 20px; backdrop-filter: blur(5px);">
+                    Dados integrados à <strong>Plataforma Lattes (CNPq)</strong>
+                </p>
+
                 <div class="input-wrapper">
                     <div class="search-icon-left">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -105,6 +109,10 @@
                         <label>Subárea</label>
                         <p id="prof-subarea">Especialidade</p>
                     </div>
+                </div>
+
+                <div style="margin: 20px 0; padding: 10px; background: #eef2f6; border-left: 4px solid #003366; font-size: 0.9rem; color: #444;">
+                    <strong>Fonte de Dados:</strong> As informações abaixo foram extraídas do Currículo Lattes.
                 </div>
 
                 <h2 class="section-title">Apresentação / Biografia</h2>
@@ -203,23 +211,21 @@
             renderizarCards(todosPesquisadores);
         };
 
-        // --- LÓGICA DO BOTÃO X E FILTRO (ATUALIZADA) ---
+        // --- LÓGICA DO BOTÃO X E FILTRO ---
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
 
-        // Detectar digitação para mostrar/esconder o X
         searchInput.addEventListener('input', (e) => {
             const valor = e.target.value;
             toggleClearButton(valor);
             filtrarResultados(valor);
         });
 
-        // Clique no botão X
         clearBtn.addEventListener('click', () => {
-            searchInput.value = '';             // Limpa o texto
-            toggleClearButton('');              // Esconde o botão
-            filtrarResultados('');              // Reseta a pesquisa
-            searchInput.focus();                // Devolve o foco
+            searchInput.value = '';             
+            toggleClearButton('');              
+            filtrarResultados('');              
+            searchInput.focus();                
         });
 
         function toggleClearButton(valor) {
@@ -232,7 +238,7 @@
 
         function filtrarTag(tag) {
             searchInput.value = tag;
-            toggleClearButton(tag); // Mostra o X quando clicar na tag
+            toggleClearButton(tag); 
             filtrarResultados(tag);
         }
 
@@ -245,6 +251,7 @@
             renderizarCards(filtrados);
         }
 
+        // --- RENDERIZAÇÃO DOS CARDS (SEM FOTO / COM LATTES) ---
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
             const counter = document.getElementById('counter');
@@ -258,18 +265,27 @@
             }
 
             lista.forEach(p => {
-                const iniciais = p.Nome.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
+                // Removemos o cálculo de iniciais
+                const dataStr = p.UltimaAtualizacao ? p.UltimaAtualizacao.split('/').pop() : '2025';
 
                 const card = document.createElement('div');
                 card.classList.add('card');
                 card.onclick = () => abrirPerfil(p);
                 
+                // Novo Layout do Card
                 card.innerHTML = `
-                    <div class="card-initials">${iniciais}</div>
+                    <div class="lattes-badge">Fonte: Lattes</div>
                     <h3>${p.Nome}</h3>
                     <div class="card-dept">${p.Departamento}</div>
-                    <div class="card-area">${p.Area}</div>
-                    <div class="card-hint">Ver perfil completo →</div>
+                    <div class="card-area">
+                        <strong>Área:</strong> ${p.Area}<br>
+                        <span style="font-size: 0.85rem; color: #666;">${p.Subarea}</span>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <span style="font-size: 0.75rem; color: #aaa;">Atualizado: ${dataStr}</span>
+                        <div class="card-hint">Ver perfil →</div>
+                    </div>
                 `;
                 container.appendChild(card);
             });
