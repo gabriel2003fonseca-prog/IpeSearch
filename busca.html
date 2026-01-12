@@ -143,21 +143,21 @@
         });
 
         // ---------------------------------------------------------
-        // 3. CONFIGURAÇÃO DA PLANILHA (Link corrigido para CSV)
+        // 3. CONFIGURAÇÃO DA PLANILHA (Link CSV)
         // ---------------------------------------------------------
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
 
         const dadosExemplo = [
             { 
-                Nome: "Carregando...", 
-                Departamento: "...", 
-                Area: "...", 
-                Subarea: "...",
-                Email: "...",
-                Telefone: "...",
-                Apresentacao: "...",
-                Projetos: "...",
-                UltimaAtualizacao: "..."
+                Nome: "Dr. Exemplo", 
+                Departamento: "DEX", 
+                Area: "Teste", 
+                Subarea: "Exemplo",
+                Email: "exemplo@ufla.br",
+                Telefone: "(35) 0000-0000",
+                Apresentacao: "Este é um dado de exemplo.",
+                Projetos: "- Projeto Exemplo",
+                UltimaAtualizacao: "2026"
             }
         ];
 
@@ -174,9 +174,11 @@
                     todosPesquisadores = processarCSVRobusto(texto); 
                 } catch (erro) {
                     console.error("Erro ao carregar planilha:", erro);
-                    todosPesquisadores = [];
+                    todosPesquisadores = dadosExemplo;
                 }
                 loading.style.display = 'none';
+            } else {
+                todosPesquisadores = dadosExemplo;
             }
 
             renderizarCards(todosPesquisadores);
@@ -222,7 +224,6 @@
             renderizarCards(filtrados);
         }
 
-        // --- RENDERIZAÇÃO DOS CARDS ---
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
             const counter = document.getElementById('counter');
@@ -236,7 +237,8 @@
             }
 
             lista.forEach(p => {
-                const dataStr = '2026'; 
+                // DATA DA PLANILHA (COLUNA 0)
+                const dataStr = p.UltimaAtualizacao || 'Recente'; 
 
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -275,7 +277,8 @@
             document.getElementById('prof-apresentacao').innerText = dados.Apresentacao || 'Nenhuma informação disponível.';
             document.getElementById('prof-projetos').innerText = dados.Projetos || 'Nenhum projeto cadastrado.';
             
-            document.getElementById('prof-update').innerText = `Dados atualizados em: 2026`;
+            const dataAtualizacao = dados.UltimaAtualizacao || 'Data não informada';
+            document.getElementById('prof-update').innerText = `Dados atualizados em: ${dataAtualizacao}`;
 
             document.getElementById('search-view').classList.add('hidden');
             document.getElementById('profile-view').classList.remove('hidden');
@@ -288,7 +291,7 @@
             window.scrollTo(0, 0);
         }
 
-        // --- PROCESSADOR DE CSV ROBUSTO (CORRIGE QUEBRAS DE LINHA) ---
+        // --- PROCESSADOR DE CSV ROBUSTO ---
         function processarCSVRobusto(textoCSV) {
             const linhas = [];
             let linhaAtual = [];
@@ -299,64 +302,42 @@
                 let char = textoCSV[i];
                 let proximoChar = textoCSV[i+1];
 
-                // Tratamento de Aspas
                 if (char === '"') {
-                    if (dentroDeAspas && proximoChar === '"') {
-                        // Aspas duplas dentro de aspas ("") vira uma só (")
-                        celulaAtual += '"';
-                        i++; // Pula a próxima aspas
-                    } else {
-                        // Inverte o estado (entrou ou saiu das aspas)
-                        dentroDeAspas = !dentroDeAspas;
-                    }
+                    if (dentroDeAspas && proximoChar === '"') { celulaAtual += '"'; i++; } 
+                    else { dentroDeAspas = !dentroDeAspas; }
                 } 
-                // Tratamento de Vírgula (separador)
                 else if (char === ',' && !dentroDeAspas) {
-                    linhaAtual.push(celulaAtual);
-                    celulaAtual = "";
+                    linhaAtual.push(celulaAtual); celulaAtual = "";
                 } 
-                // Tratamento de Nova Linha (fim da linha)
                 else if ((char === '\r' || char === '\n') && !dentroDeAspas) {
-                    // Se for \r\n, pula o \n também
                     if (char === '\r' && proximoChar === '\n') i++;
-                    
                     if (linhaAtual.length > 0 || celulaAtual.length > 0) {
-                        linhaAtual.push(celulaAtual);
-                        linhas.push(linhaAtual);
+                        linhaAtual.push(celulaAtual); linhas.push(linhaAtual);
                     }
-                    linhaAtual = [];
-                    celulaAtual = "";
+                    linhaAtual = []; celulaAtual = "";
                 } 
-                // Caractere normal
-                else {
-                    celulaAtual += char;
-                }
+                else { celulaAtual += char; }
             }
-            // Adiciona a última linha se houver
             if (linhaAtual.length > 0 || celulaAtual.length > 0) {
-                linhaAtual.push(celulaAtual);
-                linhas.push(linhaAtual);
+                linhaAtual.push(celulaAtual); linhas.push(linhaAtual);
             }
 
-            // Agora converte as linhas (Array) em Objetos (JSON)
-            // Assumindo que a linha 0 é cabeçalho, começamos do 1
             const resultado = [];
             for (let i = 1; i < linhas.length; i++) {
                 const cols = linhas[i];
-                if (cols.length < 2) continue; // Pula linhas vazias ou quebradas
+                if (cols.length < 2) continue;
 
-                // MAPEAMENTO DAS COLUNAS (AJUSTE CONFORME SUA PLANILHA)
-                // 0: NOME | 1: DEPTO | 2: EMAIL | 3: TEL | 4: ÁREA | 5: SUBÁREA | 7: PROJETOS | 8: APRESENTAÇÃO
-                
+                // MAPEAMENTO NOVO (DATA NA COLUNA 0)
                 const obj = {
-                    Nome: cols[0]?.trim() || 'Nome não informado',
-                    Departamento: cols[1]?.trim() || 'Departamento não informado',
-                    Email: cols[2]?.trim() || '',
-                    Telefone: cols[3]?.trim() || '',
-                    Area: cols[4]?.trim() || '',
-                    Subarea: cols[5]?.trim() || '',
-                    Projetos: cols[7]?.trim() || '',  // Coluna H
-                    Apresentacao: cols[8]?.trim() || '' // Coluna I
+                    UltimaAtualizacao: cols[0]?.trim() || '', // Coluna A (Data)
+                    Nome: cols[1]?.trim() || 'Nome não informado', // Coluna B (Nome)
+                    Departamento: cols[2]?.trim() || 'Departamento não informado',
+                    Email: cols[3]?.trim() || '',
+                    Telefone: cols[4]?.trim() || '',
+                    Area: cols[5]?.trim() || '',
+                    Subarea: cols[6]?.trim() || '',
+                    Projetos: cols[8]?.trim() || '',  // Coluna I (Projetos - pulou H)
+                    Apresentacao: cols[9]?.trim() || '' // Coluna J (Apresentação)
                 };
                 resultado.push(obj);
             }
