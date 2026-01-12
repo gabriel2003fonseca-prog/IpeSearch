@@ -143,23 +143,21 @@
         });
 
         // ---------------------------------------------------------
-        // 3. CONFIGURAÇÃO DA PLANILHA (LINK CSV CORRETO)
+        // 3. CONFIGURAÇÃO DA PLANILHA (Link corrigido para CSV)
         // ---------------------------------------------------------
-        // Nota: O link deve terminar com 'output=csv' para funcionar no código.
         const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
 
-        // Dados de Exemplo (Só aparecem se a planilha falhar)
         const dadosExemplo = [
             { 
-                Nome: "Dr. Exemplo", 
-                Departamento: "Departamento de Teste", 
-                Area: "Área Exemplo", 
-                Subarea: "Subárea Exemplo",
-                Email: "exemplo@ufla.br",
-                Telefone: "(35) 0000-0000",
-                Apresentacao: "Este é um dado de exemplo pois a planilha ainda não carregou.",
-                Projetos: "- Projeto Exemplo 1",
-                UltimaAtualizacao: "2026"
+                Nome: "Carregando...", 
+                Departamento: "...", 
+                Area: "...", 
+                Subarea: "...",
+                Email: "...",
+                Telefone: "...",
+                Apresentacao: "...",
+                Projetos: "...",
+                UltimaAtualizacao: "..."
             }
         ];
 
@@ -168,19 +166,17 @@
         window.onload = async function() {
             const loading = document.getElementById('loading');
             
-            if (GOOGLE_SHEET_CSV_URL && GOOGLE_SHEET_CSV_URL.startsWith("http")) {
+            if (GOOGLE_SHEET_CSV_URL) {
                 loading.style.display = 'block';
                 try {
                     const response = await fetch(GOOGLE_SHEET_CSV_URL);
                     const texto = await response.text();
-                    todosPesquisadores = csvParaJson(texto); 
+                    todosPesquisadores = processarCSVRobusto(texto); 
                 } catch (erro) {
                     console.error("Erro ao carregar planilha:", erro);
-                    todosPesquisadores = dadosExemplo;
+                    todosPesquisadores = [];
                 }
                 loading.style.display = 'none';
-            } else {
-                todosPesquisadores = dadosExemplo;
             }
 
             renderizarCards(todosPesquisadores);
@@ -226,6 +222,7 @@
             renderizarCards(filtrados);
         }
 
+        // --- RENDERIZAÇÃO DOS CARDS ---
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
             const counter = document.getElementById('counter');
@@ -291,50 +288,79 @@
             window.scrollTo(0, 0);
         }
 
-        // --- FUNÇÃO PARA LER O CSV DA PLANILHA ---
-        function csvParaJson(csv) {
-            const linhas = csv.split('\n');
-            const resultado = [];
-            
-            // Começamos do i=1 para pular o cabeçalho
-            for (let i = 1; i < linhas.length; i++) {
-                if (!linhas[i].trim()) continue;
-                
-                // Função simples para tratar CSV com aspas
-                const linhaAtual = parseCSVLine(linhas[i]);
-                
-                if (linhaAtual && linhaAtual.length > 1) {
-                    // Mapeamento das colunas (Baseado na sua planilha):
-                    // 0: NOME | 1: DEPTO | 2: EMAIL | 3: TEL | 4: ÁREA | 5: SUBÁREA | 7: PROJETOS | 8: APRESENTAÇÃO
+        // --- PROCESSADOR DE CSV ROBUSTO (CORRIGE QUEBRAS DE LINHA) ---
+        function processarCSVRobusto(textoCSV) {
+            const linhas = [];
+            let linhaAtual = [];
+            let celulaAtual = "";
+            let dentroDeAspas = false;
+
+            for (let i = 0; i < textoCSV.length; i++) {
+                let char = textoCSV[i];
+                let proximoChar = textoCSV[i+1];
+
+                // Tratamento de Aspas
+                if (char === '"') {
+                    if (dentroDeAspas && proximoChar === '"') {
+                        // Aspas duplas dentro de aspas ("") vira uma só (")
+                        celulaAtual += '"';
+                        i++; // Pula a próxima aspas
+                    } else {
+                        // Inverte o estado (entrou ou saiu das aspas)
+                        dentroDeAspas = !dentroDeAspas;
+                    }
+                } 
+                // Tratamento de Vírgula (separador)
+                else if (char === ',' && !dentroDeAspas) {
+                    linhaAtual.push(celulaAtual);
+                    celulaAtual = "";
+                } 
+                // Tratamento de Nova Linha (fim da linha)
+                else if ((char === '\r' || char === '\n') && !dentroDeAspas) {
+                    // Se for \r\n, pula o \n também
+                    if (char === '\r' && proximoChar === '\n') i++;
                     
-                    const obj = {
-                        Nome: linhaAtual[0] || 'Nome não informado',
-                        Departamento: linhaAtual[1] || 'Departamento não informado',
-                        Email: linhaAtual[2] || '',
-                        Telefone: linhaAtual[3] || '',
-                        Area: linhaAtual[4] || '',
-                        Subarea: linhaAtual[5] || '',
-                        Projetos: linhaAtual[7] || '',  // Coluna H
-                        Apresentacao: linhaAtual[8] || '' // Coluna I
-                    };
-                    resultado.push(obj);
+                    if (linhaAtual.length > 0 || celulaAtual.length > 0) {
+                        linhaAtual.push(celulaAtual);
+                        linhas.push(linhaAtual);
+                    }
+                    linhaAtual = [];
+                    celulaAtual = "";
+                } 
+                // Caractere normal
+                else {
+                    celulaAtual += char;
                 }
             }
-            return resultado;
-        }
-
-        // Função auxiliar para quebrar a linha do CSV respeitando aspas
-        function parseCSVLine(text) {
-            let p = '', row = [''], i = 0, r = 0, s = !0, l;
-            for (l of text) {
-                if ('"' === l) {
-                    if (s && l === p) row[r] += l;
-                    s = !s;
-                } else if (',' === l && s) l = row[++r] = '';
-                else row[r] += l;
-                p = l;
+            // Adiciona a última linha se houver
+            if (linhaAtual.length > 0 || celulaAtual.length > 0) {
+                linhaAtual.push(celulaAtual);
+                linhas.push(linhaAtual);
             }
-            return row.map(c => c.replace(/^"|"$/g, '').trim()); 
+
+            // Agora converte as linhas (Array) em Objetos (JSON)
+            // Assumindo que a linha 0 é cabeçalho, começamos do 1
+            const resultado = [];
+            for (let i = 1; i < linhas.length; i++) {
+                const cols = linhas[i];
+                if (cols.length < 2) continue; // Pula linhas vazias ou quebradas
+
+                // MAPEAMENTO DAS COLUNAS (AJUSTE CONFORME SUA PLANILHA)
+                // 0: NOME | 1: DEPTO | 2: EMAIL | 3: TEL | 4: ÁREA | 5: SUBÁREA | 7: PROJETOS | 8: APRESENTAÇÃO
+                
+                const obj = {
+                    Nome: cols[0]?.trim() || 'Nome não informado',
+                    Departamento: cols[1]?.trim() || 'Departamento não informado',
+                    Email: cols[2]?.trim() || '',
+                    Telefone: cols[3]?.trim() || '',
+                    Area: cols[4]?.trim() || '',
+                    Subarea: cols[5]?.trim() || '',
+                    Projetos: cols[7]?.trim() || '',  // Coluna H
+                    Apresentacao: cols[8]?.trim() || '' // Coluna I
+                };
+                resultado.push(obj);
+            }
+            return resultado;
         }
     </script>
 
