@@ -62,21 +62,21 @@
                 <div class="icon-wrapper">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 </div>
-                <h2>+800</h2>
+                <h2>+<span class="counter" data-target="800">0</span></h2>
                 <p>Pesquisadores</p>
             </div>
             <div class="stat-item">
                 <div class="icon-wrapper">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                 </div>
-                <h2>21</h2>
+                <h2><span class="counter" data-target="21">0</span></h2>
                 <p>Departamentos</p>
             </div>
             <div class="stat-item">
                 <div class="icon-wrapper">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-target"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
                 </div>
-                <h2>1º</h2>
+                <h2><span class="counter" data-target="1">0</span>º</h2>
                 <p>Hub Digital da UFLA</p>
             </div>
         </div>
@@ -222,8 +222,52 @@
                 btnSubmit.disabled = false;
             });
         });
+
+        // 4. ANIMAÇÃO DOS NÚMEROS (COUNTER UP)
+        // Isso garante que a animação só rode quando a pessoa rolar até a seção
+        const counters = document.querySelectorAll('.counter');
+        const speed = 100; // Quanto menor, mais rápido
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target'); // Pega o valor final
+                    const count = +counter.innerText; // Pega o valor atual
+                    
+                    // Incremento suave
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        // Observador: Dispara quando a seção aparece na tela
+        const observerOptions = {
+            root: null,
+            threshold: 0.5 // 50% do elemento visível
+        };
+
+        const statsObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target); // Para de observar após animar
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats-bar');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
     </script>
 
 </body>
 </html>
-
