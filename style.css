@@ -42,7 +42,8 @@ header {
 header.scrolled {
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    height: 70px; justify-content: center;
+    height: 70px;
+    justify-content: space-between; /* <--- CORRIGIDO: Espalha os itens */
 }
 
 .logo-link { 
@@ -79,6 +80,8 @@ nav a:hover::after { width: 100%; }
     box-shadow: 0 5px 15px rgba(0, 194, 203, 0.3);
     background: var(--bright-cyan) !important; 
     color: white !important; 
+    
+    margin-left: 40px; /* <--- ADICIONADO: Garante separação */
 }
 .nav-btn-busca::after, .btn-voltar-home::after { display: none !important; content: none !important; }
 .nav-btn-busca:hover, .btn-voltar-home:hover { 
