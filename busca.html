@@ -152,6 +152,11 @@
 
         let todosPesquisadores = [];
 
+        // FUNÇÃO PARA REMOVER ACENTOS E FACILITAR A BUSCA
+        function removerAcentos(texto) {
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
+
         window.onload = async function() {
             const loading = document.getElementById('loading');
             loading.style.display = 'block';
@@ -177,10 +182,15 @@
         }
 
         function filtrarResultados(termo) {
-            termo = termo.toLowerCase();
+            // Normaliza o termo de busca (sem acentos e minúsculo)
+            const termoNormalizado = removerAcentos(termo);
+            
             const filtrados = todosPesquisadores.filter(p => {
-                const textoGeral = `${p.Nome} ${p.Departamento} ${p.Area} ${p.Subarea}`.toLowerCase();
-                return textoGeral.includes(termo);
+                // Junta os campos e normaliza para comparar
+                const textoGeral = `${p.Nome} ${p.Departamento} ${p.Area} ${p.Subarea}`;
+                const textoNormalizado = removerAcentos(textoGeral);
+                
+                return textoNormalizado.includes(termoNormalizado);
             });
             renderizarCards(filtrados);
         }
