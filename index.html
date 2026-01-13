@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png" type="image/png">
+    <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
 
     <title>IPÊ SEARCH - Hub de Pesquisa</title>
     <link rel="stylesheet" href="style.css">
@@ -122,6 +122,9 @@
                     IpêTech – Parque Científico e Tecnológico da UFLA
                 </a>,
                 criada para conectar conhecimento, inovação e oportunidades.
+                Atuamos como um hub estratégico que elimina barreiras e facilita o acesso
+                de empresas, estudantes e da comunidade ao capital intelectual,
+                aos projetos de pesquisa e às iniciativas de inovação desenvolvidas na universidade.
             </p>
         </div>
     </section>
@@ -133,12 +136,16 @@
             <form id="contactForm" action="https://formsubmit.co/gabriel2003fonseca@gmail.com" method="POST">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Novo contato via IPÊ SEARCH!">
+                
                 <label>Nome Completo</label>
                 <input type="text" name="nome" id="inputNome" placeholder="Digite seu nome" required>
+                
                 <label>E-mail Institucional ou Pessoal</label>
                 <input type="email" name="email" placeholder="exemplo@email.com" required>
+                
                 <label>Como podemos ajudar?</label>
                 <textarea name="mensagem" rows="5" placeholder="Descreva sua solicitação..." required></textarea>
+                
                 <button type="submit" id="btnSubmit">Enviar Mensagem</button>
             </form>
             <div id="status-message"></div>
@@ -153,20 +160,21 @@
             menu.classList.toggle('active');
         }
 
+        // Carregar rodapé
         fetch('footer.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
-            })
-            .catch(error => console.log('Erro ao carregar rodapé.'));
+            });
 
+        // Efeito scrolled no header
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (window.scrollY > 50) header.classList.add('scrolled');
             else header.classList.remove('scrolled');
         });
 
-        // Formulário AJAX
+        // Envio do formulário
         const form = document.getElementById('contactForm');
         const statusMsg = document.getElementById('status-message');
         const btnSubmit = document.getElementById('btnSubmit');
@@ -200,7 +208,7 @@
             });
         });
 
-        // Animação de Números
+        // Contador Progressivo
         const counters = document.querySelectorAll('.counter');
         const speed = 100;
 
@@ -233,4 +241,3 @@
     </script>
 </body>
 </html>
-
