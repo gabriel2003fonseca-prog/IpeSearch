@@ -3,223 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Cache -->
+    
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <!-- Favicon -->
     <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
 
     <title>Pesquisar - IPÊ SEARCH</title>
     <link rel="stylesheet" href="style.css">
-
     <style>
+        /* Fallback background if video fails */
         .search-section { background-color: #003366; }
     </style>
 </head>
-
 <body>
 
-<header>
-    <a href="index.html" class="logo-link">
-        <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
-    </a>
-    <a href="index.html" class="btn-voltar-home">INÍCIO</a>
-</header>
+    <header>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
+        </a>
+        <a href="index.html" class="btn-voltar-home">INÍCIO</a>
+    </header>
+    
+    <div id="search-view">
+        <section class="search-section">
+            <video class="video-bg" autoplay muted loop playsinline>
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
 
-<div id="search-view">
+            <div class="search-content-wrapper">
+                <h1 class="search-title">Encontre Professores da UFLA</h1>
+                
+                <div class="input-wrapper">
+                    <div class="search-icon-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x1="21" x2="16.65" y2="16.65"></line></svg>
+                    </div>
 
-<section class="search-section">
-    <video class="video-bg" autoplay muted loop playsinline>
-        <source src="video.mp4" type="video/mp4">
-    </video>
-    <div class="video-overlay"></div>
+                    <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
+                    
+                    <button id="clearBtn" class="btn-clear hidden" type="button" aria-label="Limpar pesquisa">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
 
-    <div class="search-content-wrapper">
-        <h1 class="search-title">Encontre Professores da UFLA</h1>
-
-        <div class="input-wrapper">
-            <div class="search-icon-left">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                     fill="none" stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+                <div class="quick-tags-container">
+                    <button class="tag-btn" onclick="filtrarTag('Agronomia')">Agronomia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Zootecnia')">Zootecnia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Veterinária')">Veterinária</button>
+                    <button class="tag-btn" onclick="filtrarTag('Eng. Florestal')">Eng. Florestal</button>
+                    <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharias</button>
+                    <button class="tag-btn" onclick="filtrarTag('Computação')">Computação</button>
+                    <button class="tag-btn" onclick="filtrarTag('Sistemas')">Sistemas</button>
+                    <button class="tag-btn" onclick="filtrarTag('Direito')">Direito</button>
+                    <button class="tag-btn" onclick="filtrarTag('Administração')">Administração</button>
+                    <button class="tag-btn" onclick="filtrarTag('Medicina')">Medicina</button>
+                    <button class="tag-btn" onclick="filtrarTag('Nutrição')">Nutrição</button>
+                    <button class="tag-btn" onclick="filtrarTag('Biologia')">Biologia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Química')">Química</button>
+                    <button class="tag-btn" onclick="filtrarTag('Física')">Física</button>
+                    <button class="tag-btn" onclick="filtrarTag('Matemática')">Matemática</button>
+                    <button class="tag-btn" onclick="filtrarTag('Pedagogia')">Pedagogia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Filosofia')">Filosofia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Letras')">Letras</button>
+                    <button class="tag-btn" onclick="filtrarTag('Ed. Física')">Ed. Física</button>
+                </div>
+                
+                <p style="margin-top: 25px; color: #003366; font-size: 0.95rem; font-weight: 600; opacity: 0.8; position: relative; z-index: 2;">
+                    Toque em uma área acima ou digite para pesquisar.
+                </p>
             </div>
+        </section>
 
-            <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
+        <div id="counter" style="text-align: center; margin-top: 30px; color: #5A6A85; font-weight: 500;"></div>
+        <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando dados...</div>
 
-            <button id="clearBtn" class="btn-clear hidden" type="button" aria-label="Limpar pesquisa">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                     fill="none" stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+        <div class="results-container" id="resultsContainer"></div>
+    </div>
+
+    <div id="profile-view" class="hidden">
+        <div style="height: 100px;"></div> 
+        
+        <div class="back-btn-container">
+            <button type="button" class="btn-text-back" onclick="fecharPerfil()">
+                ← Voltar para a pesquisa
             </button>
         </div>
 
-        <div class="quick-tags-container">
-            <button class="tag-btn" onclick="filtrarTag('Agronomia')">Agronomia</button>
-            <button class="tag-btn" onclick="filtrarTag('Zootecnia')">Zootecnia</button>
-            <button class="tag-btn" onclick="filtrarTag('Veterinária')">Veterinária</button>
-            <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharias</button>
-            <button class="tag-btn" onclick="filtrarTag('Computação')">Computação</button>
-            <button class="tag-btn" onclick="filtrarTag('Direito')">Direito</button>
-            <button class="tag-btn" onclick="filtrarTag('Medicina')">Medicina</button>
-            <button class="tag-btn" onclick="filtrarTag('Biologia')">Biologia</button>
-            <button class="tag-btn" onclick="filtrarTag('Química')">Química</button>
-            <button class="tag-btn" onclick="filtrarTag('Física')">Física</button>
-            <button class="tag-btn" onclick="filtrarTag('Matemática')">Matemática</button>
+        <div class="profile-card">
+            <div class="profile-header">
+                <h1 id="prof-nome">Nome do Professor</h1>
+                <span class="dept-badge" id="prof-dept">Departamento</span>
+            </div>
+
+            <div class="profile-body">
+                <div style="background: #eef4ff; border-left: 4px solid #003366; padding: 15px 20px; margin-bottom: 25px; border-radius: 6px; font-size: 0.85rem; color: #334e68; line-height: 1.5; text-align: left;">
+                    <strong>🛡️ Uso Ético e Conexões:</strong> As informações abaixo são de caráter público (Plataforma Lattes) e destinam-se a fins de pesquisa, extensão e parcerias de inovação. 
+                    <br><br>
+                    <strong>Empresas e instituições são incentivadas a utilizar estes contatos para propostas de cooperação técnica e projetos de P&D</strong>, sendo vedado o uso para spam ou ofertas comerciais genéricas.
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>E-mail Institucional</label>
+                        <p><a href="#" id="prof-email">email@ufla.br</a></p>
+                    </div>
+                    <div class="info-item">
+                        <label>Telefone / Ramal</label>
+                        <p id="prof-tel">N/A</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Área de Atuação</label>
+                        <p id="prof-area">Área Principal</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Subárea</label>
+                        <p id="prof-subarea">Especialidade</p>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Apresentação / Biografia</h2>
+                <div class="text-content" id="prof-apresentacao"></div>
+
+                <h2 class="section-title">Projetos de Pesquisa</h2>
+                <div class="text-content" id="prof-projetos"></div>
+
+                <div class="last-update" id="prof-update"></div>
+            </div>
         </div>
-
-        <p style="margin-top:25px;color:#003366;font-size:.95rem;font-weight:600;">
-            Toque em uma área acima ou digite para pesquisar.
-        </p>
     </div>
-</section>
 
-<div id="counter" style="text-align:center;margin-top:30px;"></div>
-<div id="loading" style="display:none;text-align:center;padding:20px;color:#003366;">
-    Carregando dados...
-</div>
+    <div id="footer-placeholder"></div>
 
-<div class="results-container" id="resultsContainer"></div>
-</div>
-
-<!-- PERFIL -->
-<div id="profile-view" class="hidden">
-    <div style="height:100px;"></div>
-
-    <button class="btn-text-back" onclick="fecharPerfil()">← Voltar para a pesquisa</button>
-
-    <div class="profile-card">
-        <h1 id="prof-nome"></h1>
-        <span id="prof-dept"></span>
-
-        <p><strong>Email:</strong> <a id="prof-email"></a></p>
-        <p><strong>Telefone:</strong> <span id="prof-tel"></span></p>
-        <p><strong>Área:</strong> <span id="prof-area"></span></p>
-        <p><strong>Subárea:</strong> <span id="prof-subarea"></span></p>
-
-        <h3>Apresentação</h3>
-        <div id="prof-apresentacao"></div>
-
-        <h3>Projetos</h3>
-        <div id="prof-projetos"></div>
-
-        <small id="prof-update"></small>
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
     </div>
-</div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
 
-<div id="footer-placeholder"></div>
+    <script>
+        // Lógica de Carregamento e Busca
+        fetch('footer.html?v=2')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
 
-<!-- VLibras -->
-<div vw class="enabled">
-    <div vw-access-button class="active"></div>
-    <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
-    </div>
-</div>
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (header && window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
 
-<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-<script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
-</script>
+        function toggleLGPD() {
+            const card = document.getElementById('card-lgpd');
+            if (card) {
+                card.style.display = (card.style.display === 'none' || card.style.display === '') ? 'block' : 'none';
+                if(card.style.display === 'block') card.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
 
-<!-- SCRIPT PRINCIPAL -->
-<script>
-const SHEET_ID = "1z5mSdyLnJG7zZc6y4E6aarPQtN2k2rDKLQDS38wd_sA";
-const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
-let dados = [];
+        const SHEET_ID = "1z5mSdyLnJG7zZc6y4E6aarPQtN2k2rDKLQDS38wd_sA"; 
+        const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+        let todosPesquisadores = [];
 
-function removerAcentos(t){
-    return t ? t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase() : "";
-}
+        function removerAcentos(texto) {
+            if (!texto) return "";
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
 
-window.onload = async () => {
-    document.getElementById("loading").style.display = "block";
-    const res = await fetch(CSV_URL + "&t=" + Date.now());
-    const txt = await res.text();
-    dados = processarCSVRobusto(txt);
-    document.getElementById("loading").style.display = "none";
-    renderizar(dados);
-};
-
-function filtrarTag(tag){
-    document.getElementById("searchInput").value = tag;
-    filtrar(tag);
-}
-
-document.getElementById("searchInput").addEventListener("input", e => {
-    filtrar(e.target.value);
-});
-
-function filtrar(termo){
-    const t = removerAcentos(termo);
-    const r = dados.filter(p =>
-        removerAcentos(`${p.Nome} ${p.Departamento} ${p.Area}`).includes(t)
-    );
-    renderizar(r);
-}
-
-function renderizar(lista){
-    const c = document.getElementById("resultsContainer");
-    const counter = document.getElementById("counter");
-    c.innerHTML = "";
-    counter.innerText = `${lista.length} resultados encontrados`;
-
-    lista.forEach(p => {
-        const d = document.createElement("div");
-        d.className = "card";
-        d.onclick = () => abrirPerfil(p);
-        d.innerHTML = `<h3>${p.Nome}</h3><p>${p.Departamento}</p><small>${p.Area}</small>`;
-        c.appendChild(d);
-    });
-}
-
-function abrirPerfil(p){
-    document.getElementById("search-view").classList.add("hidden");
-    document.getElementById("profile-view").classList.remove("hidden");
-
-    prof-nome.innerText = p.Nome;
-    prof-dept.innerText = p.Departamento;
-    prof-email.innerText = p.Email || "Não informado";
-    prof-email.href = p.Email ? `mailto:${p.Email}` : "#";
-    prof-tel.innerText = p.Telefone || "N/A";
-    prof-area.innerText = p.Area || "-";
-    prof-subarea.innerText = p.Subarea || "-";
-    prof-apresentacao.innerText = p.Apresentacao || "Sem biografia";
-    prof-projetos.innerText = p.Projetos || "Sem projetos";
-    prof-update.innerText = p.UltimaAtualizacao || "";
-}
-
-function fecharPerfil(){
-    profile-view.classList.add("hidden");
-    search-view.classList.remove("hidden");
-}
-
-function processarCSVRobusto(txt){
-    const linhas = txt.split("\n").slice(1);
-    return linhas.map(l => {
-        const c = l.split(",");
-        return {
-            UltimaAtualizacao: c[0],
-            Nome: c[1],
-            Departamento: c[2],
-            Email: c[3],
-            Telefone: c[4],
-            Area: c[5],
-            Subarea: c[6],
-            Projetos: c[8],
-            Apresentacao: c[9]
+        window.onload = async function() {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+            try {
+                const response = await fetch(`${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`);
+                const texto = await response.text();
+                todosPesquisadores = processarCSVRobusto(texto); 
+            } catch (erro) {
+                console.error("Erro na carga:", erro);
+            }
+            loading.style.display = 'none';
+            renderizarCards(todosPesquisadores);
         };
-    });
-}
-</script>
 
+        function filtrarTag(tag) {
+            document.getElementById('searchInput').value = tag;
+            document.getElementById('clearBtn').classList.remove('hidden');
+            filtrarResultados(tag);
+        }
+
+        function filtrarResultados(termo) {
+            const termoNormalizado = removerAcentos(termo);
+            const filtrados = todosPesquisadores.filter(p => {
+                const textoGeral = `${p.Nome} ${p.Departamento} ${p.Area} ${p.Subarea}`;
+                return removerAcentos(textoGeral).includes(termoNormalizado);
+            });
+            renderizarCards(filtrados);
+        }
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        searchInput.addEventListener('input', (e) => {
+            if (e.target.value) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+            filtrarResultados(e.target.value);
+        });
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = ''; clearBtn.classList.add('hidden'); filtrarResultados(''); searchInput.focus();
+        });
+
+        function renderizarCards(lista) {
+            const container = document.getElementById('resultsContainer');
+            const counter = document.getElementById('counter');
+            container.innerHTML = '';
+            counter.innerText = lista.length > 0 ? `${lista.length} resultados encontrados` : '';
+            if (lista.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Nenhum professor encontrado.</p>';
+                return;
+            }
+            lista.forEach(p => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.onclick = () => abrirPerfil(p);
+                card.innerHTML = `
+                    <div class="lattes-badge">Fonte: Lattes</div>
+                    <h3>${p.Nome}</h3>
+                    <div class="card-dept">${p.Departamento}</div>
+                    <div class="card-content-area">
+                        <div class="area-main"><strong>Área:</strong> ${p.Area}</div>
+                        ${p.Subarea ? `<div class="subarea-box"><span>Especialidades:</span> ${p.Subarea}</div>` : ''}
+                    </div>
+                    <div class="card-footer">
+                        <span style="font-size: 0.75rem; color: #aaa;">Atualizado: ${p.UltimaAtualizacao || 'Recente'}</span>
+                        <div class="card-hint">Ver perfil →</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function abrirPerfil(dados) {
+            document.getElementById('prof-nome').innerText = dados.Nome;
+            document.getElementById('prof-dept').innerText = dados.Departamento;
+            const em = document.getElementById('prof-email');
+            em.innerText = dados.Email || 'Não informado';
+            em.href = dados.Email ? `mailto:${dados.Email}` : '#';
+            document.getElementById('prof-tel').innerText = dados.Telefone || 'N/A';
+            document.getElementById('prof-area').innerText = dados.Area || '-';
+            document.getElementById('prof-subarea').innerText = dados.Subarea || '-';
+            document.getElementById('prof-apresentacao').innerText = dados.Apresentacao || 'Sem biografia.';
+            document.getElementById('prof-projetos').innerText = dados.Projetos || 'Sem projetos.';
+            document.getElementById('prof-update').innerText = `Dados atualizados em: ${dados.UltimaAtualizacao || 'N/A'}`;
+            document.getElementById('search-view').classList.add('hidden');
+            document.getElementById('profile-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function fecharPerfil() {
+            document.getElementById('profile-view').classList.add('hidden');
+            document.getElementById('search-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function processarCSVRobusto(textoCSV) {
+            const linhas = [];
+            let linhaAtual = [];
+            let celulaAtual = "";
+            let dentroDeAspas = false;
+            for (let i = 0; i < textoCSV.length; i++) {
+                let char = textoCSV[i];
+                let proximoChar = textoCSV[i+1];
+                if (char === '"') {
+                    if (dentroDeAspas && proximoChar === '"') { celulaAtual += '"'; i++; } 
+                    else { dentroDeAspas = !dentroDeAspas; }
+                } 
+                else if (char === ',' && !dentroDeAspas) { linhaAtual.push(celulaAtual); celulaAtual = ""; } 
+                else if ((char === '\r' || char === '\n') && !dentroDeAspas) {
+                    if (char === '\r' && proximoChar === '\n') i++;
+                    if (linhaAtual.length > 0 || celulaAtual.length > 0) {
+                        linhaAtual.push(celulaAtual); linhas.push(linhaAtual);
+                    }
+                    linhaAtual = []; celulaAtual = "";
+                } 
+                else { celulaAtual += char; }
+            }
+            if (linhaAtual.length > 0 || celulaAtual.length > 0) {
+                linhaAtual.push(celulaAtual); linhas.push(linhaAtual);
+            }
+            const resultado = [];
+            for (let i = 1; i < linhas.length; i++) {
+                const cols = linhas[i];
+                if (cols.length < 2) continue;
+                resultado.push({
+                    UltimaAtualizacao: cols[0]?.trim() || '',
+                    Nome: cols[1]?.trim() || 'Não informado',
+                    Departamento: cols[2]?.trim() || 'Não informado',
+                    Email: cols[3]?.trim() || '',
+                    Telefone: cols[4]?.trim() || '',
+                    Area: cols[5]?.trim() || '',
+                    Subarea: cols[6]?.trim() || '',
+                    Projetos: cols[8]?.trim() || '', 
+                    Apresentacao: cols[9]?.trim() || ''
+                });
+            }
+            return resultado;
+        }
+    </script>
 </body>
 </html>
