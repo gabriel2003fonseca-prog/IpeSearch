@@ -38,7 +38,7 @@
                 
                 <div class="input-wrapper">
                     <div class="search-icon-left">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x1="21" x2="16.65" y2="16.65"></line></svg>
                     </div>
 
                     <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
@@ -152,13 +152,25 @@
             else header.classList.remove('scrolled');
         });
 
-        // 3. Configuração Planilha
+        // 3. Função para abrir/fechar o aviso de LGPD do rodapé
+        function toggleLGPD() {
+            const card = document.getElementById('card-lgpd');
+            if (card) {
+                if (card.style.display === 'none' || card.style.display === '') {
+                    card.style.display = 'block';
+                    card.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        }
+
+        // 4. Configuração Planilha
         const SHEET_ID = "1z5mSdyLnJG7zZc6y4E6aarPQtN2k2rDKLQDS38wd_sA"; 
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
 
         let todosPesquisadores = [];
 
-        // FUNÇÃO PARA REMOVER ACENTOS E FACILITAR A BUSCA
         function removerAcentos(texto) {
             if (!texto) return "";
             return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
