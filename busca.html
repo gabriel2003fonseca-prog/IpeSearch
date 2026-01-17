@@ -148,8 +148,8 @@
     </script>
 
     <script>
-        // 1. Carregar Rodapé
-        fetch('footer.html')
+        // 1. Carregar Rodapé (Cache Busting v2)
+        fetch('footer.html?v=2')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
@@ -165,7 +165,7 @@
             }
         });
 
-        // 3. Função para abrir/fechar o aviso de LGPD do rodapé
+        // 3. Função para abrir/fechar o aviso de LGPD
         function toggleLGPD() {
             const card = document.getElementById('card-lgpd');
             if (card) {
