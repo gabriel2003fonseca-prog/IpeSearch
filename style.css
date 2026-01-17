@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL (BUSCA AJUSTADA, SEM LUPA, VLIBRAS DIREITA) */
+/* ARQUIVO: style.css - VERSÃO FINAL (LOGO LIMPA + VLIBRAS FORÇADO) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -43,15 +43,23 @@ header.scrolled {
     justify-content: flex-start;
 }
 
-/* LOGO SEM ANIMAÇÃO */
+/* LOGO TOTALMENTE LIMPA (SEM AZUL AO CLICAR) */
 .logo-link { 
     height: 100%; display: flex; align-items: center; text-decoration: none;
     opacity: 1; visibility: visible; width: auto; 
-    margin-right: auto; outline: none !important;
-    /* Remove animações */
-    transition: none !important; transform: none !important;
+    margin-right: auto; 
+    outline: none !important;      /* Remove borda azul */
+    box-shadow: none !important;   /* Remove brilho */
+    -webkit-tap-highlight-color: transparent; /* Remove azul no celular */
+    transition: none !important; 
+    transform: none !important;
 }
-.logo-link:hover { transform: none !important; opacity: 1 !important; }
+.logo-link:hover, .logo-link:active, .logo-link:focus { 
+    transform: none !important; 
+    opacity: 1 !important; 
+    background: transparent !important;
+    outline: none !important;
+}
 .logo-img { max-height: 75px; width: auto; display: block; }
 header.scrolled .logo-link { opacity: 0; visibility: hidden; width: 0; margin: 0; overflow: hidden; }
 
@@ -82,10 +90,10 @@ nav a:hover::after { width: 100%; }
 
 .header-spacer { height: 90px; }
 
-/* --- 4. HERO E SEÇÕES (ESPAÇAMENTO COMPACTO) --- */
+/* --- 4. HERO E SEÇÕES (COMPACTO) --- */
 .hero, .search-section {
     position: relative; 
-    padding: 120px 20px 30px 20px; /* Padding inferior reduzido para aproximar cards */
+    padding: 120px 20px 30px 20px; 
     text-align: center;
     border-bottom: 1px solid var(--border-light); overflow: hidden;
     min-height: auto; 
@@ -136,25 +144,23 @@ nav a:hover::after { width: 100%; }
 form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 .btn-cta:hover, form button:hover { transform: translateY(-3px); background: linear-gradient(135deg, #00c2cb, #003366) !important; }
 
-/* --- 5. BARRA DE BUSCA (AJUSTADA: SEM LUPA, BORDA VISÍVEL) --- */
+/* --- 5. BARRA DE BUSCA (MODERNA, SEM LUPA) --- */
 .input-wrapper { position: relative; width: 100%; max-width: 700px; margin: 0 auto; display: flex; align-items: center; }
 
 .search-container-modern {
+    position: relative; /* Mantém o X dentro */
     display: flex; align-items: center; 
     background: #ffffff; 
     width: 100%; max-width: 700px;
     height: 65px; 
     margin: 0 auto; 
     border-radius: 50px; 
-    /* Borda cinza visível para parecer input */
-    border: 2px solid #dae3f0; 
+    border: 2px solid #dae3f0; /* Borda visível */
     box-shadow: 0 8px 20px rgba(0, 51, 102, 0.05); 
     transition: all 0.3s ease; 
-    padding: 0; /* Padding removido do container, controlado no input */
-    overflow: hidden;
+    padding: 0;
 }
 
-/* Efeito de Foco: Borda Ciano + Sombra */
 .search-container-modern:focus-within {
     border-color: var(--bright-cyan); 
     box-shadow: 0 10px 30px rgba(0, 194, 203, 0.2); 
@@ -162,16 +168,13 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 }
 
 /* LUPA OCULTA */
-.search-icon-wrapper, .search-icon-left {
-    display: none !important; 
-}
+.search-icon-wrapper, .search-icon-left { display: none !important; }
 
 #searchInput {
     flex-grow: 1; height: 100%; border: none; outline: none; background: transparent;
     font-size: 1.1rem; color: var(--primary-blue); font-weight: 600;
-    /* Padding Esquerdo: 30px (espaço confortável sem lupa) */
-    /* Padding Direito: 60px (espaço para o botão X) */
-    padding: 0 60px 0 30px !important; 
+    /* Texto alinhado à esquerda (20px), Espaço para o X na direita (60px) */
+    padding: 0 60px 0 20px !important; 
     box-shadow: none !important; 
 }
 
@@ -194,12 +197,8 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 }
 .tag-btn:hover { background: #00a9b0; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 194, 203, 0.3); }
 
-/* --- 6. SEÇÕES GERAIS (COMPACTAS) --- */
-section { 
-    /* Padding reduzido para 40px */
-    padding: 40px 20px; 
-    max-width: 1000px; margin: auto; 
-}
+/* --- 6. SEÇÕES GERAIS --- */
+section { padding: 40px 20px; max-width: 1000px; margin: auto; }
 .results-container {
     max-width: 1200px; margin: 30px auto; padding: 0 20px;
     display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;
@@ -223,8 +222,7 @@ section {
 /* Content Card */
 .content-card { 
     padding: 60px; box-shadow: 0 15px 35px rgba(0, 51, 102, 0.1); 
-    border: 1px solid rgba(255,255,255,0.5); 
-    margin-bottom: 20px; /* Margem reduzida */
+    border: 1px solid rgba(255,255,255,0.5); margin-bottom: 20px; 
 }
 .content-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradient-tech); opacity: 1; }
 
@@ -257,11 +255,10 @@ form label { color: var(--primary-blue); font-weight: 700; display: block; margi
 #status-message { display: none; margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; }
 .success { background-color: #d4edda; color: #155724; } .error { background-color: #f8d7da; color: #721c24; }
 
-/* --- 9. FOOTER (ZERO MARGEM TOP) --- */
+/* --- 9. FOOTER --- */
 footer {
     text-align: center; padding: 40px 20px; background: var(--primary-blue);
-    color: rgba(255,255,255,0.8); font-size: 0.95rem; 
-    margin-top: 0; width: 100%;
+    color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-top: 0; width: 100%;
     border-top: 1px solid rgba(255,255,255,0.1);
 }
 .footer-highlight { color: var(--bright-cyan); font-weight: 700; text-decoration: none; transition: 0.3s; }
@@ -350,12 +347,14 @@ footer {
     [vw].enabled { right: 10px !important; left: initial !important; transform: translateY(-50%) scale(0.8) !important; }
 }
 
-/* --- 13. ACESSIBILIDADE E VLIBRAS (LADO DIREITO) --- */
+/* --- 13. ACESSIBILIDADE E VLIBRAS (CORRIGIDO: FORÇA VISIBILIDADE) --- */
 a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     outline: 3px solid var(--bright-cyan) !important;
     outline-offset: 3px; box-shadow: 0 0 0 5px rgba(0, 194, 203, 0.3) !important;
 }
 
+/* Força VLibras a aparecer e ficar na direita */
+[vw] { display: block !important; }
 [vw].enabled {
     left: initial !important; 
     right: 20px !important; 
