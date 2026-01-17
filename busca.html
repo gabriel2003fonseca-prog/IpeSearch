@@ -148,40 +148,29 @@
     </script>
 
     <script>
-        // 1. Carregar Rodapé
+        // Lógica de Carregamento e Busca
         fetch('footer.html?v=2')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
-            })
-            .catch(error => console.log('Aviso: Rodapé não carregado.', error));
+            });
 
-        // 2. Lógica de Scroll do Header
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
-            if (header) {
-                if (window.scrollY > 50) header.classList.add('scrolled');
-                else header.classList.remove('scrolled');
-            }
+            if (header && window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         });
 
-        // 3. Função para abrir/fechar o aviso de LGPD
         function toggleLGPD() {
             const card = document.getElementById('card-lgpd');
             if (card) {
-                if (card.style.display === 'none' || card.style.display === '') {
-                    card.style.display = 'block';
-                    card.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = (card.style.display === 'none' || card.style.display === '') ? 'block' : 'none';
+                if(card.style.display === 'block') card.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
-        // 4. Configuração Planilha
         const SHEET_ID = "1z5mSdyLnJG7zZc6y4E6aarPQtN2k2rDKLQDS38wd_sA"; 
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
-
         let todosPesquisadores = [];
 
         function removerAcentos(texto) {
@@ -193,11 +182,7 @@
             const loading = document.getElementById('loading');
             loading.style.display = 'block';
             try {
-                const urlNoCache = `${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`;
-                const response = await fetch(urlNoCache, {
-                    method: 'GET',
-                    headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-                });
+                const response = await fetch(`${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`);
                 const texto = await response.text();
                 todosPesquisadores = processarCSVRobusto(texto); 
             } catch (erro) {
@@ -225,10 +210,9 @@
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
         searchInput.addEventListener('input', (e) => {
-            const valor = e.target.value;
-            if (valor) clearBtn.classList.remove('hidden');
+            if (e.target.value) clearBtn.classList.remove('hidden');
             else clearBtn.classList.add('hidden');
-            filtrarResultados(valor);
+            filtrarResultados(e.target.value);
         });
         clearBtn.addEventListener('click', () => {
             searchInput.value = ''; clearBtn.classList.add('hidden'); filtrarResultados(''); searchInput.focus();
