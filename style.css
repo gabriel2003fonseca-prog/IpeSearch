@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO SEGURA (ESTRUTURA ORIGINAL + CORREÇÕES) */
+/* ARQUIVO: style.css - VERSÃO FINAL SEGURA (ESTRUTURA ORIGINAL + NOVA BUSCA FLEXBOX) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -10,8 +10,6 @@
     --text-dark: #003366;
     --text-light: #ffffff;
     --success-green: #28a745;
-    
-    /* Auxiliares */
     --text-gray: #4a5568;      
     --border-light: #dae3f0;
 }
@@ -52,7 +50,7 @@ header.scrolled {
     height: 100%; display: flex; align-items: center; text-decoration: none;
     opacity: 1; visibility: visible; width: auto; transition: all 0.3s ease;
     margin-right: auto; 
-    outline: none !important; /* Remove borda ao clicar */
+    outline: none !important;
 }
 .logo-img { max-height: 75px; width: auto; display: block; }
 header.scrolled .logo-link { opacity: 0; visibility: hidden; width: 0; margin: 0; overflow: hidden; }
@@ -159,59 +157,57 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
     background: linear-gradient(135deg, #00c2cb, #003366) !important;
 }
 
-/* --- 5. ELEMENTOS DA PESQUISA (CORRIGIDO PARA O SEU LAYOUT) --- */
-.input-wrapper { 
-    position: relative; 
-    width: 100%; 
-    max-width: 700px; 
-    margin: 0 auto; 
-    display: flex; 
+/* --- 5. NOVA BARRA DE BUSCA (FLEXBOX MODERN) --- */
+/* Substitui o antigo .input-wrapper */
+.search-container-modern {
+    display: flex;
     align-items: center;
+    background: #ffffff;
+    width: 100%;
+    max-width: 700px;
+    height: 65px;
+    margin: 0 auto;
+    border-radius: 50px;
+    border: 2px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 25px rgba(0, 51, 102, 0.1);
+    transition: all 0.3s ease;
+    padding: 0 10px; /* Padding geral do container */
+}
+
+/* Efeito de foco */
+.search-container-modern:focus-within {
+    border-color: var(--bright-cyan);
+    box-shadow: 0 15px 35px rgba(0, 194, 203, 0.2);
+    transform: scale(1.01);
+}
+
+.search-icon-wrapper {
+    display: flex; align-items: center; justify-content: center;
+    width: 50px; height: 100%;
+    color: var(--primary-blue); opacity: 0.6;
+    pointer-events: none; /* Clique passa pelo ícone */
+}
+/* Força o tamanho do SVG */
+.search-icon-wrapper svg {
+    width: 24px; height: 24px; stroke-width: 2.5px;
 }
 
 #searchInput {
-    width: 100%; 
-    height: 65px; /* Altura fixa essencial */
-    padding: 0 60px 0 65px !important; /* Espaço para lupa e X */
-    font-size: 1.1rem;
-    color: var(--primary-blue); font-weight: 600; 
-    border: 2px solid rgba(255,255,255,0.8);
-    border-radius: 50px; outline: none; transition: all 0.3s; 
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 10px 25px rgba(0, 51, 102, 0.1); 
-    -webkit-appearance: none;
-}
-#searchInput:focus { border-color: var(--bright-cyan); box-shadow: 0 15px 30px rgba(0, 194, 203, 0.2); transform: scale(1.01); }
-
-.search-icon-left {
-    position: absolute; 
-    left: 25px; 
-    top: 50% !important; 
-    transform: translateY(-50%) !important; 
-    color: var(--primary-blue); 
-    pointer-events: none; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    opacity: 0.6; 
-    z-index: 5;
-    width: 24px;
-    height: 24px;
-}
-/* Força o tamanho do SVG da lupa */
-.search-icon-left svg {
-    width: 22px !important;
-    height: 22px !important;
-    stroke-width: 2.5px;
+    flex-grow: 1; /* Ocupa o espaço livre */
+    height: 100%;
+    border: none; outline: none; background: transparent;
+    font-size: 1.1rem; color: var(--primary-blue); font-weight: 600;
+    padding: 0 10px; /* Espaço entre texto e ícones */
+    box-shadow: none !important; /* Remove sombra antiga */
 }
 
-.btn-clear {
-    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-    background: none; border: none !important; cursor: pointer; color: #999;
-    padding: 5px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    transition: 0.2s; z-index: 5;
+.btn-clear-modern {
+    background: none; border: none; cursor: pointer;
+    color: #999; display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    transition: 0.2s;
 }
-.btn-clear:hover { color: #dc3545; background-color: rgba(0,0,0,0.05); }
+.btn-clear-modern:hover { color: #dc3545; background-color: rgba(220, 53, 69, 0.1); }
 
 /* Tags */
 .quick-tags-container { margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
@@ -394,28 +390,41 @@ footer {
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- 11. ESTILOS DO MENU MOBILE (DESKTOP E MOBILE) --- */
+
+/* Esconde o botão hamburger no Desktop */
 .hamburger-btn { 
-    display: none; background: none; border: none; cursor: pointer; 
+    display: none; 
+    background: none; border: none; cursor: pointer; 
 }
 
+/* Menu Lateral (Estrutura Básica) */
 .side-menu { 
-    position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; 
-    background: var(--primary-blue); box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-    z-index: 2000; transition: right 0.4s ease; display: flex; flex-direction: column;
+    position: fixed; top: 0; right: -100%; 
+    width: 280px; height: 100vh; 
+    background: var(--primary-blue); 
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    z-index: 2000; 
+    transition: right 0.4s ease; 
+    display: flex; flex-direction: column;
 }
 .side-menu.active { right: 0; }
 
-.side-menu-content { padding: 80px 30px; display: flex; flex-direction: column; gap: 25px; }
+.side-menu-content {
+    padding: 80px 30px;
+    display: flex; flex-direction: column; gap: 25px;
+}
 .side-menu-content a {
     color: white; text-decoration: none; font-size: 1.2rem; font-weight: 600;
     border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px;
 }
 .btn-side-cta {
-    background: var(--bright-cyan) !important; color: white !important; 
-    padding: 15px; border-radius: 50px; text-align: center; border: none !important; margin-top: 10px;
+    background: var(--bright-cyan) !important;
+    color: white !important; padding: 15px; border-radius: 50px; text-align: center;
+    border: none !important; margin-top: 10px;
 }
 .close-btn {
-    position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2.5rem; cursor: pointer;
+    position: absolute; top: 20px; right: 20px;
+    background: none; border: none; color: white; font-size: 2.5rem; cursor: pointer;
 }
 
 /* --- 12. MEDIA QUERIES (MOBILE) --- */
@@ -424,16 +433,24 @@ footer {
 }
 
 @media (max-width: 768px) {
+    
+    /* Esconde menu de Desktop */
     .desktop-nav, .desktop-only { display: none !important; }
+    
+    /* Mostra o Hamburger no celular */
     .hamburger-btn { display: block; }
     
+    /* Ajuste Header Mobile */
     header, header.scrolled { 
-        padding: 0 20px; height: 70px; flex-direction: row !important; 
-        justify-content: space-between; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+        padding: 0 20px; height: 70px; 
+        flex-direction: row !important; /* Força linha */
+        justify-content: space-between; 
+        background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
     }
     .header-spacer { height: 70px; }
     .logo-img { max-height: 40px; } 
     
+    /* Hero e Seções Mobile */
     .hero { min-height: auto; padding-bottom: 50px; } 
     .hero-content { margin-top: 40px; padding: 0 20px; }
     .hero h2 { font-size: 2.2rem; } .hero p { font-size: 1.1rem; }
@@ -452,51 +469,96 @@ footer {
     .step-card { padding: 30px 20px; }
     #como-funciona { padding: 60px 20px; }
     
-    /* Mobile Search Adjustments */
-    #searchInput { height: 60px; padding-left: 55px !important; }
-    .search-icon-left { left: 20px; }
+    /* Ajuste da Barra Moderna no Mobile */
+    .search-container-modern { height: 60px; }
 }
 
 /* --- 13. ACESSIBILIDADE E VLIBRAS --- */
-a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
+
+/* Foco Visível para Navegação por Teclado */
+a:focus, 
+button:focus, 
+input:focus, 
+textarea:focus,
+[onclick]:focus {
     outline: 3px solid var(--bright-cyan) !important;
-    outline-offset: 3px; box-shadow: 0 0 0 5px rgba(0, 194, 203, 0.3) !important;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(0, 194, 203, 0.3) !important;
 }
 
+/* Ajustes de Posicionamento VLibras para não tampar elementos fixos */
 [vw].enabled {
-    left: initial !important; right: 20px !important; top: 50% !important;
+    left: initial !important;
+    right: 20px !important;
+    top: 50% !important;
     transform: translateY(-50%) !important;
-    z-index: 1000001 !important; /* VLibras na frente de tudo */
+    /* Z-INDEX NO MÁXIMO PARA GARANTIR QUE APAREÇA */
+    z-index: 2147483647 !important; 
 }
 
 @media (max-width: 768px) {
-    [vw].enabled { right: 10px !important; transform: translateY(-50%) scale(0.8) !important; }
+    [vw].enabled {
+        right: 10px !important;
+        transform: translateY(-50%) scale(0.8) !important;
+    }
 }
 
-.vpw-controls { z-index: 1000002 !important; }
+/* Garante que o widget fique acima de tudo */
+.vpw-controls {
+    z-index: 2147483647 !important; /* Menu de opções do VLibras */
+}
 
 /* --- 14. ORGANIZAÇÃO DE CARDS E SUBAREA --- */
+
 .card-content-area {
-    flex-grow: 1; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
-.area-main { font-size: 0.95rem; color: var(--primary-blue); line-height: 1.4; font-weight: 600; }
+.area-main {
+    font-size: 0.95rem;
+    color: var(--primary-blue);
+    line-height: 1.4;
+    font-weight: 600;
+}
 
 .subarea-box {
-    font-size: 0.8rem; color: #555; background: #f8f9fa; padding: 10px 12px;
-    border-radius: 6px; border-left: 3px solid var(--bright-cyan);
-    max-height: 85px; overflow-y: auto; line-height: 1.4; text-align: left;
+    font-size: 0.8rem;
+    color: #555;
+    background: #f8f9fa;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--bright-cyan);
+    max-height: 85px; 
+    overflow-y: auto; /* Scroll para textos gigantes */
+    line-height: 1.4;
+    text-align: left;
 }
 
 .subarea-box span {
-    font-weight: 800; color: var(--text-gray); display: block; font-size: 0.7rem; 
-    text-transform: uppercase; margin-bottom: 4px;
+    font-weight: 800;
+    color: var(--text-gray);
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    margin-bottom: 4px;
 }
 
-.subarea-box::-webkit-scrollbar { width: 4px; }
-.subarea-box::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 10px; }
+.subarea-box::-webkit-scrollbar {
+    width: 4px;
+}
+.subarea-box::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 10px;
+}
 
 .card h3 {
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden; min-height: 3.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 3.2rem;
 }
