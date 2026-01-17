@@ -1,71 +1,76 @@
-<footer class="site-footer">
+<footer style="background: var(--primary-blue); color: rgba(255,255,255,0.8); padding: 50px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1);">
     
-    <div class="footer-logos">
-        <a href="https://ufla.br" target="_blank" title="Universidade Federal de Lavras">
-            <img src="logo-ufla-branca.png" alt="Logo UFLA" class="footer-logo-img">
+    <div class="footer-logos" style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 30px;">
+        <a href="https://ufla.br" target="_blank" style="opacity: 0.9; transition: 0.3s;">
+            <img src="logo-ufla-branca.png" alt="Universidade Federal de Lavras" style="height: 60px; width: auto; display: block;">
         </a>
     </div>
 
-    <div class="footer-links">
-        <a href="index.html#como-funciona">Como Funciona</a>
-        <span class="separator">|</span>
-        <a href="index.html#sobre">Objetivo</a>
-        <span class="separator">|</span>
-        <a href="index.html#contato">Contato</a>
+    <div style="margin-bottom: 30px; font-weight: 600; font-size: 0.9rem;">
+        <a href="index.html#como-funciona" style="color: white; text-decoration: none; margin: 0 10px;">Como Funciona</a>
+        <span style="opacity: 0.3;">|</span>
+        <a href="index.html#sobre" style="color: white; text-decoration: none; margin: 0 10px;">Objetivo</a>
+        <span style="opacity: 0.3;">|</span>
+        <a href="index.html#contato" style="color: white; text-decoration: none; margin: 0 10px;">Contato</a>
     </div>
 
-    <div class="footer-legal-text">
-        <p>
-            &copy; 2026 <strong>IPÊ SEARCH</strong>. Iniciativa do ecossistema de inovação da UFLA.
-        </p>
-        <p class="dev-credits">
-            Desenvolvido por <strong style="color: var(--bright-cyan);">Gabriel Fonseca</strong> - Bolsista IpêTech/UFLA
-        </p>
-    </div>
+    <p style="margin: 0; font-size: 0.95rem;">
+        &copy; 2026 <strong>IPÊ SEARCH</strong>. Uma iniciativa do ecossistema de inovação da UFLA.
+    </p>
+
+    <p style="margin-top: 10px; font-size: 0.75rem; opacity: 0.7; letter-spacing: 0.5px;">
+        Desenvolvido por <strong style="color: var(--bright-cyan);">Gabriel Fonseca</strong> - Bolsista IpêTech/UFLA
+    </p>
     
-    <div class="footer-actions">
-        <button onclick="toggleLGPD()" class="btn-legal">
-            ⚖️ Termos de Uso e Política de Privacidade
+    <p style="margin-top: 15px; font-size: 0.8rem; opacity: 0.6;">
+        <button onclick="toggleLGPD()" style="background: none; border: none; color: inherit; font-size: inherit; text-decoration: underline; cursor: pointer; padding: 0;">
+            Transparência e Proteção de Dados (LGPD)
         </button>
-    </div>
+    </p>
 
-    <div id="card-lgpd" class="lgpd-card" style="display: none;">
+    <div id="card-lgpd" style="display: none; max-width: 750px; margin: 30px auto 0 auto; padding: 30px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; text-align: left; color: white; line-height: 1.6; backdrop-filter: blur(10px);">
         
-        <h3 class="lgpd-title">🛡️ Governança de Dados e Termos de Uso</h3>
+        <h3 style="color: var(--bright-cyan); margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">🛡️ Transparência e Governança de Dados</h3>
         
-        <p class="lgpd-intro">
-            O <strong>IPÊ SEARCH</strong> é uma plataforma de interesse público que cataloga o capital intelectual da <strong>Universidade Federal de Lavras (UFLA)</strong>. Atuamos em conformidade com a <strong>Lei nº 13.709/2018 (LGPD)</strong> e a <strong>Lei de Inovação (Lei nº 10.973/2004)</strong>.
+        <p style="font-size: 0.9rem; margin-bottom: 15px;">
+            O <strong>IPÊ SEARCH</strong> é uma plataforma de interesse público que visa catalogar e promover o capital intelectual da <strong>Universidade Federal de Lavras (UFLA)</strong>. Nossa atuação é pautada pela <strong>Lei nº 13.709/2018 (LGPD)</strong> e pela <strong>Lei de Inovação (Lei nº 10.973/2004)</strong>.
         </p>
 
-        <div class="lgpd-grid">
-            <div class="lgpd-box">
-                <strong>FONTE DOS DADOS</strong>
-                <p>Informações extraídas de bases públicas (Plataforma Lattes/CNPq). <strong>O IPÊ SEARCH não se responsabiliza pela veracidade ou atualização dos dados</strong>, que são de competência exclusiva dos pesquisadores.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                <strong style="color: var(--bright-cyan); display: block; margin-bottom: 5px; font-size: 0.85rem;">FONTE E COLETA</strong>
+                <p style="font-size: 0.8rem; margin: 0; opacity: 0.9;">Dados extraídos de bases públicas oficiais (Plataforma Lattes/CNPq) e diretórios acadêmicos da UFLA, mantendo a fidedignidade com a fonte original.</p>
             </div>
-            <div class="lgpd-box">
-                <strong>FINALIDADE</strong>
-                <p>Facilitar conexões para Pesquisa, Desenvolvimento e Inovação (P&D+I), extensão universitária e parcerias com o setor produtivo.</p>
+            <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                <strong style="color: var(--bright-cyan); display: block; margin-bottom: 5px; font-size: 0.85rem;">FINALIDADE</strong>
+                <p style="font-size: 0.8rem; margin: 0; opacity: 0.9;">Facilitar conexões para projetos de Pesquisa, Desenvolvimento e Inovação (P&D+I), extensão universitária e parcerias institucionais.</p>
             </div>
         </div>
 
-        <h4 class="lgpd-subtitle">Diretrizes de Privacidade:</h4>
-        <ul class="lgpd-list">
-            <li><strong>Dados Públicos:</strong> Apenas compilamos dados que os próprios pesquisadores tornaram públicos no Lattes.</li>
-            <li><strong>Segurança:</strong> Não coletamos cookies de rastreamento invasivos nem armazenamos dados de visitantes.</li>
-            <li><strong>Proibição de Scraping:</strong> É vedada a extração massiva de dados para marketing, spam ou venda de listas.</li>
+        <h4 style="font-size: 0.95rem; margin-bottom: 10px; color: var(--bright-cyan);">Tratamento Ético da Informação:</h4>
+        <ul style="padding-left: 20px; margin-bottom: 20px; font-size: 0.85rem; color: rgba(255,255,255,0.9);">
+            <li><strong>Princípio da Necessidade:</strong> Exibimos apenas dados profissionais pertinentes à atividade acadêmica e de pesquisa.</li>
+            <li><strong>Segurança:</strong> Não armazenamos dados sensíveis ou privados de usuários externos ou pesquisadores.</li>
+            <li><strong>Uso Vedado:</strong> É expressamente proibida a extração automatizada de dados (scraping) para fins de publicidade, telemarketing ou formação de listas de spam.</li>
         </ul>
 
-        <div class="lgpd-rights">
-            <p>
-                <strong>Direitos do Titular:</strong> Para solicitar correção ou remoção de perfil, entre em contato via e-mail institucional: 
-                <a href="mailto:ipestart@ufla.br">ipestart@ufla.br</a>.
+        <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid var(--bright-cyan);">
+            <p style="font-size: 0.85rem; margin: 0;">
+                <strong>Direitos do Titular:</strong> Em conformidade com o Art. 18 da LGPD, qualquer pesquisador pode solicitar a atualização, correção ou a exclusão do seu perfil deste hub através do e-mail oficial: 
+                <a href="mailto:ipestart@ufla.br" style="color: var(--bright-cyan); font-weight: bold; text-decoration: none; border-bottom: 1px dashed;">ipestart@ufla.br</a>.
             </p>
         </div>
 
-        <div class="lgpd-footer">
-            <button onclick="toggleLGPD()" class="btn-accept">
+        <div style="text-align: right; margin-top: 20px;">
+            <button onclick="toggleLGPD()" style="background: var(--bright-cyan); border: none; color: var(--primary-blue); padding: 10px 25px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; font-weight: bold; transition: 0.3s;">
                 Entendi e Aceito
             </button>
         </div>
     </div>
 </footer>
+
+<style>
+    .footer-logos a:hover { opacity: 1 !important; transform: scale(1.05); }
+    footer a:hover, footer button:hover { opacity: 1 !important; color: var(--bright-cyan) !important; }
+    #card-lgpd button:hover { background: #00e5f0 !important; transform: translateY(-2px); }
+</style>
