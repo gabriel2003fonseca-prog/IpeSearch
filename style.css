@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL (CORRIGIDA E ESPAÇADA) */
+/* ARQUIVO: style.css - VERSÃO ATUALIZADA COM ORGANIZAÇÃO DE CARDS */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -226,6 +226,7 @@ section { padding: 100px 20px; max-width: 1000px; margin: auto; }
     position: relative; overflow: hidden; 
     transition: 0.3s;
     text-align: left; 
+    height: 100%; /* Força altura igual na linha */
 }
 
 .card:hover { 
@@ -489,4 +490,62 @@ textarea:focus,
 /* Garante que o widget fique acima de tudo */
 .vpw-controls {
     z-index: 10001 !important;
+}
+
+/* --- 14. ORGANIZAÇÃO DE CARDS E SUBAREA (NOVO) --- */
+
+/* Ajusta o container interno do card para alinhar itens */
+.card-content-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.area-main {
+    font-size: 0.95rem;
+    color: var(--primary-blue);
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* Caixa organizada para a Subárea */
+.subarea-box {
+    font-size: 0.8rem;
+    color: #555;
+    background: #f8f9fa;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--bright-cyan);
+    max-height: 85px; 
+    overflow-y: auto; /* Scroll se o texto for gigante */
+    line-height: 1.4;
+}
+
+.subarea-box span {
+    font-weight: 800;
+    color: var(--text-gray);
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+/* Scrollbar fina para a caixa de subárea */
+.subarea-box::-webkit-scrollbar {
+    width: 4px;
+}
+.subarea-box::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 10px;
+}
+
+/* Limita o nome a 2 linhas para manter simetria */
+.card h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 3.2rem;
 }
