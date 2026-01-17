@@ -15,6 +15,11 @@
     <style>
         /* Fallback background if video fails */
         .search-section { background-color: #003366; }
+        
+        /* GARANTE QUE O VLIBRAS FIQUE ACIMA DO VÍDEO E DOS CARDS */
+        [vw].enabled {
+            z-index: 999999 !important;
+        }
     </style>
 </head>
 <body>
@@ -84,7 +89,6 @@
 
     <div id="profile-view" class="hidden">
         <div style="height: 100px;"></div> 
-        
         <div class="back-btn-container">
             <button type="button" class="btn-text-back" onclick="fecharPerfil()">
                 ← Voltar para a pesquisa
@@ -157,20 +161,27 @@
 
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
-            if (header && window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
+            if (header) {
+                if (window.scrollY > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+            }
         });
 
         function toggleLGPD() {
             const card = document.getElementById('card-lgpd');
             if (card) {
-                card.style.display = (card.style.display === 'none' || card.style.display === '') ? 'block' : 'none';
-                if(card.style.display === 'block') card.scrollIntoView({ behavior: 'smooth' });
+                if (card.style.display === 'none' || card.style.display === '') {
+                    card.style.display = 'block';
+                    card.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    card.style.display = 'none';
+                }
             }
         }
 
         const SHEET_ID = "1z5mSdyLnJG7zZc6y4E6aarPQtN2k2rDKLQDS38wd_sA"; 
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+
         let todosPesquisadores = [];
 
         function removerAcentos(texto) {
@@ -182,7 +193,11 @@
             const loading = document.getElementById('loading');
             loading.style.display = 'block';
             try {
-                const response = await fetch(`${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`);
+                const urlNoCache = `${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`;
+                const response = await fetch(urlNoCache, {
+                    method: 'GET',
+                    headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+                });
                 const texto = await response.text();
                 todosPesquisadores = processarCSVRobusto(texto); 
             } catch (erro) {
@@ -210,9 +225,10 @@
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
         searchInput.addEventListener('input', (e) => {
-            if (e.target.value) clearBtn.classList.remove('hidden');
+            const valor = e.target.value;
+            if (valor) clearBtn.classList.remove('hidden');
             else clearBtn.classList.add('hidden');
-            filtrarResultados(e.target.value);
+            filtrarResultados(valor);
         });
         clearBtn.addEventListener('click', () => {
             searchInput.value = ''; clearBtn.classList.add('hidden'); filtrarResultados(''); searchInput.focus();
