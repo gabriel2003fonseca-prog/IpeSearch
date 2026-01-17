@@ -15,11 +15,6 @@
     <style>
         /* Fallback background if video fails */
         .search-section { background-color: #003366; }
-        
-        /* GARANTE QUE O VLIBRAS FIQUE ACIMA DO VÍDEO E DOS CARDS */
-        [vw].enabled {
-            z-index: 999999 !important;
-        }
     </style>
 </head>
 <body>
@@ -41,18 +36,17 @@
             <div class="search-content-wrapper">
                 <h1 class="search-title">Encontre Professores da UFLA</h1>
                 
-                <div class="input-wrapper">
-                    <div class="search-icon-left">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x1="21" x2="16.65" y2="16.65"></line></svg>
+                <div class="search-container-modern">
+                    <div class="search-icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x1="21" x2="16.65" y2="16.65"></line></svg>
                     </div>
 
                     <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
                     
-                    <button id="clearBtn" class="btn-clear hidden" type="button" aria-label="Limpar pesquisa">
+                    <button id="clearBtn" class="btn-clear-modern hidden" type="button" aria-label="Limpar pesquisa">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                 </div>
-
                 <div class="quick-tags-container">
                     <button class="tag-btn" onclick="filtrarTag('Agronomia')">Agronomia</button>
                     <button class="tag-btn" onclick="filtrarTag('Zootecnia')">Zootecnia</button>
@@ -89,6 +83,7 @@
 
     <div id="profile-view" class="hidden">
         <div style="height: 100px;"></div> 
+        
         <div class="back-btn-container">
             <button type="button" class="btn-text-back" onclick="fecharPerfil()">
                 ← Voltar para a pesquisa
@@ -161,27 +156,20 @@
 
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
-            if (header) {
-                if (window.scrollY > 50) header.classList.add('scrolled');
-                else header.classList.remove('scrolled');
-            }
+            if (header && window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         });
 
         function toggleLGPD() {
             const card = document.getElementById('card-lgpd');
             if (card) {
-                if (card.style.display === 'none' || card.style.display === '') {
-                    card.style.display = 'block';
-                    card.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = (card.style.display === 'none' || card.style.display === '') ? 'block' : 'none';
+                if(card.style.display === 'block') card.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
         const SHEET_ID = "1z5mSdyLnJG7zZc6y4E6aarPQtN2k2rDKLQDS38wd_sA"; 
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
-
         let todosPesquisadores = [];
 
         function removerAcentos(texto) {
@@ -193,11 +181,7 @@
             const loading = document.getElementById('loading');
             loading.style.display = 'block';
             try {
-                const urlNoCache = `${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`;
-                const response = await fetch(urlNoCache, {
-                    method: 'GET',
-                    headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-                });
+                const response = await fetch(`${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`);
                 const texto = await response.text();
                 todosPesquisadores = processarCSVRobusto(texto); 
             } catch (erro) {
@@ -225,10 +209,9 @@
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
         searchInput.addEventListener('input', (e) => {
-            const valor = e.target.value;
-            if (valor) clearBtn.classList.remove('hidden');
+            if (e.target.value) clearBtn.classList.remove('hidden');
             else clearBtn.classList.add('hidden');
-            filtrarResultados(valor);
+            filtrarResultados(e.target.value);
         });
         clearBtn.addEventListener('click', () => {
             searchInput.value = ''; clearBtn.classList.add('hidden'); filtrarResultados(''); searchInput.focus();
