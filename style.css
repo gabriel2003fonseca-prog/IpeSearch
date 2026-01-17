@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL (LOGO LIMPA + VLIBRAS FORÇADO) */
+/* ARQUIVO: style.css - VERSÃO FINAL (LOGO LIMPA, BUSCA PERFEITA, VLIBRAS DIREITA) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -43,14 +43,14 @@ header.scrolled {
     justify-content: flex-start;
 }
 
-/* LOGO TOTALMENTE LIMPA (SEM AZUL AO CLICAR) */
+/* LOGO: SEM ANIMAÇÃO E SEM AZUL */
 .logo-link { 
     height: 100%; display: flex; align-items: center; text-decoration: none;
     opacity: 1; visibility: visible; width: auto; 
     margin-right: auto; 
-    outline: none !important;      /* Remove borda azul */
-    box-shadow: none !important;   /* Remove brilho */
-    -webkit-tap-highlight-color: transparent; /* Remove azul no celular */
+    outline: none !important;      
+    box-shadow: none !important;   
+    -webkit-tap-highlight-color: transparent; 
     transition: none !important; 
     transform: none !important;
 }
@@ -144,18 +144,18 @@ nav a:hover::after { width: 100%; }
 form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 .btn-cta:hover, form button:hover { transform: translateY(-3px); background: linear-gradient(135deg, #00c2cb, #003366) !important; }
 
-/* --- 5. BARRA DE BUSCA (MODERNA, SEM LUPA) --- */
+/* --- 5. BARRA DE BUSCA (X TRAVADO, SEM QUADRADO, SEM LUPA) --- */
 .input-wrapper { position: relative; width: 100%; max-width: 700px; margin: 0 auto; display: flex; align-items: center; }
 
 .search-container-modern {
-    position: relative; /* Mantém o X dentro */
+    position: relative; /* Mantém o X preso */
     display: flex; align-items: center; 
     background: #ffffff; 
     width: 100%; max-width: 700px;
     height: 65px; 
     margin: 0 auto; 
     border-radius: 50px; 
-    border: 2px solid #dae3f0; /* Borda visível */
+    border: 2px solid #dae3f0; 
     box-shadow: 0 8px 20px rgba(0, 51, 102, 0.05); 
     transition: all 0.3s ease; 
     padding: 0;
@@ -171,19 +171,23 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 .search-icon-wrapper, .search-icon-left { display: none !important; }
 
 #searchInput {
-    flex-grow: 1; height: 100%; border: none; outline: none; background: transparent;
+    flex-grow: 1; height: 100%; border: none; background: transparent;
     font-size: 1.1rem; color: var(--primary-blue); font-weight: 600;
-    /* Texto alinhado à esquerda (20px), Espaço para o X na direita (60px) */
-    padding: 0 60px 0 20px !important; 
-    box-shadow: none !important; 
+    /* Espaço texto esquerda: 30px | Espaço botão X direita: 60px */
+    padding: 0 60px 0 30px !important; 
+    /* Remove o quadrado azul feio */
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-/* Botão X */
+/* Botão X - TRAVADO */
 .btn-clear-modern, .btn-clear {
     position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
     background: none; border: none; cursor: pointer; color: #999; 
     display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; 
     border-radius: 50%; transition: 0.2s; z-index: 10;
+    /* Remove quadrado azul do foco */
+    outline: none !important;
 }
 .btn-clear-modern:hover, .btn-clear:hover { color: #dc3545; background-color: rgba(220, 53, 69, 0.1); }
 
@@ -347,7 +351,7 @@ footer {
     [vw].enabled { right: 10px !important; left: initial !important; transform: translateY(-50%) scale(0.8) !important; }
 }
 
-/* --- 13. ACESSIBILIDADE E VLIBRAS (CORRIGIDO: FORÇA VISIBILIDADE) --- */
+/* --- 13. ACESSIBILIDADE E VLIBRAS (DIREITA E FORÇADO) --- */
 a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     outline: 3px solid var(--bright-cyan) !important;
     outline-offset: 3px; box-shadow: 0 0 0 5px rgba(0, 194, 203, 0.3) !important;
