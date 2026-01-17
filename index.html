@@ -168,6 +168,19 @@
             menu.classList.toggle('active');
         }
 
+        // Função para abrir/fechar o aviso de LGPD do rodapé
+        function toggleLGPD() {
+            const card = document.getElementById('card-lgpd');
+            if (card) {
+                if (card.style.display === 'none' || card.style.display === '') {
+                    card.style.display = 'block';
+                    card.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        }
+
         fetch('footer.html')
             .then(response => response.text())
             .then(data => {
