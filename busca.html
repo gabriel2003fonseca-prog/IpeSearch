@@ -134,15 +134,49 @@
 
     <div id="footer-placeholder"></div>
 
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
+    <!-- VLIBRAS FIXO - POSIÇÃO GARANTIDA -->
+    <div vw class="enabled" style="position:fixed; right:20px; bottom:20px; z-index:999999; display:block !important;">
+        <div vw-access-button class="active" style="background:#003366 !important; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.3);"></div>
         <div vw-plugin-wrapper>
             <div class="vw-plugin-top-wrapper"></div>
         </div>
     </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+    <!-- SCRIPT CORRIGIDO - CARREGAMENTO ASSÍNCRONO -->
     <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
+        // Método 1: Carregamento assíncrono garantido
+        (function() {
+            var script = document.createElement('script');
+            script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+            script.defer = true;
+            script.async = true;
+            script.onload = function() {
+                console.log('✅ VLibras carregado');
+                
+                // Inicializar após carregamento
+                setTimeout(function() {
+                    if (window.VLibras && window.VLibras.Widget) {
+                        try {
+                            new window.VLibras.Widget('https://vlibras.gov.br/app');
+                            console.log('✅ Widget inicializado');
+                        } catch(e) {
+                            console.error('❌ Erro na inicialização:', e);
+                        }
+                    }
+                }, 500);
+            };
+            
+            script.onerror = function() {
+                console.warn('⚠️ Falha no carregamento padrão. Tentando fallback...');
+                // Fallback alternativo
+                var fallback = document.createElement('script');
+                fallback.src = 'https://vlibras-web.herokuapp.com/vlibras-plugin.js';
+                fallback.defer = true;
+                document.head.appendChild(fallback);
+            };
+            
+            document.head.appendChild(script);
+        })();
     </script>
 
     <script>
