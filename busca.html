@@ -44,7 +44,7 @@
                     <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
                     
                     <button id="clearBtn" class="btn-clear hidden" type="button" aria-label="Limpar pesquisa">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x1="6" x2="6" y2="18"></line><line x1="6" x1="6" x2="18" y2="18"></line></svg>
                     </button>
                 </div>
 
@@ -148,7 +148,7 @@
     </script>
 
     <script>
-        // 1. Carregar Rodapé (Cache Busting v2)
+        // 1. Carregar Rodapé
         fetch('footer.html?v=2')
             .then(response => response.text())
             .then(data => {
@@ -234,6 +234,7 @@
             searchInput.value = ''; clearBtn.classList.add('hidden'); filtrarResultados(''); searchInput.focus();
         });
 
+        // FUNÇÃO DE RENDERIZAÇÃO ATUALIZADA PARA ORGANIZAR SUBAREA
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
             const counter = document.getElementById('counter');
@@ -251,7 +252,12 @@
                     <div class="lattes-badge">Fonte: Lattes</div>
                     <h3>${p.Nome}</h3>
                     <div class="card-dept">${p.Departamento}</div>
-                    <div class="card-area"><strong>Área:</strong> ${p.Area}<br><span>${p.Subarea}</span></div>
+                    
+                    <div class="card-content-area">
+                        <div class="area-main"><strong>Área:</strong> ${p.Area}</div>
+                        ${p.Subarea ? `<div class="subarea-box"><span>Especialidades:</span> ${p.Subarea}</div>` : ''}
+                    </div>
+
                     <div class="card-footer">
                         <span style="font-size: 0.75rem; color: #aaa;">Atualizado: ${p.UltimaAtualizacao || 'Recente'}</span>
                         <div class="card-hint">Ver perfil →</div>
