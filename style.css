@@ -488,8 +488,8 @@ textarea:focus,
 
 /* Ajustes de Posicionamento VLibras para não tampar elementos fixos */
 [vw].enabled {
-    left: initial !important;
-    right: 20px !important;
+    right: initial !important; /* Reseta direita */
+    left: 20px !important;     /* Fixa na esquerda */
     top: 50% !important;
     transform: translateY(-50%) !important;
     /* Z-INDEX NO MÁXIMO PARA GARANTIR QUE APAREÇA */
@@ -498,7 +498,7 @@ textarea:focus,
 
 @media (max-width: 768px) {
     [vw].enabled {
-        right: 10px !important;
+        left: 10px !important; 
         transform: translateY(-50%) scale(0.8) !important;
     }
 }
