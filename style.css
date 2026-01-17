@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL (LOGO LIMPA, BUSCA PERFEITA, VLIBRAS DIREITA) */
+/* ARQUIVO: style.css - VERSÃO FINAL (SEM VLIBRAS + BUSCA E LOGO CORRIGIDAS) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -348,25 +348,13 @@ footer {
     /* Ajuste da Barra Moderna no Mobile */
     .search-container-modern { height: 60px; }
     #searchInput { padding-left: 20px !important; }
-    [vw].enabled { right: 10px !important; left: initial !important; transform: translateY(-50%) scale(0.8) !important; }
 }
 
-/* --- 13. ACESSIBILIDADE E VLIBRAS (DIREITA E FORÇADO) --- */
+/* --- 13. ACESSIBILIDADE GERAL --- */
 a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     outline: 3px solid var(--bright-cyan) !important;
     outline-offset: 3px; box-shadow: 0 0 0 5px rgba(0, 194, 203, 0.3) !important;
 }
-
-/* Força VLibras a aparecer e ficar na direita */
-[vw] { display: block !important; }
-[vw].enabled {
-    left: initial !important; 
-    right: 20px !important; 
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    z-index: 2147483647 !important; 
-}
-.vpw-controls { z-index: 2147483647 !important; }
 
 /* --- 14. ORGANIZAÇÃO DE CARDS E SUBAREA --- */
 .card-content-area { flex-grow: 1; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
@@ -380,68 +368,3 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
 .subarea-box::-webkit-scrollbar { width: 4px; }
 .subarea-box::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 10px; }
 .card h3 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 3.2rem; }
-/* === VLIBRAS ULTRA-FORÇADO - IGNORA TUDO === */
-[vw] {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: fixed !important;
-    right: 20px !important;
-    bottom: 20px !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    z-index: 9999999 !important;
-    width: 60px !important;
-    height: 60px !important;
-    pointer-events: auto !important;
-}
-
-[vw] [vw-access-button] {
-    background: #003366 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>') center/24px no-repeat !important;
-    width: 60px !important;
-    height: 60px !important;
-    border-radius: 50% !important;
-    display: block !important;
-    cursor: pointer !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
-    transition: all 0.3s !important;
-    border: 3px solid white !important;
-}
-
-[vw] [vw-access-button]:hover {
-    background-color: #00c2cb !important;
-    transform: scale(1.1) !important;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-    [vw] {
-        right: 15px !important;
-        bottom: 15px !important;
-        width: 50px !important;
-        height: 50px !important;
-    }
-    
-    [vw] [vw-access-button] {
-        width: 50px !important;
-        height: 50px !important;
-        background-size: 20px !important;
-    }
-}
-
-/* Mata qualquer estilo que esteja escondendo */
-body * {
-    overflow: visible !important;
-}
-
-/* Garante que o ícone apareça mesmo sem script */
-[vw]::before {
-    content: '👐' !important;
-    font-size: 24px !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    color: white !important;
-}
