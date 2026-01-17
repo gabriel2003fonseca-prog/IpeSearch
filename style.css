@@ -191,8 +191,8 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 .search-icon-left {
     position: absolute; 
     left: 25px; /* Posição horizontal */
-    top: 50%; 
-    transform: translateY(-50%); /* Força a centralização vertical perfeita */
+    top: 50% !important; /* Centralização vertical forçada */
+    transform: translateY(-50%) !important; /* Centralização vertical forçada */
     color: var(--primary-blue); 
     pointer-events: none; 
     display: flex; 
@@ -490,6 +490,7 @@ textarea:focus,
     right: 20px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
+    z-index: 999999 !important; /* CORREÇÃO: Força o bonequinho a aparecer sobre a busca */
 }
 
 @media (max-width: 768px) {
@@ -501,7 +502,7 @@ textarea:focus,
 
 /* Garante que o widget fique acima de tudo */
 .vpw-controls {
-    z-index: 10001 !important;
+    z-index: 1000000 !important; /* CORREÇÃO: Menu de opções do VLibras */
 }
 
 /* --- 14. ORGANIZAÇÃO DE CARDS E SUBAREA --- */
