@@ -13,7 +13,28 @@
     <title>Pesquisar - IPÊ SEARCH</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .search-section { background-color: #003366; }
+        /* CORREÇÃO PARA O VÍDEO NÃO VAZAR */
+        .search-section { 
+            background-color: #003366; 
+            position: relative; 
+            overflow: hidden; /* Corta qualquer coisa que tente sair da caixa */
+            z-index: 1;
+        }
+        
+        /* CORREÇÃO PARA O CONTADOR TER FUNDO SÓLIDO */
+        #counter {
+            position: relative;
+            z-index: 2; /* Fica acima do vídeo */
+            background-color: var(--bg-body, #eef2f6); /* Garante fundo sólido */
+            padding-top: 30px;
+            margin-top: 0 !important; /* Remove margem que causava buraco */
+        }
+
+        #resultsContainer {
+            position: relative;
+            z-index: 2;
+            background-color: var(--bg-body, #eef2f6);
+        }
     </style>
 </head>
 <body>
@@ -36,9 +57,7 @@
                 <h1 class="search-title">Encontre Professores da UFLA</h1>
                 
                 <div class="search-container-modern">
-                    <div class="search-icon-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" x1="21" x2="16.65" y2="16.65"></line></svg>
-                    </div>
+                    <div class="search-icon-wrapper" style="display: none;"></div>
 
                     <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
                     
@@ -75,7 +94,7 @@
             </div>
         </section>
 
-        <div id="counter" style="text-align: center; margin-top: 30px; color: #5A6A85; font-weight: 500;"></div>
+        <div id="counter" style="text-align: center; color: #5A6A85; font-weight: 500;"></div>
         <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando dados...</div>
 
         <div class="results-container" id="resultsContainer"></div>
@@ -83,6 +102,7 @@
 
     <div id="profile-view" class="hidden">
         <div style="height: 100px;"></div> 
+        
         <div class="back-btn-container">
             <button type="button" class="btn-text-back" onclick="fecharPerfil()">
                 ← Voltar para a pesquisa
@@ -133,8 +153,6 @@
     </div>
 
     <div id="footer-placeholder"></div>
-
-    <!-- TODAS AS REFERÊNCIAS AO VLIBRAS FORAM REMOVIDAS -->
 
     <script>
         // Lógica de Carregamento e Busca
