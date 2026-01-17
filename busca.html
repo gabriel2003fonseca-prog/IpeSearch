@@ -102,7 +102,6 @@
 
     <div id="profile-view" class="hidden">
         <div style="height: 100px;"></div> 
-        
         <div class="back-btn-container">
             <button type="button" class="btn-text-back" onclick="fecharPerfil()">
                 ← Voltar para a pesquisa
@@ -176,8 +175,11 @@
             }
         }
 
-        const SHEET_ID = "1z5mSdyLnJG7zZc6y4E6aarPQtN2k2rDKLQDS38wd_sA"; 
+        // --- SEGURANÇA: ID OFUSCADO (BASE64) ---
+        // Decodifica o ID da planilha na hora do carregamento
+        const SHEET_ID = atob("MXo1bVNkeUxuSkc3elpjNnk0RTZhYXJQUXROMmsyckRLTFFEUzM4d2Rfc0E=");
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+        
         let todosPesquisadores = [];
 
         function removerAcentos(texto) {
