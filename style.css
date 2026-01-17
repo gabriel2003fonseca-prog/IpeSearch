@@ -167,7 +167,7 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
     background: linear-gradient(135deg, #00c2cb, #003366) !important;
 }
 
-/* --- 5. ELEMENTOS DA PESQUISA --- */
+/* --- 5. ELEMENTOS DA PESQUISA (RESTAURADO E AJUSTADO) --- */
 .input-wrapper { 
     position: relative; 
     width: 100%; 
@@ -179,46 +179,43 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 
 #searchInput {
     width: 100%; 
-    padding: 18px 50px 18px 65px !important; 
+    padding: 0 60px 0 65px !important; /* Espaço lateral para os ícones */
     font-size: 1.1rem;
     color: var(--primary-blue); font-weight: 600; border: 2px solid rgba(255,255,255,0.8);
     border-radius: 50px; outline: none; transition: all 0.3s; background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 10px 25px rgba(0, 51, 102, 0.1); -webkit-appearance: none;
-    height: 65px;
+    height: 65px; /* Mantém a altura para centralização vertical */
 }
 #searchInput:focus { border-color: var(--bright-cyan); box-shadow: 0 15px 30px rgba(0, 194, 203, 0.2); transform: scale(1.01); }
 
 .search-icon-left {
     position: absolute; 
     left: 25px; 
-    top: 50% !important; /* CORREÇÃO: Força o alinhamento no centro da altura */
-    transform: translateY(-50%) !important; /* CORREÇÃO: Força o alinhamento no centro da altura */
+    top: 50% !important; 
+    transform: translateY(-50%) !important; 
     color: var(--primary-blue); 
     pointer-events: none; 
     display: flex; 
     align-items: center; 
     justify-content: center;
-    opacity: 0.6; 
+    opacity: 0.5; 
     z-index: 5;
+}
+
+/* Garante que o SVG da lupa não perca a espessura */
+.search-icon-left svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2.5px;
 }
 
 .btn-clear {
     position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
     background: none; border: none !important; cursor: pointer; color: #999;
-    padding: 5px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
     transition: 0.2s; z-index: 5;
 }
 .btn-clear:hover { color: #dc3545; background-color: rgba(0,0,0,0.05); }
-
-/* Tags */
-.quick-tags-container { margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-.tag-btn {
-    background: var(--bright-cyan); color: white; border: none !important;
-    padding: 10px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
-    cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px);
-    box-shadow: 0 4px 10px rgba(0, 194, 203, 0.2);
-}
-.tag-btn:hover { background: #00a9b0; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 194, 203, 0.3); }
 
 /* --- 6. SEÇÕES E CARDS (ESTILO LATTES) --- */
 section { padding: 100px 20px; max-width: 1000px; margin: auto; }
