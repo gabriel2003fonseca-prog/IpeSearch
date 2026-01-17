@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL (SEM LUPA + ESPAÇAMENTO OTIMIZADO) */
+/* ARQUIVO: style.css - VERSÃO FINAL (BUSCA AJUSTADA, SEM LUPA, VLIBRAS DIREITA) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -43,11 +43,15 @@ header.scrolled {
     justify-content: flex-start;
 }
 
+/* LOGO SEM ANIMAÇÃO */
 .logo-link { 
     height: 100%; display: flex; align-items: center; text-decoration: none;
-    opacity: 1; visibility: visible; width: auto; transition: all 0.3s ease;
+    opacity: 1; visibility: visible; width: auto; 
     margin-right: auto; outline: none !important;
+    /* Remove animações */
+    transition: none !important; transform: none !important;
 }
+.logo-link:hover { transform: none !important; opacity: 1 !important; }
 .logo-img { max-height: 75px; width: auto; display: block; }
 header.scrolled .logo-link { opacity: 0; visibility: hidden; width: 0; margin: 0; overflow: hidden; }
 
@@ -78,14 +82,12 @@ nav a:hover::after { width: 100%; }
 
 .header-spacer { height: 90px; }
 
-/* --- 4. HERO E SEÇÕES (COMPACTADO PARA REMOVER BURACOS) --- */
+/* --- 4. HERO E SEÇÕES (ESPAÇAMENTO COMPACTO) --- */
 .hero, .search-section {
-    position: relative;
-    /* Reduzi padding inferior de 80px para 30px */
-    padding: 120px 20px 30px 20px; 
+    position: relative; 
+    padding: 120px 20px 30px 20px; /* Padding inferior reduzido para aproximar cards */
     text-align: center;
     border-bottom: 1px solid var(--border-light); overflow: hidden;
-    /* Mudei de 500px para auto para a altura se ajustar ao conteúdo */
     min-height: auto; 
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 35%, #d0f0f8 70%, #00c2cb 100%);
@@ -123,7 +125,7 @@ nav a:hover::after { width: 100%; }
 .hero-subtitle:hover { color: var(--bright-cyan); cursor: pointer; }
 .hero p { font-size: 1.6rem; color: var(--primary-blue); margin: 0 auto 40px auto; font-weight: 500; opacity: 0.9; }
 
-/* Botões Maiores (CTA) */
+/* Botões CTA */
 .btn-cta, form button {
     background: var(--gradient-tech) !important; color: white !important;
     border: none !important; border-radius: 50px; font-weight: 700;
@@ -134,19 +136,32 @@ nav a:hover::after { width: 100%; }
 form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 .btn-cta:hover, form button:hover { transform: translateY(-3px); background: linear-gradient(135deg, #00c2cb, #003366) !important; }
 
-/* --- 5. NOVA BARRA DE BUSCA (SEM LUPA, SÓ O X) --- */
+/* --- 5. BARRA DE BUSCA (AJUSTADA: SEM LUPA, BORDA VISÍVEL) --- */
 .input-wrapper { position: relative; width: 100%; max-width: 700px; margin: 0 auto; display: flex; align-items: center; }
 
 .search-container-modern {
-    display: flex; align-items: center; background: #ffffff; width: 100%; max-width: 700px;
-    height: 65px; margin: 0 auto; border-radius: 50px; border: 2px solid rgba(0,0,0,0.05);
-    box-shadow: 0 10px 25px rgba(0, 51, 102, 0.1); transition: all 0.3s ease; padding: 0 10px; 
-}
-.search-container-modern:focus-within {
-    border-color: var(--bright-cyan); box-shadow: 0 15px 35px rgba(0, 194, 203, 0.2); transform: scale(1.01);
+    display: flex; align-items: center; 
+    background: #ffffff; 
+    width: 100%; max-width: 700px;
+    height: 65px; 
+    margin: 0 auto; 
+    border-radius: 50px; 
+    /* Borda cinza visível para parecer input */
+    border: 2px solid #dae3f0; 
+    box-shadow: 0 8px 20px rgba(0, 51, 102, 0.05); 
+    transition: all 0.3s ease; 
+    padding: 0; /* Padding removido do container, controlado no input */
+    overflow: hidden;
 }
 
-/* OCULTANDO A LUPA */
+/* Efeito de Foco: Borda Ciano + Sombra */
+.search-container-modern:focus-within {
+    border-color: var(--bright-cyan); 
+    box-shadow: 0 10px 30px rgba(0, 194, 203, 0.2); 
+    transform: translateY(-1px);
+}
+
+/* LUPA OCULTA */
 .search-icon-wrapper, .search-icon-left {
     display: none !important; 
 }
@@ -154,14 +169,15 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 #searchInput {
     flex-grow: 1; height: 100%; border: none; outline: none; background: transparent;
     font-size: 1.1rem; color: var(--primary-blue); font-weight: 600;
-    /* Ajustei padding esquerdo para 25px (sem lupa) */
-    padding: 0 50px 0 25px !important; 
+    /* Padding Esquerdo: 30px (espaço confortável sem lupa) */
+    /* Padding Direito: 60px (espaço para o botão X) */
+    padding: 0 60px 0 30px !important; 
     box-shadow: none !important; 
 }
 
-/* Configuração do Botão X */
+/* Botão X */
 .btn-clear-modern, .btn-clear {
-    position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
     background: none; border: none; cursor: pointer; color: #999; 
     display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; 
     border-radius: 50%; transition: 0.2s; z-index: 10;
@@ -178,9 +194,9 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 }
 .tag-btn:hover { background: #00a9b0; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 194, 203, 0.3); }
 
-/* --- 6. SEÇÕES E CARDS (ESPAÇAMENTO REDUZIDO AQUI) --- */
+/* --- 6. SEÇÕES GERAIS (COMPACTAS) --- */
 section { 
-    /* Reduzi de 100px para 40px para aproximar os cards */
+    /* Padding reduzido para 40px */
     padding: 40px 20px; 
     max-width: 1000px; margin: auto; 
 }
@@ -208,7 +224,7 @@ section {
 .content-card { 
     padding: 60px; box-shadow: 0 15px 35px rgba(0, 51, 102, 0.1); 
     border: 1px solid rgba(255,255,255,0.5); 
-    margin-bottom: 20px; /* Reduzido de 40px para 20px */
+    margin-bottom: 20px; /* Margem reduzida */
 }
 .content-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--gradient-tech); opacity: 1; }
 
@@ -241,7 +257,7 @@ form label { color: var(--primary-blue); font-weight: 700; display: block; margi
 #status-message { display: none; margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; }
 .success { background-color: #d4edda; color: #155724; } .error { background-color: #f8d7da; color: #721c24; }
 
-/* --- 9. FOOTER (SEM MARGEM TOP PARA FICAR PERTO) --- */
+/* --- 9. FOOTER (ZERO MARGEM TOP) --- */
 footer {
     text-align: center; padding: 40px 20px; background: var(--primary-blue);
     color: rgba(255,255,255,0.8); font-size: 0.95rem; 
@@ -251,7 +267,7 @@ footer {
 .footer-highlight { color: var(--bright-cyan); font-weight: 700; text-decoration: none; transition: 0.3s; }
 .footer-highlight:hover { color: #ffffff; text-decoration: underline; }
 
-/* --- 10. NOVAS SEÇÕES: ESTATÍSTICAS E COMO FUNCIONA --- */
+/* --- 10. ESTATÍSTICAS E COMO FUNCIONA --- */
 .stats-bar {
     background: linear-gradient(to bottom, var(--primary-blue), #002244);
     padding: 80px 20px; color: white; text-align: center;
@@ -331,17 +347,19 @@ footer {
     /* Ajuste da Barra Moderna no Mobile */
     .search-container-modern { height: 60px; }
     #searchInput { padding-left: 20px !important; }
-    [vw].enabled { left: 10px !important; transform: translateY(-50%) scale(0.8) !important; }
+    [vw].enabled { right: 10px !important; left: initial !important; transform: translateY(-50%) scale(0.8) !important; }
 }
 
-/* --- 13. ACESSIBILIDADE E VLIBRAS (LADO ESQUERDO) --- */
+/* --- 13. ACESSIBILIDADE E VLIBRAS (LADO DIREITO) --- */
 a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     outline: 3px solid var(--bright-cyan) !important;
     outline-offset: 3px; box-shadow: 0 0 0 5px rgba(0, 194, 203, 0.3) !important;
 }
 
 [vw].enabled {
-    right: initial !important; left: 20px !important; top: 50% !important;
+    left: initial !important; 
+    right: 20px !important; 
+    top: 50% !important;
     transform: translateY(-50%) !important;
     z-index: 2147483647 !important; 
 }
