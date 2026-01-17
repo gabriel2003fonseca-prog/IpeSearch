@@ -167,27 +167,38 @@ form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
     background: linear-gradient(135deg, #00c2cb, #003366) !important;
 }
 
-/* --- 5. ELEMENTOS DA PESQUISA (COM ÍCONES) --- */
+/* --- 5. ELEMENTOS DA PESQUISA (AJUSTADO PARA A LUPA) --- */
 .input-wrapper { 
-    position: relative; width: 100%; max-width: 700px; margin: 0 auto; 
-    display: flex; align-items: center;
+    position: relative; 
+    width: 100%; 
+    max-width: 700px; 
+    margin: 0 auto; 
+    display: flex; 
+    align-items: center;
 }
 
 #searchInput {
     width: 100%; 
-    padding: 22px 50px 22px 60px !important; 
+    padding: 18px 50px 18px 60px !important; /* Aumentado o padding esquerdo para 60px */
     font-size: 1.1rem;
     color: var(--primary-blue); font-weight: 600; border: 2px solid rgba(255,255,255,0.8);
     border-radius: 50px; outline: none; transition: all 0.3s; background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 10px 25px rgba(0, 51, 102, 0.1); -webkit-appearance: none;
+    height: 60px; /* Definida altura fixa para ajudar na centralização */
 }
 #searchInput:focus { border-color: var(--bright-cyan); box-shadow: 0 15px 30px rgba(0, 194, 203, 0.2); transform: scale(1.01); }
 
-/* Ícones da Busca */
 .search-icon-left {
-    position: absolute; left: 25px; top: 50%; transform: translateY(-50%);
-    color: var(--primary-blue); pointer-events: none; 
-    display: flex; align-items: center; opacity: 0.6; z-index: 5;
+    position: absolute; 
+    left: 22px; /* Posição fixa à esquerda */
+    top: 50%; 
+    transform: translateY(-50%); /* Centraliza perfeitamente no meio da barra */
+    color: var(--primary-blue); 
+    pointer-events: none; 
+    display: flex; 
+    align-items: center; 
+    opacity: 0.6; 
+    z-index: 5;
 }
 
 .btn-clear {
