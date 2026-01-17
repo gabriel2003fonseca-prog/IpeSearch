@@ -149,7 +149,7 @@
 
                 <div style="margin: 20px 0; display: flex; align-items: flex-start; gap: 12px; text-align: left;">
                     <input type="checkbox" id="consentimento" required style="width: 18px; height: 18px; cursor: pointer; margin-top: 3px;">
-                    <label for="consentimento" style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.4; cursor: pointer;">
+                    <label for="consentimento" style="font-size: 0.85rem; color: #444; line-height: 1.4; cursor: pointer;">
                         Estou de acordo em fornecer meus dados para que a equipe do <strong>IPÊ SEARCH</strong> possa responder minha solicitação, conforme a LGPD.
                     </label>
                 </div>
@@ -168,7 +168,6 @@
             menu.classList.toggle('active');
         }
 
-        // Carregar rodapé
         fetch('footer.html')
             .then(response => response.text())
             .then(data => {
@@ -176,7 +175,6 @@
             })
             .catch(error => console.log('Erro ao carregar rodapé.'));
 
-        // Efeito scrolled no header
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (header) {
@@ -185,14 +183,12 @@
             }
         });
 
-        // Envio do formulário (AJAX atualizado para ipestart@ufla.br)
         const form = document.getElementById('contactForm');
         const statusMsg = document.getElementById('status-message');
         const btnSubmit = document.getElementById('btnSubmit');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault(); 
-            
             const originalBtnText = btnSubmit.innerText;
             btnSubmit.innerText = "Enviando...";
             btnSubmit.disabled = true;
@@ -220,10 +216,8 @@
             });
         });
 
-        // Contador Progressivo (Animação de Números)
         const counters = document.querySelectorAll('.counter');
         const speed = 100;
-
         const animateCounters = () => {
             counters.forEach(counter => {
                 const target = +counter.getAttribute('data-target');
