@@ -29,43 +29,27 @@
     </p>
 
     <div id="card-lgpd" style="display: none; max-width: 600px; margin: 30px auto 0 auto; padding: 25px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; text-align: left; color: white; line-height: 1.6; backdrop-filter: blur(10px);">
-        
         <h3 style="color: var(--bright-cyan); margin-top: 0; font-size: 1.1rem;">Uso de Dados e Privacidade</h3>
-        
         <p style="font-size: 0.85rem;">O <strong>IPÊ SEARCH</strong> atua como facilitador de conexões acadêmicas. Em conformidade com a Lei 13.709/2018 (LGPD):</p>
         
         <ul style="padding-left: 20px; margin-bottom: 15px; font-size: 0.85rem; color: rgba(255,255,255,0.9);">
             <li><strong>Fonte:</strong> Os dados exibidos são de acesso público, extraídos da <strong>Plataforma Lattes (CNPq)</strong> e diretórios oficiais da UFLA.</li>
             <li><strong>Finalidade:</strong> Uso exclusivo para fomento à inovação, pesquisa e extensão.</li>
-            <li><strong>Proibição:</strong> É vedado o uso destes contatos para envio de spam ou fins estritamente comerciais.</li>
+            <li><strong>Proibição:</strong> É vedado o uso destes contatos para envio de spam ou fins comerciais.</li>
         </ul>
 
         <p style="background: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; border-left: 4px solid var(--bright-cyan); font-size: 0.85rem;">
-            <strong>Direito do Pesquisador:</strong> Para atualizar informações ou solicitar a remoção do seu perfil deste hub, envie um e-mail para: 
+            <strong>Direito do Pesquisador:</strong> Para atualizar informações ou solicitar a remoção, envie um e-mail para: 
             <a href="mailto:ipestart@ufla.br" style="color: var(--bright-cyan); font-weight: bold; text-decoration: none;">ipestart@ufla.br</a>.
         </p>
 
-        <button onclick="toggleLGPD()" style="margin-top: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.3s;">
+        <button onclick="toggleLGPD()" style="margin-top: 15px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">
             Fechar aviso
         </button>
     </div>
-
 </footer>
 
-<script>
-    function toggleLGPD() {
-        const card = document.getElementById('card-lgpd');
-        if (card.style.display === 'none') {
-            card.style.display = 'block';
-            card.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            card.style.display = 'none';
-        }
-    }
-</script>
-
 <style>
-    /* Efeitos de Hover */
     .footer-logos a:hover { opacity: 1 !important; transform: scale(1.05); }
     footer a:hover, footer button:hover { opacity: 1 !important; color: var(--bright-cyan) !important; }
     #card-lgpd button:hover { background: rgba(255,255,255,0.2) !important; }
