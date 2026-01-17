@@ -133,7 +133,8 @@
         <div class="content-card">
             <h3>Fale Conosco</h3>
             <p style="margin-bottom: 30px;">Dúvidas, sugestões ou interesse em parcerias institucionais? Envie sua mensagem.</p>
-            <form id="contactForm" action="https://formsubmit.co/gabriel2003fonseca@gmail.com" method="POST">
+            
+            <form id="contactForm" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Novo contato via IPÊ SEARCH!">
                 
@@ -145,6 +146,13 @@
                 
                 <label>Como podemos ajudar?</label>
                 <textarea name="mensagem" rows="5" placeholder="Descreva sua solicitação..." required></textarea>
+
+                <div style="margin: 20px 0; display: flex; align-items: flex-start; gap: 12px; text-align: left;">
+                    <input type="checkbox" id="consentimento" required style="width: 18px; height: 18px; cursor: pointer; margin-top: 3px;">
+                    <label for="consentimento" style="font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.4; cursor: pointer;">
+                        Estou de acordo em fornecer meus dados para que a equipe do <strong>IPÊ SEARCH</strong> possa responder minha solicitação, conforme a LGPD.
+                    </label>
+                </div>
                 
                 <button type="submit" id="btnSubmit">Enviar Mensagem</button>
             </form>
@@ -165,33 +173,37 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
-            });
+            })
+            .catch(error => console.log('Erro ao carregar rodapé.'));
 
         // Efeito scrolled no header
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
-            if (window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
+            if (header) {
+                if (window.scrollY > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+            }
         });
 
-        // Envio do formulário
+        // Envio do formulário (AJAX atualizado para ipestart@ufla.br)
         const form = document.getElementById('contactForm');
         const statusMsg = document.getElementById('status-message');
         const btnSubmit = document.getElementById('btnSubmit');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault(); 
+            
             const originalBtnText = btnSubmit.innerText;
             btnSubmit.innerText = "Enviando...";
             btnSubmit.disabled = true;
 
-            fetch("https://formsubmit.co/ajax/gabriel2003fonseca@gmail.com", {
+            fetch("https://formsubmit.co/ajax/ipestart@ufla.br", {
                 method: "POST",
                 body: new FormData(form)
             })
             .then(response => response.json())
             .then(data => {
-                statusMsg.innerText = "Enviado com sucesso!";
+                statusMsg.innerText = "Mensagem enviada com sucesso!";
                 statusMsg.className = "success";
                 statusMsg.style.display = "block";
                 form.reset(); 
@@ -200,7 +212,7 @@
                 setTimeout(() => { statusMsg.style.display = "none"; }, 5000);
             })
             .catch(() => {
-                statusMsg.innerText = "Erro ao enviar.";
+                statusMsg.innerText = "Erro ao enviar a mensagem. Tente novamente.";
                 statusMsg.className = "error";
                 statusMsg.style.display = "block";
                 btnSubmit.innerText = originalBtnText;
@@ -208,7 +220,7 @@
             });
         });
 
-        // Contador Progressivo
+        // Contador Progressivo (Animação de Números)
         const counters = document.querySelectorAll('.counter');
         const speed = 100;
 
