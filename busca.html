@@ -134,60 +134,7 @@
 
     <div id="footer-placeholder"></div>
 
-    <!-- VLIBRAS FIXO - POSIÇÃO GARANTIDA -->
-    <div vw class="enabled" style="position:fixed; right:20px; bottom:20px; z-index:999999; display:block !important;">
-        <div vw-access-button class="active" style="background:#003366 !important; width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.3);"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
-    </div>
-
-    <!-- SCRIPT VLIBRAS SIMPLIFICADO E FUNCIONAL -->
-    <script>
-        // Script simplificado que evita conflitos
-        (function() {
-            // Função para inicializar o VLibras
-            function initVLibras() {
-                if (window.VLibras && window.VLibras.Widget) {
-                    try {
-                        new window.VLibras.Widget('https://vlibras.gov.br/app');
-                        console.log('✅ VLibras inicializado com sucesso');
-                    } catch(e) {
-                        console.warn('⚠️ Erro na inicialização do VLibras:', e);
-                    }
-                }
-            }
-            
-            // Criar e carregar o script do VLibras
-            var script = document.createElement('script');
-            script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
-            script.defer = true;
-            script.async = true;
-            
-            // Quando o script carregar
-            script.onload = function() {
-                console.log('✅ Script VLibras carregado');
-                // Inicializar após um breve delay
-                setTimeout(initVLibras, 500);
-            };
-            
-            // Se houver erro no carregamento
-            script.onerror = function() {
-                console.warn('⚠️ Não foi possível carregar o VLibras do servidor principal');
-                // Tentar fallback
-                var fallback = document.createElement('script');
-                fallback.src = 'https://vlibras-web.herokuapp.com/vlibras-plugin.js';
-                fallback.defer = true;
-                fallback.onload = initVLibras;
-                document.head.appendChild(fallback);
-            };
-            
-            // Adicionar o script à página após um pequeno delay
-            setTimeout(function() {
-                document.head.appendChild(script);
-            }, 1000);
-        })();
-    </script>
+    <!-- TODAS AS REFERÊNCIAS AO VLIBRAS FORAM REMOVIDAS -->
 
     <script>
         // Lógica de Carregamento e Busca
